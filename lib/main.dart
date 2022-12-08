@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: const Center(
-        child: Text('Hehe'),
+        child: Text("Hello there (In Obi's voice)"),
       ),
     );
   }
