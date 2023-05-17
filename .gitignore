@@ -1,8 +1,12 @@
 # Secrets
+/lib/domain/services/secrets/secrets.dart
 /android/key.properties
 
 # Generated
 *.g.dart
+*.freezed.dart
+*.env
+*.env.*
 
 # Miscellaneous
 *.class

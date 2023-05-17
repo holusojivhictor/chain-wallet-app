@@ -1,57 +1,69 @@
+import 'package:chain_wallet_mobile/application/bloc.dart';
+import 'package:chain_wallet_mobile/domain/services/services.dart';
+import 'package:chain_wallet_mobile/presentation/app_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'generated/l10n.dart';
+import 'injection.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Injection.init();
+  runApp(const ChainWalletApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ChainWalletApp extends StatelessWidget {
+  const ChainWalletApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final delegates = <LocalizationsDelegate>[
-      S.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ];
-    final locale = Locale('', '');
-
-    return MaterialApp(
-      title: 'Chain Wallet',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      debugShowCheckedModeBanner: false,
-      locale: locale,
-      localizationsDelegates: delegates,
-      supportedLocales: S.delegate.supportedLocales,
-      home: const MyHomePage(title: 'Chain Wallet'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: const Center(
-        child: Text("Hello there (In Obi's voice)"),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (ctx) => MainTabBloc()),
+        BlocProvider(
+          create: (ctx) {
+            final settingsService = getIt<SettingsService>();
+            final walletService = getIt<ChainWalletAppService>();
+            return SessionBloc(
+              settingsService,
+              walletService,
+            )..add(const SessionEvent.appStarted(init: true));
+          },
+        ),
+        BlocProvider(
+          create: (ctx) {
+            final loggingService = getIt<LoggingService>();
+            final settingsService = getIt<SettingsService>();
+            final localeService = getIt<LocaleService>();
+            final deviceInfoService = getIt<DeviceInfoService>();
+            return MainBloc(
+              loggingService,
+              settingsService,
+              localeService,
+              deviceInfoService
+            )..add(const MainEvent.init());
+          },
+        ),
+        BlocProvider(
+          create: (ctx) {
+            final settingsService = getIt<SettingsService>();
+            final deviceInfoService = getIt<DeviceInfoService>();
+            return SettingsBloc(
+              settingsService,
+              deviceInfoService,
+              ctx.read<MainBloc>(),
+            )..add(const SettingsEvent.init());
+          },
+        ),
+        BlocProvider(
+          create: (ctx) {
+            final dataService = getIt<DataService>();
+            return WalletsBloc(dataService)..add(const WalletsEvent.init());
+          },
+        ),
+      ],
+      child: BlocBuilder<MainBloc, MainState>(
+        builder: (ctx, state) => const AppWidget(),
       ),
     );
   }
