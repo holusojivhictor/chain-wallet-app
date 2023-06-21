@@ -1,4 +1,3 @@
-import 'package:chain_wallet_mobile/src/features/common/presentation/loading.dart';
 import 'package:chain_wallet_mobile/src/features/home/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/home/presentation/widgets/account_bar_tile.dart';
 import 'package:flutter/material.dart';
