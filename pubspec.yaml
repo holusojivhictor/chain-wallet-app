@@ -13,7 +13,7 @@ dependencies:
   cached_network_image: ^3.2.3
   chain_wallet:
     git:
-      url: https://github.com/holusojivhictor/chain-wallet.git
+      url: https://github.com/holusojivhictor/chain-wallet
       ref: main
   collection: ^1.17.1
   cupertino_icons: ^1.0.5
@@ -29,7 +29,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_screen_lock: ^9.0.1
-  flutter_secure_storage: ^7.0.1
+  flutter_secure_storage: ^8.0.0
   flutter_svg: ^1.1.6
   fluttertoast: ^8.2.2
   freezed_annotation: ^2.2.0
@@ -45,12 +45,12 @@ dependencies:
   package_info_plus: ^4.0.2
   provider: ^6.0.5
   responsive_builder: ^0.7.0
-  shared_preferences: ^2.1.1
+  shared_preferences: ^2.1.2
   sprintf: ^7.0.0
   synchronized: ^3.1.0
   version_tracker:
     git:
-      url: https://github.com/holusojivhictor/version_tracker.git
+      url: https://github.com/holusojivhictor/version_tracker
       ref: main
   web3dart: ^2.6.1
 
