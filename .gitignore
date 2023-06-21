@@ -1,5 +1,4 @@
 # Secrets
-/lib/domain/services/secrets/secrets.dart
 /android/key.properties
 
 # Generated
