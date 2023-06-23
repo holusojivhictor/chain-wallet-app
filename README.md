@@ -29,7 +29,7 @@ This project relies on [flutter_localizations][flutter_localizations_link] and f
 
 ### Adding Translations
 
-1. For each supported locale, add a new ARB file in `lib/l10n`.
+1. For each supported locale, add a new ARB file in `lib/src/localization/l10n`.
 
 ```
 ├── l10n
