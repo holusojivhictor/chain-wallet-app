@@ -1,5 +1,4 @@
 import 'package:bloc_presentation/bloc_presentation.dart';
-import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/services.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,11 +7,9 @@ part 'import_state.dart';
 
 class ImportCubit extends Cubit<ImportState> with BlocPresentationMixin {
   ImportCubit(
-    this._walletService,
     this._authService,
   ) : super(const ImportState.init());
 
-  final WalletService _walletService;
   final AuthService _authService;
 
   static int get minPinLength => 4;
@@ -65,7 +62,7 @@ class ImportCubit extends Cubit<ImportState> with BlocPresentationMixin {
 
     await _authService.savePasscode(state.pin);
 
-    await _walletService
+    await _authService
         .importMasterFromMnemonic(state.seedPhrase)
         .then((value) {
       emit(state.copyWith(loading: false));

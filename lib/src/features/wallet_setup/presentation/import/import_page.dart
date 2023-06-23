@@ -2,7 +2,7 @@ import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:chain_wallet_mobile/src/config/injection.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/app_bar/logo_app_bar.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
-import 'package:chain_wallet_mobile/src/features/home/application/bloc.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/application/import/import_cubit.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/presentation/import/widgets/import_form.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
@@ -85,7 +85,7 @@ class _PortraitLayout extends StatelessWidget {
         actionText: s.goHome,
         actionOnPressed: () {
           // TODO(morpheus): relocate init
-          context.read<WalletsBloc>().add(const WalletsEvent.init());
+          context.read<WalletBloc>().add(const WalletEvent.init());
           context.go(AppRoute.home.path);
         },
       );

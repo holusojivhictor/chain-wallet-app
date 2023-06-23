@@ -53,6 +53,7 @@ dependencies:
       url: https://github.com/holusojivhictor/version_tracker
       ref: main
   web3dart: ^2.6.1
+  web_socket_channel: ^2.4.0
 
 
 dev_dependencies:

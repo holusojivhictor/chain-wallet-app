@@ -1,5 +1,5 @@
 import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
-import 'package:chain_wallet_mobile/src/features/home/application/bloc.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:chain_wallet_mobile/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class _LockScreenViewState extends State<LockScreenView> {
     super.didChangeDependencies();
     if (_didChangeDependencies) return;
     _didChangeDependencies = true;
-    context.read<WalletsBloc>().add(const WalletsEvent.init());
+    context.read<WalletBloc>().add(const WalletEvent.init());
   }
 
   @override
