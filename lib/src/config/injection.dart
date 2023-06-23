@@ -1,6 +1,8 @@
 import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/common/infrastructure/infrastructure.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/domain/services/services.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/infrastructure/infrastructure.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/infrastructure/infrastructure.dart';
@@ -14,15 +16,13 @@ class Injection {
   }
 
   static ImportCubit get importCubit {
-    final walletService = getIt<WalletService>();
     final authService = getIt<AuthService>();
-    return ImportCubit(walletService, authService);
+    return ImportCubit(authService);
   }
 
   static CreateCubit createCubit(PageCubit cubit) {
-    final walletService = getIt<WalletService>();
     final authService = getIt<AuthService>();
-    return CreateCubit(walletService, authService, cubit);
+    return CreateCubit(authService, cubit);
   }
 
   static Future<void> init() async {
@@ -44,14 +44,13 @@ class Injection {
     await dataService.init();
     getIt.registerSingleton<DataService>(dataService);
 
-    final walletService = WalletServiceImpl(loggingService, dataService);
-    await walletService.init();
-    getIt.registerSingleton<WalletService>(walletService);
-
-    final authService = AuthServiceImpl(walletService);
+    final authService = AuthServiceImpl(loggingService, dataService);
     await authService.init();
     getIt
       ..registerSingleton<AuthService>(authService)
       ..registerSingleton(AuthCubit(authService));
+
+    final walletService = WalletServiceImpl(authService);
+    getIt.registerSingleton<WalletService>(walletService);
   }
 }

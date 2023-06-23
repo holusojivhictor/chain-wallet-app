@@ -4,22 +4,22 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'wallets_bloc.freezed.dart';
-part 'wallets_event.dart';
-part 'wallets_state.dart';
+part 'wallet_bloc.freezed.dart';
+part 'wallet_event.dart';
+part 'wallet_state.dart';
 
-class WalletsBloc extends Bloc<WalletsEvent, WalletsState> {
-  WalletsBloc(this._dataService) : super(const WalletsState.init()) {
+class WalletBloc extends Bloc<WalletEvent, WalletState> {
+  WalletBloc(this._dataService) : super(const WalletState.init()) {
     on<_Init>(_onInit);
   }
   final DataService _dataService;
 
-  void _onInit(_Init event, Emitter<WalletsState> emit) {
+  void _onInit(_Init event, Emitter<WalletState> emit) {
     final wallets = _dataService.getWalletAccounts();
     emit(
       state.copyWith(
-        wallets: wallets,
-        status: WalletsStatus.loaded,
+        accounts: wallets,
+        status: WalletStatus.loaded,
       ),
     );
   }

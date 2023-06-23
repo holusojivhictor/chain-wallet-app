@@ -1,7 +1,6 @@
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:chain_wallet_mobile/src/extensions/extensions.dart';
 import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
-import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/services.dart';
 import 'package:collection/collection.dart';
@@ -12,16 +11,14 @@ part 'create_state.dart';
 
 class CreateCubit extends Cubit<CreateState> with BlocPresentationMixin {
   CreateCubit(
-    this._walletService,
     this._authService,
     this._pageCubit,
   ) : super(const CreateState.init());
 
-  final WalletService _walletService;
   final AuthService _authService;
   final PageCubit _pageCubit;
 
-  List<Phrase> get fullData => _authService.getPhraseData();
+  List<Phrase> get fullData => _authService.fetchPhrase();
 
   CreateState _buildBaseState({
     int key = 0,
@@ -51,7 +48,7 @@ class CreateCubit extends Cubit<CreateState> with BlocPresentationMixin {
     emit(state.copyWith(loading: true));
     await _authService.savePasscode(pin);
 
-    await _walletService.createMaster().then((value) {
+    await _authService.createMaster().then((value) {
       init();
       emit(state.copyWith(loading: false));
     });

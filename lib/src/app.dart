@@ -2,7 +2,7 @@ import 'package:chain_wallet_mobile/src/config/injection.dart';
 import 'package:chain_wallet_mobile/src/features/app_widget.dart';
 import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
-import 'package:chain_wallet_mobile/src/features/home/application/bloc.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +16,7 @@ class ChainWalletApp extends StatelessWidget {
         BlocProvider(
           create: (ctx) {
             final dataService = getIt<DataService>();
-            return WalletsBloc(dataService);
+            return WalletBloc(dataService);
           },
         ),
         BlocProvider(
