@@ -2,6 +2,7 @@ import 'package:chain_wallet_mobile/src/features/common/domain/constants.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:devicelocale/devicelocale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,7 @@ class SettingsServiceImpl extends SettingsService {
 
   final _appThemeKey = 'AppTheme';
   final _appLanguageKey = 'AppLanguage';
+  final _ethereumChainKey = 'EthereumChain';
   final _isFirstInstallKey = 'FirstInstall';
   final _doubleBackToCloseKey = 'DoubleBackToClose';
   final _unlockWithBiometricsKey = 'UnlockWithBiometrics';
@@ -32,6 +34,12 @@ class SettingsServiceImpl extends SettingsService {
 
   @override
   set language(AppLanguageType lang) => _prefs.setInt(_appLanguageKey, lang.index);
+
+  @override
+  EthereumChain get chain => EthereumChain.values[_prefs.getInt(_ethereumChainKey)!];
+
+  @override
+  set chain(EthereumChain chain) => _prefs.setInt(_ethereumChainKey, chain.index);
 
   @override
   bool get isFirstInstall => _prefs.getBool(_isFirstInstallKey)!;
@@ -61,6 +69,7 @@ class SettingsServiceImpl extends SettingsService {
   AppSettings get appSettings => AppSettings(
     appTheme: appTheme,
     appLanguage: language,
+    chain: chain,
     useDarkMode: false,
     isFirstInstall: isFirstInstall,
     doubleBackToClose: doubleBackToClose,
@@ -93,6 +102,11 @@ class SettingsServiceImpl extends SettingsService {
 
     if (_prefs.get(_appLanguageKey) == null) {
       language = await _getDefaultLangToUse();
+    }
+
+    if (_prefs.get(_ethereumChainKey) == null) {
+      _logger.info(runtimeType, 'Ethereum network is set to mainnet as default');
+      chain = EthereumChain.mainnet;
     }
 
     if (_prefs.get(_doubleBackToCloseKey) == null) {

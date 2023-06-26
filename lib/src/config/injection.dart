@@ -44,7 +44,11 @@ class Injection {
     await dataService.init();
     getIt.registerSingleton<DataService>(dataService);
 
-    final authService = AuthServiceImpl(loggingService, dataService);
+    final authService = AuthServiceImpl(
+      loggingService,
+      settingsService,
+      dataService,
+    );
     await authService.init();
     getIt
       ..registerSingleton<AuthService>(authService)

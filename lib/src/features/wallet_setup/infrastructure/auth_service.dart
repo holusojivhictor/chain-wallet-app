@@ -11,9 +11,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:web3dart/credentials.dart';
 
 class AuthServiceImpl implements AuthService {
-  AuthServiceImpl(this._logger, this._dataService);
+  AuthServiceImpl(this._logger, this._settingsService, this._dataService);
 
   final LoggingService _logger;
+  final SettingsService _settingsService;
   final DataService _dataService;
 
   late String _passcode;
@@ -37,8 +38,9 @@ class AuthServiceImpl implements AuthService {
   @override
   Future<void> init() async {
     await Future.wait([
-      initChainClient(),
       fetchPasscode(),
+      initChainClient(),
+      _refresh(),
     ]);
   }
 
@@ -49,6 +51,8 @@ class AuthServiceImpl implements AuthService {
 
   @override
   Future<void> initChainClient() async {
+    Config().initConfig(_settingsService.chain);
+
     final config = ChainWalletClientConfig(
       rpcUrl: Config.rpcUrl,
       wsUrl: Config.wsUrl,
@@ -57,7 +61,6 @@ class AuthServiceImpl implements AuthService {
     );
 
     await ChainWalletManager.instance.init(config);
-    await _refresh();
   }
 
   @override
