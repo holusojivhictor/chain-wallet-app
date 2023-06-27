@@ -1,5 +1,7 @@
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/account_bar.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/bars/address_bar.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/app_bar/account_bar.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/bars/balance_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -34,7 +36,14 @@ class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMi
         ),
         body: BlocBuilder<WalletBloc, WalletState>(
           builder: (_, state) => ListView(
+            physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
+              AddressBar(address: state.currentAddress),
+              const SizedBox(height: 10),
+              BalanceBar(
+                balance: state.balance,
+                chain: state.currentChain,
+              ),
               ...state.tickers.map((e) {
                 return <Widget>[
                   ListTile(

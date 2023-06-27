@@ -10,5 +10,9 @@ class WalletEvent with _$WalletEvent {
     required Ticker ticker,
   }) = _TickerLoaded;
 
+  const factory WalletEvent.balanceLoaded({
+    required double balance,
+  }) = _BalanceLoaded;
+
   const factory WalletEvent.refresh() = _Refresh;
 }

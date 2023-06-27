@@ -1,4 +1,5 @@
 import 'package:chain_wallet/chain_wallet.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/infrastructure/exchange_client.dart';
@@ -17,12 +18,14 @@ class WalletServiceImpl implements WalletService {
   static final web3Client = ChainWalletManager.instance.walletClient.client;
 
   @override
-  Future<EtherAmount> balance() {
-    return web3Client.getBalance(
-      EthereumAddress.fromHex(
-        _authService.publicKey,
-      ),
-    );
+  EthereumChain get chain => _authService.chain;
+
+  @override
+  String get address => _authService.publicKey;
+
+  @override
+  Future<EtherAmount> getBalance() {
+    return web3Client.getBalance(EthereumAddress.fromHex(address));
   }
 
   @override

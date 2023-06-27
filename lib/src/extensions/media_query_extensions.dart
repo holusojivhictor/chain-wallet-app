@@ -10,7 +10,6 @@ extension MediaQueryExtensions on MediaQueryData {
       case DeviceScreenType.desktop:
         take = orientation == Orientation.portrait ? 2 : 3;
       default:
-        break;
     }
     final width = size.width / take;
     return width;
@@ -31,7 +30,6 @@ extension MediaQueryExtensions on MediaQueryData {
         if (exceeds) {
           max = size.height * 0.55;
         }
-        break;
     }
 
     final desiredHeight = itemHeight * itemCount;
@@ -47,7 +45,6 @@ extension MediaQueryExtensions on MediaQueryData {
       case DeviceScreenType.desktop:
         take = orientation == Orientation.portrait ? 8 : 6;
       default:
-        break;
     }
     final width = size.height / take;
     return width;

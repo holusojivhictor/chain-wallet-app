@@ -106,7 +106,7 @@ class SettingsServiceImpl extends SettingsService {
 
     if (_prefs.get(_ethereumChainKey) == null) {
       _logger.info(runtimeType, 'Ethereum network is set to mainnet as default');
-      chain = EthereumChain.mainnet;
+      chain = EthereumChain.goerli;
     }
 
     if (_prefs.get(_doubleBackToCloseKey) == null) {

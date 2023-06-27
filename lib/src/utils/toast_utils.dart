@@ -18,34 +18,66 @@ class ToastUtils {
 
   static void showSucceedToast(
     FToast toast,
-    String msg, {
-    VoidCallback? action,
-  }) => _showToast(toast, msg, Colors.white, ToastType.succeed);
+    String msg,
+  ) =>
+      _showToast(
+        toast,
+        msg: msg,
+        textColor: Colors.white,
+        type: ToastType.succeed,
+      );
 
   static void showInfoToast(
     FToast toast,
     String msg, {
     VoidCallback? action,
-  }) => _showToast(toast, msg, Colors.white, ToastType.info);
+  }) =>
+      _showToast(
+        toast,
+        msg: msg,
+        textColor: Colors.white,
+      );
 
   static void showWarningToast(
     FToast toast,
-    String msg, {
-    VoidCallback? action,
-  }) => _showToast(toast, msg, Colors.white, ToastType.warning);
+    String msg,
+  ) =>
+      _showToast(
+        toast,
+        msg: msg,
+        textColor: Colors.white,
+        type: ToastType.warning,
+      );
 
   static void showErrorToast(
     FToast toast,
-    String msg, {
-    VoidCallback? action,
-  }) => _showToast(toast, msg, Colors.white, ToastType.error);
+    String msg,
+  ) =>
+      _showToast(
+        toast,
+        msg: msg,
+        textColor: Colors.white,
+        type: ToastType.error,
+      );
+
+  static void showCustomToast(
+    FToast toast,
+    Widget child,
+  ) =>
+      _showToast(
+        toast,
+        custom: child,
+        gravity: ToastGravity.CENTER,
+      );
 
   static void _showToast(
-    FToast toast,
-    String msg,
-    Color textColor,
-    ToastType type,
-  ) {
+    FToast toast, {
+    String msg = '',
+    Color textColor = Colors.blue,
+    ToastType type = ToastType.info,
+    Widget? custom,
+    ToastGravity gravity = ToastGravity.BOTTOM,
+  }) {
     Color bgColor;
     Icon icon;
     switch (type) {
@@ -72,8 +104,8 @@ class ToastUtils {
     );
 
     toast.showToast(
-      child: widget,
-      gravity: ToastGravity.BOTTOM,
+      child: custom ?? widget,
+      gravity: gravity,
       toastDuration: toastDuration,
     );
   }

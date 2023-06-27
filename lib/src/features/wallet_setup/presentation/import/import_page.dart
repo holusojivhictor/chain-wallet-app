@@ -78,14 +78,15 @@ class _PortraitLayout extends StatelessWidget {
         actionText: s.close,
       );
     } else if (event is ImportSuccess) {
+      // TODO(morpheus): relocate init
+      context.read<WalletBloc>().add(const WalletEvent.init());
+
       DialogUtils.showPrimaryDialog(
         context,
         s.importSuccess,
         s.setupSuccess,
         actionText: s.goHome,
         actionOnPressed: () {
-          // TODO(morpheus): relocate init
-          context.read<WalletBloc>().add(const WalletEvent.init());
           context.go(AppRoute.home.path);
         },
       );

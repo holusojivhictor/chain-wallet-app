@@ -44,6 +44,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Seed phrase confirmation successful"),
         "congratulations":
             MessageLookupByLibrary.simpleMessage("Congratulations!"),
+        "copiedToClipboard": MessageLookupByLibrary.simpleMessage(
+            "Public address copied to clipboard"),
         "createNewWallet":
             MessageLookupByLibrary.simpleMessage("Create a new wallet"),
         "createPin": MessageLookupByLibrary.simpleMessage("Create Pin"),

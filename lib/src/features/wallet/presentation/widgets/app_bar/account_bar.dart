@@ -1,5 +1,5 @@
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/account_bar_tile.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/app_bar/account_bar_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

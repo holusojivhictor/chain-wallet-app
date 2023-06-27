@@ -1,8 +1,8 @@
-import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:chain_wallet_mobile/src/extensions/i18n_extensions.dart';
-import 'package:chain_wallet_mobile/src/features/common/presentation/images/transparent_image.dart';
-import 'package:chain_wallet_mobile/src/utils/modal_bottom_sheet_utils.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
+import 'package:chain_wallet_mobile/src/features/common/presentation/images/transparent_image.dart';
+import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
+import 'package:chain_wallet_mobile/src/utils/modal_bottom_sheet_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

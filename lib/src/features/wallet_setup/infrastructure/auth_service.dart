@@ -4,6 +4,7 @@ import 'package:chain_wallet_mobile/src/extensions/iterable_extensions.dart';
 import 'package:chain_wallet_mobile/src/extensions/string_extensions.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/services.dart';
 import 'package:dice_bear/dice_bear.dart';
@@ -11,7 +12,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:web3dart/credentials.dart';
 
 class AuthServiceImpl implements AuthService {
-  AuthServiceImpl(this._logger, this._settingsService, this._dataService);
+  AuthServiceImpl(
+    this._logger,
+    this._settingsService,
+    this._dataService,
+  );
 
   final LoggingService _logger;
   final SettingsService _settingsService;
@@ -33,6 +38,9 @@ class AuthServiceImpl implements AuthService {
   String get publicKey => _publicKey;
 
   @override
+  EthereumChain get chain => _settingsService.chain;
+
+  @override
   bool get isWalletConnected => _mnemonic.isNotNullNorEmpty;
 
   @override
@@ -51,7 +59,7 @@ class AuthServiceImpl implements AuthService {
 
   @override
   Future<void> initChainClient() async {
-    Config().initConfig(_settingsService.chain);
+    Config().initConfig(chain);
 
     final config = ChainWalletClientConfig(
       rpcUrl: Config.rpcUrl,
@@ -66,7 +74,9 @@ class AuthServiceImpl implements AuthService {
   @override
   List<Phrase> fetchPhrase() {
     final mnemonicList = _mnemonic.split(' ');
-    return mnemonicList.mapIndex((e, index) => Phrase(position: index + 1)..value = e).toList();
+    return mnemonicList
+        .mapIndex((e, index) => Phrase(position: index + 1)..value = e)
+        .toList();
   }
 
   @override
@@ -84,7 +94,8 @@ class AuthServiceImpl implements AuthService {
   @override
   Future<void> importMasterFromMnemonic(String mnemonic) async {
     try {
-      final keys = await ChainWalletManager.instance.importMasterWalletFromMnemonic(mnemonic: mnemonic);
+      final keys = await ChainWalletManager.instance
+          .importMasterWalletFromMnemonic(mnemonic: mnemonic);
       await _refresh();
       final avatar = _generateAvatar(keys.publicKey);
       await _saveMaster(keys.publicKey, avatar);

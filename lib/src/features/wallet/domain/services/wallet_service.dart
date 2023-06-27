@@ -1,8 +1,13 @@
+import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
 import 'package:web3dart/web3dart.dart';
 
 abstract class WalletService {
-  Future<EtherAmount> balance();
+  String get address;
+
+  EthereumChain get chain;
+
+  Future<EtherAmount> getBalance();
 
   Stream<Ticker> fetchTickerStream();
 

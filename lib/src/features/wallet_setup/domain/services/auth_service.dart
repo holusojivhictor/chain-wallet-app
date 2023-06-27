@@ -1,3 +1,4 @@
+import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/models/models.dart';
 
 abstract class AuthService {
@@ -20,4 +21,6 @@ abstract class AuthService {
   String get passcode;
 
   String get publicKey;
+
+  EthereumChain get chain;
 }

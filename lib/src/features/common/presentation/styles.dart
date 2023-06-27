@@ -9,12 +9,11 @@ class Styles {
   static const edgeInsetAll3 = EdgeInsets.all(3);
   static const edgeInsetAll0 = EdgeInsets.zero;
   static const edgeInsetHorizontal16 = EdgeInsets.symmetric(horizontal: 16);
-  static const edgeInsetVertical5 = EdgeInsets.symmetric(vertical: 5);
-  static const edgeInsetHorizontal5 = EdgeInsets.symmetric(horizontal: 5);
   static const edgeInsetVertical16 = EdgeInsets.symmetric(vertical: 16);
-  static const edgeInsetVertical10 = EdgeInsets.symmetric(vertical: 10);
+  static const edgeInsetHorizontal5 = EdgeInsets.symmetric(horizontal: 5);
+  static const edgeInsetVertical5 = EdgeInsets.symmetric(vertical: 5);
   static const edgeInsetHorizontal10 = EdgeInsets.symmetric(horizontal: 10);
-  static const edgeInsetSymmetric8 = EdgeInsets.symmetric(horizontal: 8, vertical: 8);
+  static const edgeInsetVertical10 = EdgeInsets.symmetric(vertical: 10);
 
   static const inactiveButtonPadding = EdgeInsets.symmetric(vertical: 14);
 
@@ -39,16 +38,11 @@ class Styles {
 
   static const chipBorderRadius = BorderRadius.all(chipCircularRadius);
 
-  static const defaultCardBorderRadius = BorderRadius.only(
-    topRight: Radius.circular(32),
-    topLeft: Radius.circular(32),
-  );
-
   static const alertButtonBorderSide = BorderSide(color: AppColors.error);
 
-  static const alertDialogBorderRadius = BorderRadius.all(Radius.circular(10));
+  static const defaultBorderRadius = BorderRadius.all(Radius.circular(10));
 
-  static const alertDialogShape = RoundedRectangleBorder(borderRadius: alertDialogBorderRadius);
+  static const alertDialogShape = RoundedRectangleBorder(borderRadius: defaultBorderRadius);
 
   static const chipShape = RoundedRectangleBorder(borderRadius: chipBorderRadius);
 }

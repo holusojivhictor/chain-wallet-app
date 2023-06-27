@@ -64,6 +64,7 @@
   "authenticateReason": "Please authenticate in order to use ChainWallet",
   "phraseLengthError": "Secret Recovery Phrases contain 12, 15, 18, 21, or 24 words",
   "pressToExit": "Press once again to exit",
+  "copiedToClipboard": "Public address copied to clipboard",
   "home": "Home",
   "history": "History",
   "settings": "Settings",

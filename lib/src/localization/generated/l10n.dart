@@ -690,6 +690,16 @@ class S {
     );
   }
 
+  /// `Public address copied to clipboard`
+  String get copiedToClipboard {
+    return Intl.message(
+      'Public address copied to clipboard',
+      name: 'copiedToClipboard',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Home`
   String get home {
     return Intl.message(

@@ -18,30 +18,45 @@ class WalletState extends Equatable {
     required this.tickers,
     required this.walletStatus,
     required this.tickerStatus,
+    required this.currentChain,
+    required this.currentAddress,
+    required this.balance,
   });
 
   const WalletState.init()
       : accounts = const <WalletAccount>[],
         tickers = const <Ticker>[],
         walletStatus = WalletStatus.initial,
-        tickerStatus = TickerStatus.initial;
+        tickerStatus = TickerStatus.initial,
+        currentChain = EthereumChain.goerli,
+        currentAddress = '0x00',
+        balance = 0;
 
   final List<WalletAccount> accounts;
   final List<Ticker> tickers;
   final WalletStatus walletStatus;
   final TickerStatus tickerStatus;
+  final EthereumChain currentChain;
+  final String currentAddress;
+  final double balance;
 
   WalletState copyWith({
     List<WalletAccount>? accounts,
     List<Ticker>? tickers,
     WalletStatus? walletStatus,
     TickerStatus? tickerStatus,
+    EthereumChain? currentChain,
+    String? currentAddress,
+    double? balance,
   }) {
     return WalletState(
       accounts: accounts ?? this.accounts,
       tickers: tickers ?? this.tickers,
       walletStatus: walletStatus ?? this.walletStatus,
       tickerStatus: tickerStatus ?? this.tickerStatus,
+      currentChain: currentChain ?? this.currentChain,
+      currentAddress: currentAddress ?? this.currentAddress,
+      balance: balance ?? this.balance,
     );
   }
 
@@ -78,5 +93,8 @@ class WalletState extends Equatable {
     tickers,
     walletStatus,
     tickerStatus,
+    currentChain,
+    currentAddress,
+    balance,
   ];
 }
