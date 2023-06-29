@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 extension MediaQueryExtensions on MediaQueryData {
-  double getWidthForDialogs() {
+  double get widthForDialog {
     final deviceType = getDeviceType(size);
     var take = orientation == Orientation.portrait ? 1.5 : 2.5;
     switch (deviceType) {
@@ -10,13 +10,16 @@ extension MediaQueryExtensions on MediaQueryData {
       case DeviceScreenType.desktop:
         take = orientation == Orientation.portrait ? 2 : 3;
       default:
-        break;
     }
     final width = size.width / take;
     return width;
   }
 
-  double getHeightForDialogs(int itemCount, {double itemHeight = 65, double maxHeight = 300}) {
+  double heightForDialog(
+    int itemCount, {
+    double itemHeight = 65,
+    double maxHeight = 300,
+  }) {
     final deviceType = getDeviceType(size);
     var max = maxHeight;
     switch (deviceType) {
@@ -31,25 +34,10 @@ extension MediaQueryExtensions on MediaQueryData {
         if (exceeds) {
           max = size.height * 0.55;
         }
-        break;
     }
 
     final desiredHeight = itemHeight * itemCount;
     final heightToUse = desiredHeight >= max ? max : desiredHeight;
     return heightToUse;
-  }
-
-  double getHeightForDialogBox() {
-    final deviceType = getDeviceType(size);
-    var take = orientation == Orientation.portrait ? 5.7 : 3;
-    switch (deviceType) {
-      case DeviceScreenType.tablet:
-      case DeviceScreenType.desktop:
-        take = orientation == Orientation.portrait ? 8 : 6;
-      default:
-        break;
-    }
-    final width = size.height / take;
-    return width;
   }
 }

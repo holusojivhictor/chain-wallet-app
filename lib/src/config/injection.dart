@@ -33,18 +33,22 @@ class Injection {
     final loggingService = LoggingServiceImpl();
     getIt.registerSingleton<LoggingService>(loggingService);
 
-    final settingsService = SettingsServiceImpl(loggingService);
-    await settingsService.init();
-    getIt.registerSingleton<SettingsService>(settingsService);
+    final preferenceService = PreferenceServiceImpl(loggingService);
+    await preferenceService.init();
+    getIt.registerSingleton<PreferenceService>(preferenceService);
 
-    final localeService = LocaleServiceImpl(settingsService);
+    final localeService = LocaleServiceImpl(preferenceService);
     getIt.registerSingleton<LocaleService>(localeService);
 
     final dataService = DataServiceImpl();
     await dataService.init();
     getIt.registerSingleton<DataService>(dataService);
 
-    final authService = AuthServiceImpl(loggingService, dataService);
+    final authService = AuthServiceImpl(
+      loggingService,
+      preferenceService,
+      dataService,
+    );
     await authService.init();
     getIt
       ..registerSingleton<AuthService>(authService)

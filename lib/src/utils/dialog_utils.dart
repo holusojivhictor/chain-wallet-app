@@ -14,7 +14,7 @@ class DialogUtils {
     String? actionText,
     void Function()? actionOnPressed,
   }) {
-    return baseDialog(
+    return _baseDialog(
       context,
       titleText,
       contentText,
@@ -33,7 +33,7 @@ class DialogUtils {
     void Function()? actionOnPressed,
     void Function()? cancelOnPressed,
   }) {
-    return baseDialog(
+    return _baseDialog(
       context,
       titleText,
       contentText,
@@ -45,7 +45,7 @@ class DialogUtils {
     );
   }
 
-  static void baseDialog(
+  static void _baseDialog(
     BuildContext context,
     String titleText,
     String contentText,

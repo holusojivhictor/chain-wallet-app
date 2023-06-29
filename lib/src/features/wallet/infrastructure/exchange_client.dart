@@ -41,7 +41,7 @@ class ExchangeClient {
   WebSocketResponse _response(Map<String, dynamic> event) {
     final type = event['type'];
     if (type == 'ticker') {
-      return Ticker.fromJson(event);
+      return TickerResponse.fromJson(event);
     } else if (type == 'error') {
       return WebSocketError(message: event['message'].toString());
     } else {
@@ -59,7 +59,7 @@ class ExchangeClient {
     );
 
     _channel.sink.add(request);
-    return _channel.stream
+    return _channel.stream.skip(1)
         .map((event) => jsonDecode(event as String))
         .map((event) => _response(event as Map<String, dynamic>));
   }

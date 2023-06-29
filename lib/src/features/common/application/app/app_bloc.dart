@@ -12,7 +12,7 @@ part 'app_state.dart';
 class AppBloc extends Bloc<AppEvent, AppState> {
   AppBloc(
     this._logger,
-    this._settingsService,
+    this._preferenceService,
     this._localeService,
     this._deviceInfoService,
   ) : super(const AppState.init()) {
@@ -23,7 +23,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   final LoggingService _logger;
-  final SettingsService _settingsService;
+  final PreferenceService _preferenceService;
   final LocaleService _localeService;
   final DeviceInfoService _deviceInfoService;
 
@@ -38,7 +38,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       theme: theme,
       autoThemeMode: autoThemeMode,
       language: _localeService.getLocaleWithoutLang(),
-      firstInstall: _settingsService.isFirstInstall,
+      firstInstall: _preferenceService.isFirstInstall,
       versionChanged: _deviceInfoService.versionChanged,
     );
   }
@@ -46,37 +46,37 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   void _logInfo() {
     _logger.info(
         runtimeType,
-        '_init: Is first install = ${_settingsService.isFirstInstall}. '
+        '_init: Is first install = ${_preferenceService.isFirstInstall}. '
         'Refreshing settings');
   }
 
   void _onInit(_Init event, Emitter<AppState> emit) {
     _logger.info(runtimeType, '_init: Initializing all...');
 
-    final settings = _settingsService.appSettings;
+    final preferences = _preferenceService.preferences;
     _logInfo();
 
-    emit(loadedState(settings.appTheme, settings.themeMode));
+    emit(loadedState(preferences.appTheme, preferences.themeMode));
   }
 
   void _onLanguageChanged(_LanguageChanged event, Emitter<AppState> emit) {
     _logger.info(runtimeType, '_init: Language changed, reloading blocs');
 
-    final settings = _settingsService.appSettings;
+    final preferences = _preferenceService.preferences;
     _logInfo();
 
-    emit(loadedState(settings.appTheme, settings.themeMode));
+    emit(loadedState(preferences.appTheme, preferences.themeMode));
   }
 
   void _onThemeChanged(_ThemeChanged event, Emitter<AppState> emit) {
     _logInfo();
 
-    emit(loadedState(event.newValue, _settingsService.autoThemeMode));
+    emit(loadedState(event.newValue, _preferenceService.autoThemeMode));
   }
 
   void _onThemeModeChanged(_ThemeModeChanged event, Emitter<AppState> emit) {
     _logInfo();
 
-    emit(loadedState(_settingsService.appTheme, event.newValue));
+    emit(loadedState(_preferenceService.appTheme, event.newValue));
   }
 }

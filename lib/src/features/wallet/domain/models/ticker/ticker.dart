@@ -1,34 +1,45 @@
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
 
-part 'ticker.freezed.dart';
-part 'ticker.g.dart';
+class Ticker extends Equatable {
+  const Ticker({
+    required this.time,
+    required this.productId,
+    required this.price,
+  });
 
-@freezed
-class Ticker extends WebSocketResponse with _$Ticker {
-  // ignore: invalid_annotation_target
-  @JsonSerializable(fieldRename: FieldRename.snake)
-  factory Ticker({
-    required int? tradeId,
-    required int? sequence,
-    required DateTime? time,
-    required String? productId,
-    @StringToDoubleConverter() required double? price,
-    required String? side,
-    @StringToDoubleConverter() required double? lastSize,
-    @StringToDoubleConverter() required double? bestBid,
-    @StringToDoubleConverter() required double? bestAsk,
-  }) = _Ticker;
+  Ticker.fromResponse(TickerResponse response)
+      : time = response.time,
+        productId = response.productId,
+        price = response.price;
 
-  factory Ticker.fromJson(Map<String, dynamic> json) => _$TickerFromJson(json);
-}
+  Ticker copyWith({
+    DateTime? time,
+    double? price,
+  }) {
+    return Ticker(
+      productId: productId,
+      time: time ?? this.time,
+      price: price ?? this.price,
+    );
+  }
 
-class StringToDoubleConverter implements JsonConverter<double?, String?> {
-  const StringToDoubleConverter();
+  final DateTime? time;
+  final String? productId;
+  final double? price;
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'time': time,
+      'productId': productId,
+      'price': price,
+    };
+  }
 
   @override
-  double? fromJson(String? json) => json == null ? null : double.parse(json);
-
-  @override
-  String? toJson(double? object) => object.toString();
+  List<Object?> get props => <Object?>[
+    time,
+    productId,
+    price,
+  ];
 }

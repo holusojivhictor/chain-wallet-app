@@ -10,7 +10,8 @@ class PrimaryButton extends StatelessWidget {
     this.isPrimary = true,
     this.backgroundColor,
     this.contentPadding,
-    this.padding = const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
+    this.padding =
+        const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
     this.borderRadius = 30,
     this.hasLoading = false,
     this.enabled = true,
@@ -36,15 +37,25 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final textTheme = Theme.of(context).textTheme;
+
+    final style = textTheme.bodyMedium!.copyWith(
+      fontWeight: FontWeight.w600,
+    );
+
+    final primaryTextColor = isPrimary ? AppColors.white : AppColors.primary;
+    final primaryBgColor = isPrimary ? AppColors.primary : Colors.transparent;
+    final enabledTextColor =
+        enabled ? primaryTextColor : AppColors.white.withOpacity(0.7);
 
     final textChild = Text(
       text,
-      style: textStyle ?? theme.textTheme.bodyMedium!.copyWith(
-        fontWeight: FontWeight.w600,
-        color: textColor ?? (enabled ? isPrimary ? AppColors.white : AppColors.primary : AppColors.white.withOpacity(0.7)),
-      ),
+      style: textStyle ?? style.copyWith(color: textColor ?? enabledTextColor),
     );
+
+    final primaryBorder = isPrimary
+        ? BorderSide.none
+        : const BorderSide(color: AppColors.primary, width: 1.5);
 
     return Padding(
       padding: padding,
@@ -53,19 +64,38 @@ class PrimaryButton extends StatelessWidget {
           elevation: MaterialStateProperty.all(0),
           backgroundColor: backgroundColor != null
               ? MaterialStateProperty.all(backgroundColor)
-              : MaterialStateProperty.all(enabled ? isPrimary ? AppColors.primary : Colors.transparent : AppColors.primary.withOpacity(0.7)),
+              : MaterialStateProperty.all(
+                  enabled ? primaryBgColor : AppColors.primary.withOpacity(0.7),
+                ),
           shape: MaterialStateProperty.all(
             StadiumBorder(
-              side: side ?? (isPrimary ? BorderSide.none : const BorderSide(color: AppColors.primary, width: 1.5,
-              )),
+              side: side ?? primaryBorder,
             ),
           ),
-          padding: MaterialStateProperty.all(hasLoading ? Styles.inactiveButtonPadding : contentPadding ?? Styles.edgeInsetAll16),
+          padding: MaterialStateProperty.all(
+            hasLoading
+                ? Styles.inactiveButtonPadding
+                : contentPadding ?? Styles.edgeInsetAll16,
+          ),
         ),
         onPressed: hasLoading || !enabled ? null : onPressed,
-        child: hasLoading
-            ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 1.5, color: AppColors.white))
-            : child ?? textChild,
+        child: hasLoading ? const _LoadingIndicator() : child ?? textChild,
+      ),
+    );
+  }
+}
+
+class _LoadingIndicator extends StatelessWidget {
+  const _LoadingIndicator();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 20,
+      width: 20,
+      child: CircularProgressIndicator(
+        strokeWidth: 1.5,
+        color: AppColors.white,
       ),
     );
   }

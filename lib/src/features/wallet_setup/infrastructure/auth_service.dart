@@ -11,9 +11,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:web3dart/credentials.dart';
 
 class AuthServiceImpl implements AuthService {
-  AuthServiceImpl(this._logger, this._dataService);
+  AuthServiceImpl(
+    this._logger,
+    this._preferenceService,
+    this._dataService,
+  );
 
   final LoggingService _logger;
+  final PreferenceService _preferenceService;
   final DataService _dataService;
 
   late String _passcode;
@@ -37,8 +42,9 @@ class AuthServiceImpl implements AuthService {
   @override
   Future<void> init() async {
     await Future.wait([
-      initChainClient(),
       fetchPasscode(),
+      initChainClient(),
+      _refresh(),
     ]);
   }
 
@@ -49,6 +55,8 @@ class AuthServiceImpl implements AuthService {
 
   @override
   Future<void> initChainClient() async {
+    Config().initConfig(_preferenceService.chain);
+
     final config = ChainWalletClientConfig(
       rpcUrl: Config.rpcUrl,
       wsUrl: Config.wsUrl,
@@ -57,13 +65,14 @@ class AuthServiceImpl implements AuthService {
     );
 
     await ChainWalletManager.instance.init(config);
-    await _refresh();
   }
 
   @override
   List<Phrase> fetchPhrase() {
     final mnemonicList = _mnemonic.split(' ');
-    return mnemonicList.mapIndex((e, index) => Phrase(position: index + 1)..value = e).toList();
+    return mnemonicList
+        .mapIndex((e, index) => Phrase(position: index + 1)..value = e)
+        .toList();
   }
 
   @override
@@ -81,7 +90,8 @@ class AuthServiceImpl implements AuthService {
   @override
   Future<void> importMasterFromMnemonic(String mnemonic) async {
     try {
-      final keys = await ChainWalletManager.instance.importMasterWalletFromMnemonic(mnemonic: mnemonic);
+      final keys = await ChainWalletManager.instance
+          .importMasterWalletFromMnemonic(mnemonic: mnemonic);
       await _refresh();
       final avatar = _generateAvatar(keys.publicKey);
       await _saveMaster(keys.publicKey, avatar);
