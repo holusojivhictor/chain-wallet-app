@@ -34,13 +34,13 @@ class AddressBar extends StatelessWidget {
           splashColor: theme.colorScheme.secondary,
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 6,
-              horizontal: 12,
+              vertical: 5,
+              horizontal: 10,
             ),
             child: Text.rich(
               TextSpan(
                 style: theme.textTheme.bodyMedium!.copyWith(
-                  fontSize: 13,
+                  fontSize: 12,
                 ),
                 children: <TextSpan>[
                   TextSpan(

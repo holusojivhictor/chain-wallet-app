@@ -700,6 +700,26 @@ class S {
     );
   }
 
+  /// `Networks`
+  String get networks {
+    return Intl.message(
+      'Networks',
+      name: 'networks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a network`
+  String get addNetwork {
+    return Intl.message(
+      'Add a network',
+      name: 'addNetwork',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Home`
   String get home {
     return Intl.message(

@@ -10,7 +10,7 @@ class ModalSheetSeparator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        margin: EdgeInsets.only(bottom: 5, top: hasMargin ? 5 : 2),
+        margin: EdgeInsets.only(bottom: 5, top: hasMargin ? 8 : 2),
         child: SizedBox(
           width: 65,
           height: 5,

@@ -33,7 +33,13 @@ class AccountBarTile extends StatelessWidget {
           placeholderBuilder: (ctx) => Image.memory(kTransparentImage),
         ),
       ),
-      title: Text(accountName),
+      title: Row(
+        children: [
+          Text(accountName),
+          const SizedBox(width: 5),
+          const Icon(Icons.arrow_drop_down_outlined, color: Colors.black54),
+        ],
+      ),
       subtitle: Row(
         children: [
           CircleAvatar(

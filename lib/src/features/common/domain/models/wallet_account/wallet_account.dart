@@ -6,6 +6,7 @@ part 'wallet_account.freezed.dart';
 @freezed
 class WalletAccount with _$WalletAccount {
   factory WalletAccount.local({
+    required int key,
     required String accountName,
     required String accountAddress,
     required AccountType type,

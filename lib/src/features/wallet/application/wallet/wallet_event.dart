@@ -14,5 +14,9 @@ class WalletEvent with _$WalletEvent {
     required double balance,
   }) = _BalanceLoaded;
 
+  const factory WalletEvent.networkChainChanged({
+    required EthereumChain newValue,
+  }) = _NetworkChainChanged;
+
   const factory WalletEvent.refresh() = _Refresh;
 }

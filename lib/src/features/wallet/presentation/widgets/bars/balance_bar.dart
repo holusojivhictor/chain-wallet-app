@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class BalanceBar extends StatelessWidget {
   const BalanceBar({
     required this.balance,
+    required this.nativeBalance,
     required this.chain,
     super.key,
   });
 
   final double balance;
+  final double nativeBalance;
   final EthereumChain chain;
 
   @override
@@ -26,6 +28,20 @@ class BalanceBar extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' ${chain.currency}',
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text.rich(
+            TextSpan(
+              style: textTheme.bodyMedium,
+              children: <TextSpan>[
+                const TextSpan(
+                  text: r'$',
+                ),
+                TextSpan(
+                  text: nativeBalance.toStringAsFixed(2),
                 ),
               ],
             ),

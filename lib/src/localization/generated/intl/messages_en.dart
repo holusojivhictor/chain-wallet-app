@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accounts": MessageLookupByLibrary.simpleMessage("Accounts"),
+        "addNetwork": MessageLookupByLibrary.simpleMessage("Add a network"),
         "agentAddress": MessageLookupByLibrary.simpleMessage("Agent Address"),
         "appName": MessageLookupByLibrary.simpleMessage("Chain Wallet"),
         "authenticateReason": MessageLookupByLibrary.simpleMessage(
@@ -76,6 +77,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "makeSureNoOneIsAround": MessageLookupByLibrary.simpleMessage(
             "Make sure no one is watching your screen."),
         "masterAddress": MessageLookupByLibrary.simpleMessage("Master Address"),
+        "networks": MessageLookupByLibrary.simpleMessage("Networks"),
         "newPinHeader": MessageLookupByLibrary.simpleMessage("New Pin"),
         "newPinHint": MessageLookupByLibrary.simpleMessage("New pin"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),

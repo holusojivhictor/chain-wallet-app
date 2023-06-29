@@ -6,24 +6,22 @@ import 'package:flutter/material.dart';
 
 class CommonBottomSheet extends StatelessWidget {
   const CommonBottomSheet({
-    required this.title,
     required this.child,
     super.key,
-    this.showTitle = true,
     this.showOkButton = true,
     this.showCancelButton = true,
     this.showDivider = false,
+    this.title,
     this.onOk,
     this.onCancel,
     this.textStyle,
     this.decoration,
   });
 
-  final String title;
   final Widget child;
+  final String? title;
   final void Function()? onOk;
   final void Function()? onCancel;
-  final bool showTitle;
   final bool showOkButton;
   final bool showCancelButton;
   final bool showDivider;
@@ -35,16 +33,15 @@ class CommonBottomSheet extends StatelessWidget {
     return SingleChildScrollView(
       padding: MediaQuery.of(context).viewInsets,
       child: Container(
-        margin: const EdgeInsets.all(3),
         decoration: decoration,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             const ModalSheetSeparator(),
-            if (showTitle)
+            if (title != null)
               BottomSheetTitle(
-                title: title,
+                title: title!,
                 textStyle: textStyle,
               ),
             child,

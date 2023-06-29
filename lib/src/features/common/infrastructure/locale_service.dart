@@ -4,13 +4,13 @@ import 'package:chain_wallet_mobile/src/features/common/domain/models/language/l
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
 
 class LocaleServiceImpl implements LocaleService {
-  LocaleServiceImpl(this._settingsService);
+  LocaleServiceImpl(this._preferenceService);
 
-  final SettingsService _settingsService;
+  final PreferenceService _preferenceService;
 
   @override
   Language getLocaleWithoutLang() {
-    return getLocale(_settingsService.language);
+    return getLocale(_preferenceService.language);
   }
 
   @override

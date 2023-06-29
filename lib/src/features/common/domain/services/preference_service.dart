@@ -2,10 +2,10 @@ import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart'
 import 'package:chain_wallet_mobile/src/features/common/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 
-/// The service class wrapping persisted application settings.
-abstract class SettingsService {
+/// The service class wrapping persisted application preferences.
+abstract class PreferenceService {
   /// The current app settings.
-  AppSettings get appSettings;
+  Preferences get preferences;
 
   /// The app theme type.
   ///

@@ -11,7 +11,7 @@ part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc(
-    this._settingsService,
+    this._preferenceService,
     this._deviceInfoService,
     this._appBloc,
   ) : super(const SettingsState.init()) {
@@ -23,39 +23,39 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<_AutoThemeModeTypeChanged>(_onAutoThemeModeTypeChanged);
   }
 
-  final SettingsService _settingsService;
+  final PreferenceService _preferenceService;
   final DeviceInfoService _deviceInfoService;
   final AppBloc _appBloc;
 
   void _onInit(_Init event, Emitter<SettingsState> emit) {
-    final settings = _settingsService.appSettings;
+    final preferences = _preferenceService.preferences;
 
     emit(
       const SettingsState.init().copyWith(
-        currentTheme: settings.appTheme,
-        currentLanguage: settings.appLanguage,
+        currentTheme: preferences.appTheme,
+        currentLanguage: preferences.appLanguage,
         appVersion: _deviceInfoService.version,
-        doubleBackToClose: settings.doubleBackToClose,
-        unlockWithBiometrics: settings.unlockWithBiometrics,
-        themeMode: settings.themeMode,
+        doubleBackToClose: preferences.doubleBackToClose,
+        unlockWithBiometrics: preferences.unlockWithBiometrics,
+        themeMode: preferences.themeMode,
       ),
     );
   }
 
   void _onThemeChanged(_ThemeChanged event, Emitter<SettingsState> emit) {
-    if (event.newValue == _settingsService.appTheme) {
+    if (event.newValue == _preferenceService.appTheme) {
       return emit(state);
     }
-    _settingsService.appTheme = event.newValue;
+    _preferenceService.appTheme = event.newValue;
     _appBloc.add(AppEvent.themeChanged(newValue: event.newValue));
     emit(state.copyWith(currentTheme: event.newValue));
   }
 
   void _onLanguageChanged(_LanguageChanged event, Emitter<SettingsState> emit) {
-    if (event.newValue == _settingsService.language) {
+    if (event.newValue == _preferenceService.language) {
       return emit(state);
     }
-    _settingsService.language = event.newValue;
+    _preferenceService.language = event.newValue;
     _appBloc.add(AppEvent.languageChanged(newValue: event.newValue));
     emit(state.copyWith(currentLanguage: event.newValue));
   }
@@ -64,7 +64,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     _DoubleBackToCloseChanged event,
     Emitter<SettingsState> emit,
   ) {
-    _settingsService.doubleBackToClose = event.newValue;
+    _preferenceService.doubleBackToClose = event.newValue;
     emit(state.copyWith(doubleBackToClose: event.newValue));
   }
 
@@ -72,7 +72,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     _UnlockWithBiometricsChanged event,
     Emitter<SettingsState> emit,
   ) {
-    _settingsService.unlockWithBiometrics = event.newValue;
+    _preferenceService.unlockWithBiometrics = event.newValue;
     emit(state.copyWith(unlockWithBiometrics: event.newValue));
   }
 
@@ -80,15 +80,15 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     _AutoThemeModeTypeChanged event,
     Emitter<SettingsState> emit,
   ) {
-    if (event.newValue == _settingsService.autoThemeMode) {
+    if (event.newValue == _preferenceService.autoThemeMode) {
       return emit(state);
     }
-    _settingsService.autoThemeMode = event.newValue;
+    _preferenceService.autoThemeMode = event.newValue;
     _appBloc.add(AppEvent.themeModeChanged(newValue: event.newValue));
     emit(state.copyWith(themeMode: event.newValue));
   }
 
-  bool get doubleBackToClose => _settingsService.doubleBackToClose;
+  bool get doubleBackToClose => _preferenceService.doubleBackToClose;
 
-  bool get isFirstInstall => _settingsService.isFirstInstall;
+  bool get isFirstInstall => _preferenceService.isFirstInstall;
 }

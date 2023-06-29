@@ -4,6 +4,7 @@ import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/services/services.dart';
+import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,19 +18,26 @@ class ChainWalletApp extends StatelessWidget {
         BlocProvider(
           create: (ctx) {
             final dataService = getIt<DataService>();
+            final preferenceService = getIt<PreferenceService>();
+            final authService = getIt<AuthService>();
             final walletService = getIt<WalletService>();
-            return WalletBloc(dataService, walletService);
+            return WalletBloc(
+              dataService,
+              preferenceService,
+              authService,
+              walletService,
+            );
           },
         ),
         BlocProvider(
           create: (ctx) {
             final loggingService = getIt<LoggingService>();
-            final settingsService = getIt<SettingsService>();
+            final preferenceService = getIt<PreferenceService>();
             final localeService = getIt<LocaleService>();
             final deviceInfoService = getIt<DeviceInfoService>();
             return AppBloc(
               loggingService,
-              settingsService,
+              preferenceService,
               localeService,
               deviceInfoService,
             )..add(const AppEvent.init());
@@ -37,10 +45,10 @@ class ChainWalletApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (ctx) {
-            final settingsService = getIt<SettingsService>();
+            final preferenceService = getIt<PreferenceService>();
             final deviceInfoService = getIt<DeviceInfoService>();
             return SettingsBloc(
-              settingsService,
+              preferenceService,
               deviceInfoService,
               ctx.read<AppBloc>(),
             )..add(const SettingsEvent.init());

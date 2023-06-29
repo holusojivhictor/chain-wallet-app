@@ -4,7 +4,6 @@ import 'package:chain_wallet_mobile/src/extensions/iterable_extensions.dart';
 import 'package:chain_wallet_mobile/src/extensions/string_extensions.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/services.dart';
 import 'package:dice_bear/dice_bear.dart';
@@ -14,12 +13,12 @@ import 'package:web3dart/credentials.dart';
 class AuthServiceImpl implements AuthService {
   AuthServiceImpl(
     this._logger,
-    this._settingsService,
+    this._preferenceService,
     this._dataService,
   );
 
   final LoggingService _logger;
-  final SettingsService _settingsService;
+  final PreferenceService _preferenceService;
   final DataService _dataService;
 
   late String _passcode;
@@ -36,9 +35,6 @@ class AuthServiceImpl implements AuthService {
 
   @override
   String get publicKey => _publicKey;
-
-  @override
-  EthereumChain get chain => _settingsService.chain;
 
   @override
   bool get isWalletConnected => _mnemonic.isNotNullNorEmpty;
@@ -59,7 +55,7 @@ class AuthServiceImpl implements AuthService {
 
   @override
   Future<void> initChainClient() async {
-    Config().initConfig(chain);
+    Config().initConfig(_preferenceService.chain);
 
     final config = ChainWalletClientConfig(
       rpcUrl: Config.rpcUrl,

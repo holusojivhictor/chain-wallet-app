@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 enum EthereumChain {
   mainnet(
     'https://mainnet.infura.io/v3',
@@ -20,4 +22,36 @@ enum EthereumChain {
   final String rpcBase;
   final String wsBase;
   final String currency;
+
+  String get label {
+    switch (this) {
+      case EthereumChain.mainnet:
+        return 'Ethereum Main Network';
+      case EthereumChain.goerli:
+        return 'Goerli Test Network';
+      case EthereumChain.sepolia:
+        return 'Sepolia Test Network';
+    }
+  }
+
+  String get avatar {
+    switch (this) {
+      case EthereumChain.mainnet:
+        return 'E';
+      case EthereumChain.goerli:
+      case EthereumChain.sepolia:
+        return name.substring(0, 1).toUpperCase();
+    }
+  }
+
+  Color get bgColor {
+    switch (this) {
+      case EthereumChain.mainnet:
+        return const Color(0xFF627EEB);
+      case EthereumChain.goerli:
+        return const Color(0xFF309AF2);
+      case EthereumChain.sepolia:
+        return const Color(0xFFCEB5EF);
+    }
+  }
 }

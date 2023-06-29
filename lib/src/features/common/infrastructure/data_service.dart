@@ -45,6 +45,7 @@ class DataServiceImpl implements DataService {
 
     return values.map((e) {
       return WalletAccount.local(
+        key: e.itemKey,
         accountName: e.name,
         accountAddress: e.address,
         type: AccountType.values.elementAt(e.type),

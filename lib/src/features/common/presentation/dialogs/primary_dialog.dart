@@ -40,8 +40,8 @@ class PrimaryDialog extends StatelessWidget {
         ),
       ),
       content: SizedBox(
-        width: mediaQuery.getWidthForDialogs(),
-        height: mediaQuery.getHeightForDialogs(1) + 20,
+        width: mediaQuery.widthForDialog,
+        height: mediaQuery.heightForDialog(1) + 20,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,

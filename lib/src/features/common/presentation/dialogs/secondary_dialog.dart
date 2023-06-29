@@ -36,20 +36,23 @@ class SecondaryDialog extends StatelessWidget {
       title: Text(
         titleText,
         textAlign: TextAlign.center,
-        style: theme.textTheme.headlineSmall!
-            .copyWith(color: AppColors.error, fontSize: 22),
+        style: theme.textTheme.headlineSmall!.copyWith(
+          color: AppColors.error,
+          fontSize: 22,
+        ),
       ),
       content: SizedBox(
-        width: mediaQuery.getWidthForDialogs(),
-        height: mediaQuery.getHeightForDialogs(2),
+        width: mediaQuery.widthForDialog,
+        height: mediaQuery.heightForDialog(2),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
               contentText,
               textAlign: TextAlign.center,
-              style:
-                  theme.textTheme.bodyMedium!.copyWith(color: AppColors.grey6),
+              style: theme.textTheme.bodyMedium!.copyWith(
+                color: AppColors.grey6,
+              ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

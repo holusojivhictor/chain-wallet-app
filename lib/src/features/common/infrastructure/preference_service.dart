@@ -7,8 +7,8 @@ import 'package:collection/collection.dart' show IterableExtension;
 import 'package:devicelocale/devicelocale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingsServiceImpl extends SettingsService {
-  SettingsServiceImpl(this._logger);
+class PreferenceServiceImpl extends PreferenceService {
+  PreferenceServiceImpl(this._logger);
 
   final _appThemeKey = 'AppTheme';
   final _appLanguageKey = 'AppLanguage';
@@ -66,7 +66,7 @@ class SettingsServiceImpl extends SettingsService {
   set autoThemeMode(AutoThemeModeType themeMode) => _prefs.setInt(_autoThemeModeKey, themeMode.index);
 
   @override
-  AppSettings get appSettings => AppSettings(
+  Preferences get preferences => Preferences(
     appTheme: appTheme,
     appLanguage: language,
     chain: chain,
@@ -80,11 +80,11 @@ class SettingsServiceImpl extends SettingsService {
   @override
   Future<void> init() async {
     if (_initialized) {
-      _logger.info(runtimeType, 'Settings are already initialized!');
+      _logger.info(runtimeType, 'Preferences are already initialized!');
       return;
     }
 
-    _logger.info(runtimeType, 'Initializing settings...Getting shared preferences instance...');
+    _logger.info(runtimeType, 'Initializing preferences...Getting shared preferences instance...');
 
     _prefs = await SharedPreferences.getInstance();
 
@@ -125,7 +125,7 @@ class SettingsServiceImpl extends SettingsService {
     }
 
     _initialized = true;
-    _logger.info(runtimeType, 'Settings were initialized successfully');
+    _logger.info(runtimeType, 'Preferences were initialized successfully');
   }
 
   Future<AppLanguageType> _getDefaultLangToUse() async {
