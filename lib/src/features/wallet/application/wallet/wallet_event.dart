@@ -4,6 +4,10 @@ part of 'wallet_bloc.dart';
 class WalletEvent with _$WalletEvent {
   const factory WalletEvent.init() = _Init;
 
+  const factory WalletEvent.walletLoaded({
+    required Wallet wallet,
+  }) = _WalletLoaded;
+
   const factory WalletEvent.tickersLoaded() = _TickersLoaded;
 
   const factory WalletEvent.tickerLoaded({
@@ -14,9 +18,20 @@ class WalletEvent with _$WalletEvent {
     required double balance,
   }) = _BalanceLoaded;
 
+  const factory WalletEvent.activeWalletChanged({
+    required int key,
+    @Default(false) bool init,
+  }) = _ActiveWalletChanged;
+
   const factory WalletEvent.networkChainChanged({
     required EthereumChain newValue,
   }) = _NetworkChainChanged;
 
-  const factory WalletEvent.refresh() = _Refresh;
+  const factory WalletEvent.createAgent() = _CreateAgent;
+
+  const factory WalletEvent.createSubAgent() = _CreateSubAgent;
+
+  const factory WalletEvent.refresh({
+    @Default(false) bool init,
+  }) = _Refresh;
 }

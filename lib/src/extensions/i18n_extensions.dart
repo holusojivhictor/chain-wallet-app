@@ -21,9 +21,9 @@ extension I18nExtensions on S {
   String translateAccountType(AccountType type) {
     switch (type) {
       case AccountType.master:
-        return masterAddress;
+        return master;
       case AccountType.agent:
-        return agentAddress;
+        return agent;
     }
   }
 }

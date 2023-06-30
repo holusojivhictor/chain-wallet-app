@@ -17,6 +17,7 @@ class PreferenceServiceImpl extends PreferenceService {
   final _doubleBackToCloseKey = 'DoubleBackToClose';
   final _unlockWithBiometricsKey = 'UnlockWithBiometrics';
   final _autoThemeModeKey = 'AutoThemeMode';
+  final _activeWalletIdKey = 'ActiveWalletId';
 
   bool _initialized = false;
 
@@ -66,6 +67,12 @@ class PreferenceServiceImpl extends PreferenceService {
   set autoThemeMode(AutoThemeModeType themeMode) => _prefs.setInt(_autoThemeModeKey, themeMode.index);
 
   @override
+  int get activeWalletId => _prefs.getInt(_activeWalletIdKey)!;
+
+  @override
+  set activeWalletId(int id) => _prefs.setInt(_activeWalletIdKey, id);
+
+  @override
   Preferences get preferences => Preferences(
     appTheme: appTheme,
     appLanguage: language,
@@ -75,6 +82,7 @@ class PreferenceServiceImpl extends PreferenceService {
     doubleBackToClose: doubleBackToClose,
     unlockWithBiometrics: unlockWithBiometrics,
     themeMode: autoThemeMode,
+    activeWalletId: activeWalletId,
   );
 
   @override
@@ -107,6 +115,11 @@ class PreferenceServiceImpl extends PreferenceService {
     if (_prefs.get(_ethereumChainKey) == null) {
       _logger.info(runtimeType, 'Ethereum network is set to mainnet as default');
       chain = EthereumChain.goerli;
+    }
+
+    if (_prefs.get(_activeWalletIdKey) == null) {
+      _logger.info(runtimeType, 'Default active wallet id is 0');
+      activeWalletId = 0;
     }
 
     if (_prefs.get(_doubleBackToCloseKey) == null) {

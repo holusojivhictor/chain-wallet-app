@@ -54,7 +54,7 @@ class Injection {
       ..registerSingleton<AuthService>(authService)
       ..registerSingleton(AuthCubit(authService));
 
-    final walletService = WalletServiceImpl(authService);
+    final walletService = WalletServiceImpl();
     getIt.registerSingleton<WalletService>(walletService);
   }
 }

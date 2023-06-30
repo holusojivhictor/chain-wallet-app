@@ -67,11 +67,12 @@
   "copiedToClipboard": "Public address copied to clipboard",
   "networks": "Networks",
   "addNetwork": "Add a network",
+  "createNewAccount": "Create a new account",
   "home": "Home",
   "history": "History",
   "settings": "Settings",
   "avatarLabel": "Wallet Avatar",
-  "masterAddress": "Master Address",
-  "agentAddress": "Agent Address",
+  "master": "Master Account",
+  "agent": "Agent Account",
   "accounts": "Accounts"
 }

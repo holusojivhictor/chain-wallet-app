@@ -20,11 +20,17 @@ class BottomSheetTitle extends StatelessWidget {
       fontSize: 15,
     );
 
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-      child: Text(
-        title,
-        style: textStyle ?? style,
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 20,
+        ),
+        child: Text(
+          title,
+          style: textStyle ?? style,
+        ),
       ),
     );
   }

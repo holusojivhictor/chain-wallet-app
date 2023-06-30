@@ -6,7 +6,6 @@ import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart'
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/services.dart';
-import 'package:dice_bear/dice_bear.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:web3dart/credentials.dart';
 
@@ -25,7 +24,7 @@ class AuthServiceImpl implements AuthService {
   late String _mnemonic;
   late String _publicKey;
 
-  final provider = ChainWalletManager.instance.storageProvider;
+  SecureStorageProvider get provider => ChainWalletManager.instance.storageProvider;
   final storage = const FlutterSecureStorage();
 
   final _lockPinKey = 'LockPinKey';
@@ -80,8 +79,7 @@ class AuthServiceImpl implements AuthService {
     try {
       final keys = await ChainWalletManager.instance.createMasterWallet();
       await _refresh();
-      final avatar = _generateAvatar(keys.publicKey);
-      await _saveMaster(keys.publicKey, avatar);
+      await _dataService.saveWallet(AccountType.master, keys.publicKey);
     } catch (_) {
       _logger.error(runtimeType, 'Failed to create new wallet');
     }
@@ -93,8 +91,7 @@ class AuthServiceImpl implements AuthService {
       final keys = await ChainWalletManager.instance
           .importMasterWalletFromMnemonic(mnemonic: mnemonic);
       await _refresh();
-      final avatar = _generateAvatar(keys.publicKey);
-      await _saveMaster(keys.publicKey, avatar);
+      await _dataService.saveWallet(AccountType.master, keys.publicKey);
     } catch (_) {
       _logger.error(runtimeType, 'Failed to import wallet with mnemonic');
     }
@@ -108,23 +105,5 @@ class AuthServiceImpl implements AuthService {
   Future<void> _refresh() async {
     _mnemonic = await provider.getMnemonic();
     _publicKey = await provider.getAddress();
-  }
-
-  Future<void> _saveMaster(String address, String avatar) async {
-    await _dataService.addItemToWalletList(
-      _dataService.walletLength,
-      'Account ${_dataService.walletLength + 1}',
-      address,
-      AccountType.master,
-      avatar,
-    );
-  }
-
-  String _generateAvatar(String seed) {
-    final avatar = DiceBearBuilder(
-      seed: seed,
-      sprite: DiceBearSprite.bottts,
-    ).build();
-    return avatar.svgUri.toString();
   }
 }

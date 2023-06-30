@@ -720,6 +720,16 @@ class S {
     );
   }
 
+  /// `Create a new account`
+  String get createNewAccount {
+    return Intl.message(
+      'Create a new account',
+      name: 'createNewAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Home`
   String get home {
     return Intl.message(
@@ -760,21 +770,21 @@ class S {
     );
   }
 
-  /// `Master Address`
-  String get masterAddress {
+  /// `Master Account`
+  String get master {
     return Intl.message(
-      'Master Address',
-      name: 'masterAddress',
+      'Master Account',
+      name: 'master',
       desc: '',
       args: [],
     );
   }
 
-  /// `Agent Address`
-  String get agentAddress {
+  /// `Agent Account`
+  String get agent {
     return Intl.message(
-      'Agent Address',
-      name: 'agentAddress',
+      'Agent Account',
+      name: 'agent',
       desc: '',
       args: [],
     );

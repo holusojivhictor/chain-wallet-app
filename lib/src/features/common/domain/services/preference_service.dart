@@ -47,6 +47,12 @@ abstract class PreferenceService {
   AutoThemeModeType get autoThemeMode;
   set autoThemeMode(AutoThemeModeType themeMode);
 
+  /// Current active wallet's ID
+  ///
+  /// Default is `0`
+  int get activeWalletId;
+  set activeWalletId(int id);
+
   /// Initialize application settings.
   Future<void> init();
 }

@@ -1,4 +1,4 @@
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/tiles/common_choice_tile.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/tiles/tiles.dart';
 import 'package:chain_wallet_mobile/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 

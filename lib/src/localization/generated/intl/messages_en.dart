@@ -24,7 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accounts": MessageLookupByLibrary.simpleMessage("Accounts"),
         "addNetwork": MessageLookupByLibrary.simpleMessage("Add a network"),
-        "agentAddress": MessageLookupByLibrary.simpleMessage("Agent Address"),
+        "agent": MessageLookupByLibrary.simpleMessage("Agent Account"),
         "appName": MessageLookupByLibrary.simpleMessage("Chain Wallet"),
         "authenticateReason": MessageLookupByLibrary.simpleMessage(
             "Please authenticate in order to use ChainWallet"),
@@ -47,6 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Congratulations!"),
         "copiedToClipboard": MessageLookupByLibrary.simpleMessage(
             "Public address copied to clipboard"),
+        "createNewAccount":
+            MessageLookupByLibrary.simpleMessage("Create a new account"),
         "createNewWallet":
             MessageLookupByLibrary.simpleMessage("Create a new wallet"),
         "createPin": MessageLookupByLibrary.simpleMessage("Create Pin"),
@@ -76,7 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "light": MessageLookupByLibrary.simpleMessage("Light"),
         "makeSureNoOneIsAround": MessageLookupByLibrary.simpleMessage(
             "Make sure no one is watching your screen."),
-        "masterAddress": MessageLookupByLibrary.simpleMessage("Master Address"),
+        "master": MessageLookupByLibrary.simpleMessage("Master Account"),
         "networks": MessageLookupByLibrary.simpleMessage("Networks"),
         "newPinHeader": MessageLookupByLibrary.simpleMessage("New Pin"),
         "newPinHint": MessageLookupByLibrary.simpleMessage("New pin"),

@@ -1,6 +1,6 @@
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/avatars/chain_avatar.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/avatars/avatars.dart';
 import 'package:flutter/material.dart';
 
 class CommonChoiceTile<T> extends StatelessWidget {

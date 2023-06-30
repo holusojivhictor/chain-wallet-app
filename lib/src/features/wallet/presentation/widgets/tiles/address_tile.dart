@@ -1,14 +1,15 @@
 import 'package:chain_wallet_mobile/src/features/common/domain/assets.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/images/svg_image.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/text/short_address.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:chain_wallet_mobile/src/utils/utils.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AddressBar extends StatelessWidget {
-  const AddressBar({
+class AddressTile extends StatelessWidget {
+  const AddressTile({
     required this.address,
     super.key,
   });
@@ -37,24 +38,7 @@ class AddressBar extends StatelessWidget {
               vertical: 5,
               horizontal: 10,
             ),
-            child: Text.rich(
-              TextSpan(
-                style: theme.textTheme.bodyMedium!.copyWith(
-                  fontSize: 12,
-                ),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: address.substring(0, address.length ~/ 4),
-                  ),
-                  const TextSpan(text: '...'),
-                  TextSpan(
-                    text: address.substring(address.length - 4),
-                  ),
-                ],
-              ),
-              textAlign: TextAlign.center,
-              textScaleFactor: MediaQuery.textScaleFactorOf(context),
-            ),
+            child: ShortAddress(address: address),
           ),
         ),
       ),

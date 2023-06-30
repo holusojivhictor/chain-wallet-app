@@ -1,7 +1,6 @@
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/app_bar/account_bar.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/bars/address_bar.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/bars/balance_bar.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/tiles/tiles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -13,8 +12,7 @@ class WalletPage extends StatefulWidget {
   State<WalletPage> createState() => _WalletPageState();
 }
 
-class _WalletPageState extends State<WalletPage>
-    with AutomaticKeepAliveClientMixin {
+class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -38,13 +36,16 @@ class _WalletPageState extends State<WalletPage>
         body: BlocConsumer<WalletBloc, WalletState>(
           listenWhen: (prev, curr) => prev.balanceStatus != curr.balanceStatus,
           listener: (_, state) {},
-          builder: (_, state) => ListView(
+          buildWhen: (previous, current) {
+            return previous.activeWallet.key != current.activeWallet.key;
+          },
+          builder: (ctx, state) => ListView(
             physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
               const SizedBox(height: 10),
-              AddressBar(address: state.currentAddress),
+              AddressTile(address: state.activeWallet.address),
               const SizedBox(height: 10),
-              BalanceBar(
+              BalanceTile(
                 balance: state.balance,
                 nativeBalance: state.nativeBalance,
                 chain: state.currentChain,

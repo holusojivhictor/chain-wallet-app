@@ -9,10 +9,13 @@ class AccountBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WalletBloc, WalletState>(
+      buildWhen: (previous, current) {
+        return previous.activeWallet.key != current.activeWallet.key;
+      },
       builder: (ctx, state) {
-        final wallet = state.accounts.first;
+        final wallet = state.activeWallet;
         return AccountBarTile(
-          accountName: wallet.accountName,
+          accountName: wallet.name,
           type: wallet.type,
           avatarUrl: wallet.avatar,
         );

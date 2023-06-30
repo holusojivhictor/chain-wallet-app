@@ -2,11 +2,15 @@ import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dar
 import 'package:web3dart/web3dart.dart';
 
 abstract class WalletService {
-  String get address;
+  Future<void> connect();
 
-  Future<EtherAmount> getBalance();
+  Future<EtherAmount> getBalance(String address);
 
   Stream<Ticker> fetchTickerStream();
+
+  Future<void> createAgent();
+
+  Future<void> createSubAgent();
 
   Future<void> close();
 }
