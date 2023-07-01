@@ -19,8 +19,9 @@ class WalletsListBar extends StatelessWidget {
         return false;
       },
       listener: (ctx, state) {},
-      buildWhen: (prev, current) {
-        return prev.wallets.length != current.wallets.length;
+      buildWhen: (previous, current) {
+        return previous.wallets.length != current.wallets.length ||
+            previous.activeWallet.key != current.activeWallet.key;
       },
       builder: (ctx, state) {
         return ItemsListView<Wallet>(

@@ -11,9 +11,14 @@ import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WalletsBottomSheet extends StatelessWidget {
+class WalletsBottomSheet extends StatefulWidget {
   const WalletsBottomSheet({super.key});
 
+  @override
+  State<WalletsBottomSheet> createState() => _WalletsBottomSheetState();
+}
+
+class _WalletsBottomSheetState extends State<WalletsBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
@@ -35,7 +40,11 @@ class WalletsBottomSheet extends StatelessWidget {
     );
   }
 
-  void onWalletTapped(Wallet wallet) {}
+  void onWalletTapped(Wallet wallet) {
+    context
+        .read<WalletBloc>()
+        .add(WalletEvent.activeWalletChanged(key: wallet.key));
+  }
 }
 
 class _NetworkBar extends StatelessWidget {
@@ -93,12 +102,16 @@ class _ButtonBar extends StatelessWidget {
         children: [
           const SizedBox(height: 20),
           PrimaryButton(
-            onPressed: () {},
+            onPressed: () => create(context),
             text: s.createNewAccount,
           ),
           const SizedBox(height: 10),
         ],
       ),
     );
+  }
+
+  void create(BuildContext context) {
+    context.read<WalletBloc>().add(const WalletEvent.createSubAgent());
   }
 }

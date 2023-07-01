@@ -27,6 +27,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
   ) : super(const WalletState.init()) {
     ChainWalletManager.instance.addEventHandler('WalletEventListener', this);
     on<_Init>(_onInit);
+    on<_LoadBalance>(_onLoadBalance);
     on<_TickerLoaded>(_onTickerLoaded);
     on<_TickersLoaded>(_onTickersLoaded);
     on<_WalletLoaded>(_onWalletLoaded);
@@ -49,7 +50,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
 
     _loadLocalWallets();
     _loadTickers();
-    await _loadBalance();
+  }
+
+  Future<void> _onLoadBalance(_LoadBalance event, Emitter<WalletState> emit) {
+    return _loadBalance();
   }
 
   void _loadLocalWallets() {

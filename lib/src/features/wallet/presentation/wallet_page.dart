@@ -12,7 +12,18 @@ class WalletPage extends StatefulWidget {
   State<WalletPage> createState() => _WalletPageState();
 }
 
-class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMixin {
+class _WalletPageState extends State<WalletPage>
+    with AutomaticKeepAliveClientMixin {
+  bool _didChangeDependencies = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didChangeDependencies) return;
+    _didChangeDependencies = true;
+    context.read<WalletBloc>().add(const WalletEvent.loadBalance());
+  }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -36,9 +47,6 @@ class _WalletPageState extends State<WalletPage> with AutomaticKeepAliveClientMi
         body: BlocConsumer<WalletBloc, WalletState>(
           listenWhen: (prev, curr) => prev.balanceStatus != curr.balanceStatus,
           listener: (_, state) {},
-          buildWhen: (previous, current) {
-            return previous.activeWallet.key != current.activeWallet.key;
-          },
           builder: (ctx, state) => ListView(
             physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[

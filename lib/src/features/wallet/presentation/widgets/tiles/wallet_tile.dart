@@ -31,6 +31,7 @@ class WalletTile extends StatelessWidget {
         style: theme.textTheme.bodySmall,
       ),
       selectedTileColor: theme.colorScheme.primary.withOpacity(0.07),
+      onTap: onTap.call,
     );
 
     if (selected) {
