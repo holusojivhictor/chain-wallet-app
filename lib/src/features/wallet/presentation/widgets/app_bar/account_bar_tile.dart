@@ -1,10 +1,9 @@
 import 'package:chain_wallet_mobile/src/extensions/i18n_extensions.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
-import 'package:chain_wallet_mobile/src/features/common/presentation/images/transparent_image.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/avatars/avatars.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:chain_wallet_mobile/src/utils/modal_bottom_sheet_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class AccountBarTile extends StatelessWidget {
   const AccountBarTile({
@@ -24,18 +23,13 @@ class AccountBarTile extends StatelessWidget {
     final s = S.of(context);
     return ListTile(
       visualDensity: const VisualDensity(horizontal: -3, vertical: -1),
-      leading: CircleAvatar(
-        backgroundColor: Colors.transparent,
-        child: SvgPicture.network(
-          avatarUrl,
-          height: 35,
-          semanticsLabel: s.avatarLabel,
-          placeholderBuilder: (ctx) => Image.memory(kTransparentImage),
-        ),
-      ),
+      leading: WalletAvatar(avatarUrl: avatarUrl),
       title: Row(
         children: [
-          Text(accountName),
+          Text(
+            accountName,
+            style: theme.textTheme.titleMedium,
+          ),
           const SizedBox(width: 5),
           const Icon(Icons.arrow_drop_down_outlined, color: Colors.black54),
         ],

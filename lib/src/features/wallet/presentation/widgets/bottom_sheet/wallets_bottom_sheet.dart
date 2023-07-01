@@ -1,16 +1,24 @@
+import 'package:chain_wallet_mobile/src/features/common/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/bottom_sheets/bottom_sheets.dart';
+import 'package:chain_wallet_mobile/src/features/common/presentation/buttons/primary_button.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/avatars/chain_avatar.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/avatars/avatars.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/dialogs/network_dialog.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/lists/lists.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WalletsBottomSheet extends StatelessWidget {
+class WalletsBottomSheet extends StatefulWidget {
   const WalletsBottomSheet({super.key});
 
+  @override
+  State<WalletsBottomSheet> createState() => _WalletsBottomSheetState();
+}
+
+class _WalletsBottomSheetState extends State<WalletsBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
@@ -20,15 +28,22 @@ class WalletsBottomSheet extends StatelessWidget {
         showOkButton: false,
         showCancelButton: false,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 5),
             _NetworkBar(chain: state.currentChain),
             BottomSheetTitle(title: s.accounts),
+            WalletsListBar(onWalletTapped: onWalletTapped),
+            const _ButtonBar(),
           ],
         ),
       ),
     );
+  }
+
+  void onWalletTapped(Wallet wallet) {
+    context
+        .read<WalletBloc>()
+        .add(WalletEvent.activeWalletChanged(key: wallet.key));
   }
 }
 
@@ -69,5 +84,34 @@ class _NetworkBar extends StatelessWidget {
       context: context,
       builder: (ctx) => const NetworkDialog(),
     );
+  }
+}
+
+class _ButtonBar extends StatelessWidget {
+  const _ButtonBar();
+
+  @override
+  Widget build(BuildContext context) {
+    final s = S.of(context);
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.sizeOf(context).width / 1.5,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 20),
+          PrimaryButton(
+            onPressed: () => create(context),
+            text: s.createNewAccount,
+          ),
+          const SizedBox(height: 10),
+        ],
+      ),
+    );
+  }
+
+  void create(BuildContext context) {
+    context.read<WalletBloc>().add(const WalletEvent.createSubAgent());
   }
 }

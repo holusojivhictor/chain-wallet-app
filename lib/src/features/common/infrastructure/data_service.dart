@@ -2,6 +2,7 @@ import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart'
 import 'package:chain_wallet_mobile/src/features/common/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
 import 'package:collection/collection.dart' show IterableExtension;
+import 'package:dice_bear/dice_bear.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -35,19 +36,18 @@ class DataServiceImpl implements DataService {
     });
   }
 
-  @override
   int get walletLength => _walletAccountsBox.length;
 
   @override
-  List<WalletAccount> getWalletAccounts() {
+  List<Wallet> getWallets() {
     final values = _walletAccountsBox.values.toList()
       ..sort((x, y) => x.itemKey.compareTo(y.itemKey));
 
     return values.map((e) {
-      return WalletAccount.local(
+      return Wallet(
         key: e.itemKey,
-        accountName: e.name,
-        accountAddress: e.address,
+        name: e.name,
+        address: e.address,
         type: AccountType.values.elementAt(e.type),
         avatar: e.avatar,
       );
@@ -55,17 +55,15 @@ class DataServiceImpl implements DataService {
   }
 
   @override
-  Future<void> addItemToWalletList(
-    int key,
-    String name,
-    String address,
-    AccountType type,
-    String avatar,
-  ) async {
-    if (isItemInWalletList(key, type)) {
-      return Future.value();
-    }
-    await _walletAccountsBox.add(WalletAccountItem(key, name, address, type.index, avatar));
+  Future<int> saveWallet(AccountType type, String address) {
+    final avatar = _generateAvatar(address);
+    return _addItemToWalletList(
+      walletLength,
+      'Account ${walletLength + 1}',
+      address,
+      type,
+      avatar,
+    );
   }
 
   @override
@@ -98,11 +96,33 @@ class DataServiceImpl implements DataService {
     return _walletAccountsBox.values.any((el) => el.itemKey == key && el.type == type.index);
   }
 
+  Future<int> _addItemToWalletList(
+    int key,
+    String name,
+    String address,
+    AccountType type,
+    String avatar,
+  ) {
+    if (isItemInWalletList(key, type)) {
+      return Future.value(key);
+    }
+    return _walletAccountsBox.add(WalletAccountItem(key, name, address, type.index, avatar));
+  }
+
   WalletAccountItem? _getItemFromWalletList(int key) {
     return _walletAccountsBox.values.firstWhereOrNull((el) => el.itemKey == key);
   }
 
   void _registerAdapters() {
     Hive.registerAdapter(WalletAccountItemAdapter());
+  }
+
+  /// Dicebear impl
+  String _generateAvatar(String seed) {
+    final avatar = DiceBearBuilder(
+      seed: seed,
+      sprite: DiceBearSprite.bottts,
+    ).build();
+    return avatar.svgUri.toString();
   }
 }

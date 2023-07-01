@@ -166,7 +166,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "0b1bdea7ffe1fd6c86989775f4a24359fa1aed59"
+      resolved-ref: "68f23afa55257a0420c30d8b1a456091135c5659"
       url: "https://github.com/holusojivhictor/chain-wallet"
     source: git
     version: "0.1.0"

@@ -16,6 +16,7 @@ class Preferences with _$Preferences {
     required bool doubleBackToClose,
     required bool unlockWithBiometrics,
     required AutoThemeModeType themeMode,
+    required int activeWalletId,
   }) = _Preferences;
 
   factory Preferences.fromJson(Map<String, dynamic> json) => _$PreferencesFromJson(json);

@@ -8,17 +8,9 @@ abstract class DataService {
 
   Future<void> closeAll();
 
-  int get walletLength;
+  List<Wallet> getWallets();
 
-  List<WalletAccount> getWalletAccounts();
-
-  Future<void> addItemToWalletList(
-    int key,
-    String name,
-    String address,
-    AccountType type,
-    String avatar,
-  );
+  Future<int> saveWallet(AccountType type, String address);
 
   Future<void> updateItemInWalletList(
     int key,

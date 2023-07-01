@@ -1,11 +1,5 @@
 part of 'wallet_bloc.dart';
 
-enum WalletStatus {
-  initial,
-  loading,
-  loaded,
-}
-
 enum TickerStatus {
   initial,
   loading,
@@ -22,59 +16,64 @@ const double zero = 0;
 
 class WalletState extends Equatable {
   const WalletState({
-    required this.accounts,
+    required this.wallets,
     required this.tickers,
-    required this.walletStatus,
     required this.tickerStatus,
     required this.balanceStatus,
     required this.currentChain,
-    required this.currentAddress,
+    required this.activeWallet,
     required this.balance,
     required this.nativeBalance,
   });
 
   const WalletState.init()
-      : accounts = const <WalletAccount>[],
+      : wallets = const <Wallet>[],
         tickers = const <Ticker>[],
-        walletStatus = WalletStatus.initial,
         tickerStatus = TickerStatus.initial,
         balanceStatus = BalanceStatus.initial,
         currentChain = EthereumChain.goerli,
-        currentAddress = '0x00',
+        activeWallet = const Wallet.empty(),
         balance = zero,
         nativeBalance = zero;
 
-  final List<WalletAccount> accounts;
+  final List<Wallet> wallets;
   final List<Ticker> tickers;
-  final WalletStatus walletStatus;
   final TickerStatus tickerStatus;
   final BalanceStatus balanceStatus;
   final EthereumChain currentChain;
-  final String currentAddress;
+  final Wallet activeWallet;
   final double balance;
   final double nativeBalance;
 
   WalletState copyWith({
-    List<WalletAccount>? accounts,
+    List<Wallet>? wallets,
     List<Ticker>? tickers,
-    WalletStatus? walletStatus,
     TickerStatus? tickerStatus,
     BalanceStatus? balanceStatus,
     EthereumChain? currentChain,
-    String? currentAddress,
+    Wallet? activeWallet,
     double? balance,
     double? nativeBalance,
   }) {
     return WalletState(
-      accounts: accounts ?? this.accounts,
+      wallets: wallets ?? this.wallets,
       tickers: tickers ?? this.tickers,
-      walletStatus: walletStatus ?? this.walletStatus,
       tickerStatus: tickerStatus ?? this.tickerStatus,
       balanceStatus: balanceStatus ?? this.balanceStatus,
       currentChain: currentChain ?? this.currentChain,
-      currentAddress: currentAddress ?? this.currentAddress,
+      activeWallet: activeWallet ?? this.activeWallet,
       balance: balance ?? this.balance,
       nativeBalance: nativeBalance ?? this.nativeBalance,
+    );
+  }
+
+  WalletState copyWithWalletAdded({
+    required Wallet wallet,
+  }) {
+    final newList = List<Wallet>.from(wallets)..add(wallet);
+
+    return copyWith(
+      wallets: newList,
     );
   }
 
@@ -101,6 +100,15 @@ class WalletState extends Equatable {
     );
   }
 
+  WalletState copyWithActiveWalletUpdated({
+    required int key,
+  }) {
+    final active = wallets.firstWhere((el) => el.key == key);
+    return copyWith(
+      activeWallet: active,
+    );
+  }
+
   WalletState copyWithBalanceUpdated({
     required double balance,
   }) {
@@ -120,13 +128,12 @@ class WalletState extends Equatable {
 
   @override
   List<Object?> get props => <Object?>[
-    accounts,
+    wallets,
     tickers,
-    walletStatus,
     tickerStatus,
     balanceStatus,
     currentChain,
-    currentAddress,
+    activeWallet,
     balance,
     nativeBalance,
   ];

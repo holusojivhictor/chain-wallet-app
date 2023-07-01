@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 enum AccountType {
-  master(Color(0xFF29B6AF)),
-  agent(Colors.orangeAccent);
+  master,
+  agent;
 
-  const AccountType(this.dot);
-
-  final Color dot;
+  Color get dot {
+    switch (this) {
+      case master:
+        return const Color(0xFF29B6AF);
+      case agent:
+        return Colors.orangeAccent;
+    }
+  }
 }
