@@ -30,7 +30,6 @@ class WalletTile extends StatelessWidget {
         address: wallet.address,
         style: theme.textTheme.bodySmall,
       ),
-      selectedTileColor: theme.colorScheme.primary.withOpacity(0.07),
       onTap: onTap.call,
     );
 
@@ -41,6 +40,7 @@ class WalletTile extends StatelessWidget {
           border: Border(
             left: BorderSide(width: 3, color: theme.colorScheme.primary),
           ),
+          color: selected ? theme.colorScheme.primary.withOpacity(0.07) : null,
         ),
         child: child,
       );

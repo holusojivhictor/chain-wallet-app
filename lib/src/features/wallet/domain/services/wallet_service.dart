@@ -12,5 +12,7 @@ abstract class WalletService {
 
   Future<void> createSubAgent();
 
+  Future<List<EthereumAddress>> addressesFromNetwork();
+
   Future<void> close();
 }

@@ -47,6 +47,16 @@ class WalletServiceImpl implements WalletService {
   }
 
   @override
+  Future<List<EthereumAddress>> addressesFromNetwork() async {
+    var addresses = <EthereumAddress>[];
+    try {
+      final agents = await ChainWalletManager.instance.getSubWallets();
+      addresses = agents;
+    } catch (_) {}
+    return addresses;
+  }
+
+  @override
   Future<void> close() async {
     await _exchangeClient.close();
   }

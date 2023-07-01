@@ -12,6 +12,12 @@ enum BalanceStatus {
   loaded,
 }
 
+enum AgentStatus {
+  idle,
+  loading,
+  loaded,
+}
+
 const double zero = 0;
 
 class WalletState extends Equatable {
@@ -20,6 +26,7 @@ class WalletState extends Equatable {
     required this.tickers,
     required this.tickerStatus,
     required this.balanceStatus,
+    required this.agentStatus,
     required this.currentChain,
     required this.activeWallet,
     required this.balance,
@@ -31,6 +38,7 @@ class WalletState extends Equatable {
         tickers = const <Ticker>[],
         tickerStatus = TickerStatus.initial,
         balanceStatus = BalanceStatus.initial,
+        agentStatus = AgentStatus.idle,
         currentChain = EthereumChain.goerli,
         activeWallet = const Wallet.empty(),
         balance = zero,
@@ -40,6 +48,7 @@ class WalletState extends Equatable {
   final List<Ticker> tickers;
   final TickerStatus tickerStatus;
   final BalanceStatus balanceStatus;
+  final AgentStatus agentStatus;
   final EthereumChain currentChain;
   final Wallet activeWallet;
   final double balance;
@@ -50,6 +59,7 @@ class WalletState extends Equatable {
     List<Ticker>? tickers,
     TickerStatus? tickerStatus,
     BalanceStatus? balanceStatus,
+    AgentStatus? agentStatus,
     EthereumChain? currentChain,
     Wallet? activeWallet,
     double? balance,
@@ -60,6 +70,7 @@ class WalletState extends Equatable {
       tickers: tickers ?? this.tickers,
       tickerStatus: tickerStatus ?? this.tickerStatus,
       balanceStatus: balanceStatus ?? this.balanceStatus,
+      agentStatus: agentStatus ?? this.agentStatus,
       currentChain: currentChain ?? this.currentChain,
       activeWallet: activeWallet ?? this.activeWallet,
       balance: balance ?? this.balance,
@@ -132,6 +143,7 @@ class WalletState extends Equatable {
     tickers,
     tickerStatus,
     balanceStatus,
+    agentStatus,
     currentChain,
     activeWallet,
     balance,

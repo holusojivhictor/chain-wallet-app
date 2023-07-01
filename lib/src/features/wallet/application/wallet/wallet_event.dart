@@ -2,9 +2,23 @@ part of 'wallet_bloc.dart';
 
 @freezed
 class WalletEvent with _$WalletEvent {
-  const factory WalletEvent.init() = _Init;
+  const factory WalletEvent.init({
+    @Default(false) bool import,
+  }) = _Init;
 
   const factory WalletEvent.loadBalance() = _LoadBalance;
+
+  const factory WalletEvent.createAgent() = _CreateAgent;
+
+  const factory WalletEvent.createSubAgent() = _CreateSubAgent;
+
+  const factory WalletEvent.scroll({
+    required ItemScrollController itemScrollController,
+  }) = _Scroll;
+
+  const factory WalletEvent.refresh({
+    @Default(false) bool init,
+  }) = _Refresh;
 
   const factory WalletEvent.walletLoaded({
     required Wallet wallet,
@@ -20,6 +34,8 @@ class WalletEvent with _$WalletEvent {
     required double balance,
   }) = _BalanceLoaded;
 
+  const factory WalletEvent.agentCreated() = _AgentCreated;
+
   const factory WalletEvent.activeWalletChanged({
     required int key,
     @Default(false) bool init,
@@ -28,12 +44,4 @@ class WalletEvent with _$WalletEvent {
   const factory WalletEvent.networkChainChanged({
     required EthereumChain newValue,
   }) = _NetworkChainChanged;
-
-  const factory WalletEvent.createAgent() = _CreateAgent;
-
-  const factory WalletEvent.createSubAgent() = _CreateSubAgent;
-
-  const factory WalletEvent.refresh({
-    @Default(false) bool init,
-  }) = _Refresh;
 }

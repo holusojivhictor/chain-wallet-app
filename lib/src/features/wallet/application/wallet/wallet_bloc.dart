@@ -11,6 +11,7 @@ import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/se
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:web3dart/web3dart.dart' as web3;
 
 part 'wallet_bloc.freezed.dart';
@@ -28,15 +29,17 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     ChainWalletManager.instance.addEventHandler('WalletEventListener', this);
     on<_Init>(_onInit);
     on<_LoadBalance>(_onLoadBalance);
+    on<_CreateAgent>(_onCreateAgent);
+    on<_CreateSubAgent>(_onCreateSubAgent);
     on<_TickerLoaded>(_onTickerLoaded);
     on<_TickersLoaded>(_onTickersLoaded);
     on<_WalletLoaded>(_onWalletLoaded);
     on<_BalanceLoaded>(_onBalanceLoaded);
+    on<_AgentCreated>(_onAgentCreated);
     on<_ActiveWalletChanged>(_onActiveWalletChanged);
     on<_NetworkChainChanged>(_onNetworkChainChanged);
-    on<_CreateAgent>(_onCreateAgent);
-    on<_CreateSubAgent>(_onCreateSubAgent);
     on<_Refresh>(_onRefresh);
+    on<_Scroll>(_onScroll);
   }
   final DataService _dataService;
   final PreferenceService _preferenceService;
@@ -48,7 +51,13 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     final preferences = _preferenceService.preferences;
     emit(state.copyWith(currentChain: preferences.chain));
 
-    _loadLocalWallets();
+    if (event.import) {
+      await _saveWalletsFromNetwork();
+      _loadLocalWallets();
+    } else {
+      _loadLocalWallets();
+    }
+
     _loadTickers();
   }
 
@@ -65,11 +74,13 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     add(WalletEvent.activeWalletChanged(key: prefs.activeWalletId, init: true));
   }
 
-  Future<void> _loadBalance() async {
-    await _walletService.getBalance(state.activeWallet.address).then((amount) {
-      final balance = amount.getValueInUnit(web3.EtherUnit.ether);
-      return add(WalletEvent.balanceLoaded(balance: balance));
-    });
+  Future<void> _saveWalletsFromNetwork() async {
+    final addresses = await _walletService.addressesFromNetwork();
+    if (addresses.isNotEmpty) {
+      for (final address in addresses) {
+        await _dataService.saveWallet(AccountType.agent, address.hex);
+      }
+    }
   }
 
   void _loadTickers() {
@@ -79,6 +90,13 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
         .onDone(() => add(const WalletEvent.tickersLoaded()));
   }
 
+  Future<void> _loadBalance() async {
+    await _walletService.getBalance(state.activeWallet.address).then((amount) {
+      final balance = amount.getValueInUnit(web3.EtherUnit.ether);
+      return add(WalletEvent.balanceLoaded(balance: balance));
+    });
+  }
+
   Future<void> _onRefresh(_Refresh event, Emitter<WalletState> emit) async {
     emit(state.copyWithRefreshed());
     if (event.init) {
@@ -86,6 +104,19 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     }
 
     await _loadBalance();
+  }
+
+  Future<void> _onCreateAgent(_CreateAgent event, Emitter<WalletState> emit) {
+    emit(state.copyWith(agentStatus: AgentStatus.loading));
+    return ChainWalletManager.instance.createWallet();
+  }
+
+  Future<void> _onCreateSubAgent(
+    _CreateSubAgent event,
+    Emitter<WalletState> emit,
+  ) {
+    emit(state.copyWith(agentStatus: AgentStatus.loading));
+    return ChainWalletManager.instance.createSubWallet();
   }
 
   void _onTickerLoaded(_TickerLoaded event, Emitter<WalletState> emit) {
@@ -102,6 +133,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
 
   void _onBalanceLoaded(_BalanceLoaded event, Emitter<WalletState> emit) {
     emit(state.copyWithBalanceUpdated(balance: event.balance));
+  }
+
+  void _onAgentCreated(_AgentCreated event, Emitter<WalletState> emit) {
+    emit(state.copyWith(agentStatus: AgentStatus.loaded));
   }
 
   void _onActiveWalletChanged(
@@ -130,15 +165,14 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     add(const WalletEvent.refresh(init: true));
   }
 
-  Future<void> _onCreateAgent(_CreateAgent event, Emitter<WalletState> emit) {
-    return ChainWalletManager.instance.createWallet();
-  }
-
-  Future<void> _onCreateSubAgent(
-    _CreateSubAgent event,
-    Emitter<WalletState> emit,
-  ) {
-    return ChainWalletManager.instance.createSubWallet();
+  void _onScroll(_Scroll event, Emitter<WalletState> emit) {
+    final active = state.activeWallet;
+    final index = state.wallets.indexWhere((e) => e.key == active.key);
+    event.itemScrollController.scrollTo(
+      index: index,
+      alignment: 0.15,
+      duration: const Duration(milliseconds: 200),
+    );
   }
 
   @override
@@ -151,6 +185,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
 
       final wallet = _dataService.getWallets().firstWhere((e) => e.key == key);
       add(WalletEvent.walletLoaded(wallet: wallet));
+      add(const WalletEvent.agentCreated());
     };
   }
 

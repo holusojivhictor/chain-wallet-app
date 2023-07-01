@@ -19,13 +19,15 @@ class ModalBottomSheetUtils {
 
   static Future<void> showAppModalBottomSheet(
     BuildContext context,
-    EndDrawerItemType type,
-  ) async {
+    EndDrawerItemType type, {
+    AnimationController? controller,
+  }) async {
     await showModalBottomSheet<void>(
       context: context,
       elevation: 0,
       useRootNavigator: true,
       isScrollControlled: true,
+      transitionAnimationController: controller,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       builder: (ctx) => getBottomSheetFromEndDrawerItemType(context, type),
     );
