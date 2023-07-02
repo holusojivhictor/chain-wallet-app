@@ -29,8 +29,8 @@ class WalletState extends Equatable {
     required this.agentStatus,
     required this.currentChain,
     required this.activeWallet,
-    required this.balance,
-    required this.nativeBalance,
+    required this.activeIndex,
+    required this.latestPrice,
   });
 
   const WalletState.init()
@@ -41,8 +41,8 @@ class WalletState extends Equatable {
         agentStatus = AgentStatus.idle,
         currentChain = EthereumChain.goerli,
         activeWallet = const Wallet.empty(),
-        balance = zero,
-        nativeBalance = zero;
+        activeIndex = 0,
+        latestPrice = zero;
 
   final List<Wallet> wallets;
   final List<Ticker> tickers;
@@ -51,8 +51,8 @@ class WalletState extends Equatable {
   final AgentStatus agentStatus;
   final EthereumChain currentChain;
   final Wallet activeWallet;
-  final double balance;
-  final double nativeBalance;
+  final int activeIndex;
+  final double latestPrice;
 
   WalletState copyWith({
     List<Wallet>? wallets,
@@ -62,8 +62,8 @@ class WalletState extends Equatable {
     AgentStatus? agentStatus,
     EthereumChain? currentChain,
     Wallet? activeWallet,
-    double? balance,
-    double? nativeBalance,
+    int? activeIndex,
+    double? latestPrice,
   }) {
     return WalletState(
       wallets: wallets ?? this.wallets,
@@ -73,8 +73,8 @@ class WalletState extends Equatable {
       agentStatus: agentStatus ?? this.agentStatus,
       currentChain: currentChain ?? this.currentChain,
       activeWallet: activeWallet ?? this.activeWallet,
-      balance: balance ?? this.balance,
-      nativeBalance: nativeBalance ?? this.nativeBalance,
+      activeIndex: activeIndex ?? this.activeIndex,
+      latestPrice: latestPrice ?? this.latestPrice,
     );
   }
 
@@ -92,7 +92,6 @@ class WalletState extends Equatable {
     required Ticker ticker,
   }) {
     final newList = List<Ticker>.from(tickers);
-    var newBalance = nativeBalance;
     final index = newList.indexWhere((el) => el.productId == ticker.productId);
 
     if (index.isNegative) {
@@ -101,13 +100,10 @@ class WalletState extends Equatable {
       newList
         ..removeAt(index)
         ..insert(index, ticker);
-      if (ticker.price != null) {
-        newBalance = balance * ticker.price!;
-      }
     }
     return copyWith(
       tickers: newList,
-      nativeBalance: newBalance,
+      latestPrice: ticker.price,
     );
   }
 
@@ -117,24 +113,54 @@ class WalletState extends Equatable {
     final active = wallets.firstWhere((el) => el.key == key);
     return copyWith(
       activeWallet: active,
+      activeIndex: wallets.indexOf(active),
+    );
+  }
+
+  WalletState copyWithWalletUpdated({
+    required double balance,
+  }) {
+    final walletList = List<Wallet>.from(wallets)
+      ..removeAt(activeIndex)
+      ..insert(
+        activeIndex,
+        activeWallet.copyWith(
+          balance: balance,
+          nativeBalance: balance * latestPrice,
+        ),
+      );
+
+    return copyWith(
+      wallets: walletList,
+      activeWallet: walletList.elementAt(activeIndex),
+      balanceStatus: BalanceStatus.loaded,
     );
   }
 
   WalletState copyWithBalanceUpdated({
+    required int index,
     required double balance,
   }) {
+    final walletList = List<Wallet>.from(wallets);
+    final wallet = walletList.elementAt(index);
+    walletList
+      ..removeAt(index)
+      ..insert(
+        index,
+        wallet.copyWith(
+          balance: balance,
+          nativeBalance: balance * latestPrice,
+        ),
+      );
+
     return copyWith(
-      balance: balance,
+      wallets: walletList,
       balanceStatus: BalanceStatus.loaded,
     );
   }
 
   WalletState copyWithRefreshed() {
-    return copyWith(
-      balance: zero,
-      nativeBalance: zero,
-      balanceStatus: BalanceStatus.loading,
-    );
+    return copyWith();
   }
 
   @override
@@ -146,7 +172,7 @@ class WalletState extends Equatable {
     agentStatus,
     currentChain,
     activeWallet,
-    balance,
-    nativeBalance,
+    activeIndex,
+    latestPrice,
   ];
 }

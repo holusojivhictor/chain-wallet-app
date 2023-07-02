@@ -30,7 +30,10 @@ class WalletEvent with _$WalletEvent {
     required Ticker ticker,
   }) = _TickerLoaded;
 
+  const factory WalletEvent.balanceLoading() = _BalanceLoading;
+
   const factory WalletEvent.balanceLoaded({
+    required int index,
     required double balance,
   }) = _BalanceLoaded;
 
@@ -44,4 +47,8 @@ class WalletEvent with _$WalletEvent {
   const factory WalletEvent.networkChainChanged({
     required EthereumChain newValue,
   }) = _NetworkChainChanged;
+
+  const factory WalletEvent.walletUpdated({
+    required double balance,
+  }) = _WalletUpdated;
 }

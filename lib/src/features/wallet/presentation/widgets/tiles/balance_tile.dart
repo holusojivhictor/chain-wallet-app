@@ -1,3 +1,4 @@
+import 'package:chain_wallet_mobile/src/extensions/extensions.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:flutter/material.dart';
 
@@ -18,13 +19,13 @@ class BalanceTile extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Center(
       child: Column(
-        children: [
+        children: <Widget>[
           Text.rich(
             TextSpan(
               style: textTheme.headlineSmall,
               children: <TextSpan>[
                 TextSpan(
-                  text: balance.toStringAsFixed(5),
+                  text: balance.fixed(5),
                 ),
                 TextSpan(
                   text: ' ${chain.currency}',

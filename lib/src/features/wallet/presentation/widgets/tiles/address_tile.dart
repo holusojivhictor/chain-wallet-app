@@ -1,7 +1,6 @@
 import 'package:chain_wallet_mobile/src/features/common/domain/assets.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/images/svg_image.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/text/short_address.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:chain_wallet_mobile/src/utils/utils.dart';
 import 'package:clipboard/clipboard.dart';
@@ -38,7 +37,12 @@ class AddressTile extends StatelessWidget {
               vertical: 5,
               horizontal: 10,
             ),
-            child: ShortAddress(address: address),
+            child: Text(
+              address,
+              style: theme.textTheme.bodyMedium!.copyWith(
+                fontSize: 12,
+              ),
+            ),
           ),
         ),
       ),

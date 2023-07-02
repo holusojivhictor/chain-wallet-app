@@ -4,7 +4,7 @@ import 'package:web3dart/web3dart.dart';
 abstract class WalletService {
   Future<void> connect();
 
-  Future<EtherAmount> getBalance(String address);
+  Future<double> fetchBalance(String addr);
 
   Stream<Ticker> fetchTickerStream();
 

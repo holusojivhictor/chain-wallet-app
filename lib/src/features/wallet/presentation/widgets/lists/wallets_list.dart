@@ -22,18 +22,23 @@ class WalletsListBar extends StatelessWidget {
         return false;
       },
       listener: (ctx, state) {},
-      buildWhen: (previous, current) {
-        return previous.wallets.length != current.wallets.length ||
-            previous.activeWallet.key != current.activeWallet.key;
-      },
+      buildWhen: buildWhen,
       builder: (ctx, state) {
         return ItemsListView<Wallet>(
           items: state.wallets,
+          chain: state.currentChain,
           selectedItem: state.activeWallet,
           itemScrollController: itemScrollController,
           onTap: onWalletTapped,
         );
       },
     );
+  }
+
+  bool buildWhen(WalletState previous, WalletState current) {
+    return previous.wallets.length != current.wallets.length ||
+        previous.activeWallet.key != current.activeWallet.key ||
+        previous.currentChain != current.currentChain ||
+        previous.balanceStatus != current.balanceStatus;
   }
 }

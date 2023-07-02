@@ -8,6 +8,8 @@ class Wallet extends Equatable {
     required this.address,
     required this.type,
     required this.avatar,
+    this.balance,
+    this.nativeBalance,
   });
 
   const Wallet.network({
@@ -15,20 +17,41 @@ class Wallet extends Equatable {
     required this.name,
     required this.address,
     required this.avatar,
-  }) : type = AccountType.agent;
+  })  : type = AccountType.agent,
+        balance = null,
+        nativeBalance = null;
 
   const Wallet.empty()
       : key = 0,
         name = '',
         address = '',
         type = AccountType.master,
-        avatar = '';
+        avatar = '',
+        balance = null,
+        nativeBalance = null;
 
   final int key;
   final String name;
   final String address;
   final AccountType type;
   final String avatar;
+  final double? balance;
+  final double? nativeBalance;
+
+  Wallet copyWith({
+    double? balance,
+    double? nativeBalance,
+  }) {
+    return Wallet(
+      key: key,
+      name: name,
+      address: address,
+      type: type,
+      avatar: avatar,
+      balance: balance ?? this.balance,
+      nativeBalance: nativeBalance ?? this.nativeBalance,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -37,8 +60,17 @@ class Wallet extends Equatable {
       'address': address,
       'type': type.name,
       'avatar': avatar,
+      'balance': balance,
+      'nativeBalance': nativeBalance,
     };
   }
+
+  String get shortAddress =>
+      '''${address.substring(0, address.length ~/ 4)}...${address.substring(address.length - 4)}''';
+
+  double get walletBalance => balance ?? 0;
+
+  double get native => nativeBalance ?? 0;
 
   @override
   List<Object?> get props => <Object?>[
@@ -47,5 +79,7 @@ class Wallet extends Equatable {
     address,
     type,
     avatar,
+    balance,
+    nativeBalance,
   ];
 }

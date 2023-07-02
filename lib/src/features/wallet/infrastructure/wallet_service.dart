@@ -14,8 +14,9 @@ class WalletServiceImpl implements WalletService {
   Web3Client get web3Client => ChainWalletManager.instance.walletClient.client;
 
   @override
-  Future<EtherAmount> getBalance(String address) {
-    return web3Client.getBalance(EthereumAddress.fromHex(address));
+  Future<double> fetchBalance(String addr) async {
+    final amount = await web3Client.getBalance(EthereumAddress.fromHex(addr));
+    return amount.getValueInUnit(EtherUnit.ether);
   }
 
   @override

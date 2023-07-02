@@ -34,10 +34,12 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     on<_TickerLoaded>(_onTickerLoaded);
     on<_TickersLoaded>(_onTickersLoaded);
     on<_WalletLoaded>(_onWalletLoaded);
+    on<_BalanceLoading>(_onBalanceLoading);
     on<_BalanceLoaded>(_onBalanceLoaded);
     on<_AgentCreated>(_onAgentCreated);
     on<_ActiveWalletChanged>(_onActiveWalletChanged);
     on<_NetworkChainChanged>(_onNetworkChainChanged);
+    on<_WalletUpdated>(_onWalletUpdated);
     on<_Refresh>(_onRefresh);
     on<_Scroll>(_onScroll);
   }
@@ -91,10 +93,28 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
   }
 
   Future<void> _loadBalance() async {
-    await _walletService.getBalance(state.activeWallet.address).then((amount) {
-      final balance = amount.getValueInUnit(web3.EtherUnit.ether);
-      return add(WalletEvent.balanceLoaded(balance: balance));
-    });
+    await _updateActive();
+    final addresses = state.wallets.map((e) => e.address).toList();
+    for (final address in addresses) {
+      final index = addresses.indexOf(address);
+      if (index == state.activeIndex) continue;
+
+      add(const WalletEvent.balanceLoading());
+      final balance = await _walletService.fetchBalance(address);
+      add(
+        WalletEvent.balanceLoaded(
+          index: index,
+          balance: balance,
+        ),
+      );
+    }
+  }
+
+  Future<void> _updateActive() async {
+    add(const WalletEvent.balanceLoading());
+    final active = state.activeWallet.address;
+    final balance = await _walletService.fetchBalance(active);
+    return add(WalletEvent.walletUpdated(balance: balance));
   }
 
   Future<void> _onRefresh(_Refresh event, Emitter<WalletState> emit) async {
@@ -131,8 +151,21 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     emit(state.copyWithWalletAdded(wallet: event.wallet));
   }
 
+  void _onWalletUpdated(_WalletUpdated event, Emitter<WalletState> emit) {
+    emit(state.copyWithWalletUpdated(balance: event.balance));
+  }
+
+  void _onBalanceLoading(_BalanceLoading event, Emitter<WalletState> emit) {
+    emit(state.copyWith(balanceStatus: BalanceStatus.loading));
+  }
+
   void _onBalanceLoaded(_BalanceLoaded event, Emitter<WalletState> emit) {
-    emit(state.copyWithBalanceUpdated(balance: event.balance));
+    emit(
+      state.copyWithBalanceUpdated(
+        index: event.index,
+        balance: event.balance,
+      ),
+    );
   }
 
   void _onAgentCreated(_AgentCreated event, Emitter<WalletState> emit) {
@@ -150,7 +183,6 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     }
     _preferenceService.activeWalletId = event.key;
     emit(state.copyWithActiveWalletUpdated(key: event.key));
-    if (!event.init) add(const WalletEvent.refresh());
   }
 
   void _onNetworkChainChanged(
@@ -170,7 +202,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     final index = state.wallets.indexWhere((e) => e.key == active.key);
     event.itemScrollController.scrollTo(
       index: index,
-      alignment: 0.15,
+      alignment: 0.2,
       duration: const Duration(milliseconds: 200),
     );
   }
