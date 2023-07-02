@@ -1,7 +1,7 @@
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/app_bar/account_bar.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/tab/tokens_view.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/tiles/tiles.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/lists/tokens_list.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/views/top_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -63,32 +63,35 @@ class _WalletPageState extends State<WalletPage>
         body: BlocConsumer<WalletBloc, WalletState>(
           listenWhen: (prev, curr) => prev.balanceStatus != curr.balanceStatus,
           listener: (_, state) {},
-          builder: (ctx, state) => SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                const SizedBox(height: 10),
-                AddressTile(address: state.activeWallet.shortAddress),
-                const SizedBox(height: 10),
-                BalanceTile(
-                  balance: state.activeWallet.walletBalance,
-                  nativeBalance: state.activeWallet.native,
+          builder: (ctx, state) => CustomScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: PersistedTopView(
+                  elevation: 0,
+                  wallet: state.activeWallet,
                   chain: state.currentChain,
+                  forceElevated: false,
+                  tabController: tabController,
+                  expandedHeight: size.screenSize.height * 0.2,
+                  collapsedHeight: size.screenSize.height * 0.2,
                 ),
-                ...state.tickers.map((e) {
-                  return <Widget>[
-                    ListTile(
-                      title: Text(
-                        e.productId ?? 'Demo',
-                      ),
-                      subtitle: Text(
-                        '${e.price}',
-                      ),
-                    )
-                  ];
-                }).expand((List<Widget> element) => element),
-                const TokensMainView(),
-              ],
-            ),
+              ),
+              SliverFillRemaining(
+                child: TabBarView(
+                  controller: tabController,
+                  children: [
+                    TokensList(
+                      tickers: state.tickers,
+                    ),
+                    TokensList(
+                      tickers: state.tickers,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

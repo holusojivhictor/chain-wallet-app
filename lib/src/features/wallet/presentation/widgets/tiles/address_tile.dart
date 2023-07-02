@@ -19,28 +19,31 @@ class AddressTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Center(
-      child: Material(
-        color: const Color(0xFFB7DFB2),
-        borderRadius: BorderRadius.circular(15),
-        child: InkWell(
-          onTap: () async {
-            final fToast = ToastUtils.of(context);
-            await FlutterClipboard.copy(address).whenComplete(() {
-              HapticFeedback.selectionClick();
-              ToastUtils.showCustomToast(fToast, buildToast(context));
-            });
-          },
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Material(
+          color: const Color(0xFFB7DFB2),
           borderRadius: BorderRadius.circular(15),
-          splashColor: theme.colorScheme.secondary,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 5,
-              horizontal: 10,
-            ),
-            child: Text(
-              address,
-              style: theme.textTheme.bodyMedium!.copyWith(
-                fontSize: 12,
+          child: InkWell(
+            onTap: () async {
+              final fToast = ToastUtils.of(context);
+              await FlutterClipboard.copy(address).whenComplete(() {
+                HapticFeedback.selectionClick();
+                ToastUtils.showCustomToast(fToast, buildToast(context));
+              });
+            },
+            borderRadius: BorderRadius.circular(15),
+            splashColor: theme.colorScheme.secondary,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 5,
+                horizontal: 10,
+              ),
+              child: Text(
+                address,
+                style: theme.textTheme.bodyMedium!.copyWith(
+                  fontSize: 12,
+                ),
               ),
             ),
           ),

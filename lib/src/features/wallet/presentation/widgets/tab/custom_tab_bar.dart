@@ -12,6 +12,10 @@ class CustomTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBar(
       controller: tabController,
+      indicatorSize: TabBarIndicatorSize.tab,
+      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+        fontWeight: FontWeight.bold,
+      ),
       tabs: const [
         Tab(text: 'TOKENS'),
         Tab(text: 'NFTs'),
