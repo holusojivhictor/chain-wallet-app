@@ -1,5 +1,5 @@
-import 'package:chain_wallet_mobile/src/features/common/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/tiles/tiles.dart';
 import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -16,7 +16,7 @@ class ItemsListView<T extends Wallet> extends StatelessWidget {
 
   final List<T> items;
   final T selectedItem;
-  final EthereumChain chain;
+  final ChainType chain;
   final ItemScrollController itemScrollController;
   final void Function(T) onTap;
 

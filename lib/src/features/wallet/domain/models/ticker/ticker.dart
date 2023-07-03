@@ -8,10 +8,10 @@ class Ticker extends Equatable {
     required this.price,
   });
 
-  Ticker.fromResponse(TickerResponse response)
-      : time = response.time,
-        productId = response.productId,
-        price = response.price;
+  Ticker.fromResponse(WebSocketResponse response)
+      : time = response is TickerResponse ? response.time : null,
+        productId = response is TickerResponse ? response.productId : null,
+        price = response is TickerResponse ? response.price : null;
 
   Ticker copyWith({
     DateTime? time,

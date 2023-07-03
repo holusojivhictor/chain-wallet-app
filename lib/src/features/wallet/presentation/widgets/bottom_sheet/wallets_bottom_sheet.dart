@@ -1,4 +1,3 @@
-import 'package:chain_wallet_mobile/src/features/common/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/bottom_sheets/bottom_sheets.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/bottom_sheets/modal_sheet_separator.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/buttons/primary_button.dart';
@@ -6,6 +5,7 @@ import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart
 import 'package:chain_wallet_mobile/src/features/common/presentation/styles.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/avatars/avatars.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/dialogs/network_dialog.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/lists/lists.dart';
@@ -35,7 +35,17 @@ class _WalletsBottomSheetState extends State<WalletsBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    return BlocBuilder<WalletBloc, WalletState>(
+    return BlocConsumer<WalletBloc, WalletState>(
+      listenWhen: (prev, current) => prev.agentStatus != current.agentStatus,
+      listener: (ctx, state) {
+        if (state.agentStatus == AgentStatus.loaded) {
+          final event = WalletEvent.scroll(
+            itemScrollController: itemScrollController,
+            index: state.wallets.length - 1,
+          );
+          context.read<WalletBloc>().add(event);
+        }
+      },
       buildWhen: (prev, current) => prev.currentChain != current.currentChain,
       builder: (ctx, state) => ConstrainedBox(
         constraints: BoxConstraints(
@@ -69,7 +79,7 @@ class _WalletsBottomSheetState extends State<WalletsBottomSheet> {
 class _NetworkBar extends StatelessWidget {
   const _NetworkBar({required this.chain});
 
-  final EthereumChain chain;
+  final ChainType chain;
 
   @override
   Widget build(BuildContext context) {

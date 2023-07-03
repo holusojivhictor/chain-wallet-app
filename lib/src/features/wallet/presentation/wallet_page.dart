@@ -15,7 +15,6 @@ class WalletPage extends StatefulWidget {
 
 class _WalletPageState extends State<WalletPage>
     with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
-  bool _didChangeDependencies = false;
   late final TabController tabController;
 
   static const int tabLength = 2;
@@ -24,14 +23,6 @@ class _WalletPageState extends State<WalletPage>
   void initState() {
     super.initState();
     tabController = TabController(length: tabLength, vsync: this);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_didChangeDependencies) return;
-    _didChangeDependencies = true;
-    context.read<WalletBloc>().add(const WalletEvent.loadBalance());
   }
 
   @override
@@ -74,8 +65,8 @@ class _WalletPageState extends State<WalletPage>
                   chain: state.currentChain,
                   forceElevated: false,
                   tabController: tabController,
-                  expandedHeight: size.screenSize.height * 0.2,
-                  collapsedHeight: size.screenSize.height * 0.2,
+                  expandedHeight: size.screenSize.height * 0.28,
+                  collapsedHeight: size.screenSize.height * 0.28,
                 ),
               ),
               SliverFillRemaining(
@@ -83,10 +74,12 @@ class _WalletPageState extends State<WalletPage>
                   controller: tabController,
                   children: [
                     TokensList(
-                      tickers: state.tickers,
+                      tokens: state.tokensByChain[state.currentChain]!,
+                      tickerById: state.tickerById,
                     ),
                     TokensList(
-                      tickers: state.tickers,
+                      tokens: state.tokensByChain[state.currentChain]!,
+                      tickerById: state.tickerById,
                     ),
                   ],
                 ),

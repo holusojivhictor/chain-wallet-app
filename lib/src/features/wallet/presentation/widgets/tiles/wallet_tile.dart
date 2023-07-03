@@ -1,6 +1,6 @@
 import 'package:chain_wallet_mobile/src/extensions/extensions.dart';
-import 'package:chain_wallet_mobile/src/features/common/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/avatars/avatars.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class WalletTile extends StatelessWidget {
 
   final Wallet wallet;
   final VoidCallback onTap;
-  final EthereumChain chain;
+  final ChainType chain;
   final bool selected;
 
   @override

@@ -46,7 +46,7 @@ class NetworkDialog extends StatelessWidget {
       content: SizedBox(
         width: mediaQuery.size.width / 1.15,
         height: mediaQuery.heightForDialog(
-          EthereumChain.values.length + 3,
+          ChainType.values.length + 3,
           maxHeight: 350,
         ),
         child: BlocBuilder<WalletBloc, WalletState>(
@@ -54,9 +54,9 @@ class NetworkDialog extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                CommonChoiceList<EthereumChain>(
+                CommonChoiceList<ChainType>(
                   selectedValue: state.currentChain,
-                  values: EthereumChain.values,
+                  values: ChainType.values,
                   choiceText: (val, _) => val.label,
                   onSelected: (v) {
                     context

@@ -12,7 +12,7 @@ class BalanceTile extends StatelessWidget {
 
   final double balance;
   final double nativeBalance;
-  final EthereumChain chain;
+  final ChainType chain;
 
   @override
   Widget build(BuildContext context) {

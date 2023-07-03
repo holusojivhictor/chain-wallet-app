@@ -6,7 +6,7 @@ abstract class WalletService {
 
   Future<double> fetchBalance(String addr);
 
-  Stream<Ticker> fetchTickerStream();
+  Stream<Ticker> fetchTickerStream(List<String> ids);
 
   Future<void> createAgent();
 

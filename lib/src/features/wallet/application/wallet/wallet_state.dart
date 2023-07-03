@@ -1,11 +1,5 @@
 part of 'wallet_bloc.dart';
 
-enum TickerStatus {
-  initial,
-  loading,
-  loaded,
-}
-
 enum BalanceStatus {
   initial,
   loading,
@@ -24,7 +18,8 @@ class WalletState extends Equatable {
   const WalletState({
     required this.wallets,
     required this.tickers,
-    required this.tickerStatus,
+    required this.tokensByChain,
+    required this.tickerById,
     required this.balanceStatus,
     required this.agentStatus,
     required this.currentChain,
@@ -36,20 +31,26 @@ class WalletState extends Equatable {
   const WalletState.init()
       : wallets = const <Wallet>[],
         tickers = const <Ticker>[],
-        tickerStatus = TickerStatus.initial,
+        tokensByChain = const <ChainType, List<Token>>{
+          ChainType.mainnet: <Token>[],
+          ChainType.goerli: <Token>[],
+          ChainType.sepolia: <Token>[],
+        },
+        tickerById = const <String, Ticker>{},
         balanceStatus = BalanceStatus.initial,
         agentStatus = AgentStatus.idle,
-        currentChain = EthereumChain.goerli,
+        currentChain = ChainType.goerli,
         activeWallet = const Wallet.empty(),
         activeIndex = 0,
         latestPrice = zero;
 
   final List<Wallet> wallets;
   final List<Ticker> tickers;
-  final TickerStatus tickerStatus;
+  final Map<ChainType, List<Token>> tokensByChain;
+  final Map<String, Ticker> tickerById;
   final BalanceStatus balanceStatus;
   final AgentStatus agentStatus;
-  final EthereumChain currentChain;
+  final ChainType currentChain;
   final Wallet activeWallet;
   final int activeIndex;
   final double latestPrice;
@@ -57,10 +58,11 @@ class WalletState extends Equatable {
   WalletState copyWith({
     List<Wallet>? wallets,
     List<Ticker>? tickers,
-    TickerStatus? tickerStatus,
+    Map<ChainType, List<Token>>? tokensByChain,
+    Map<String, Ticker>? tickerById,
     BalanceStatus? balanceStatus,
     AgentStatus? agentStatus,
-    EthereumChain? currentChain,
+    ChainType? currentChain,
     Wallet? activeWallet,
     int? activeIndex,
     double? latestPrice,
@@ -68,7 +70,8 @@ class WalletState extends Equatable {
     return WalletState(
       wallets: wallets ?? this.wallets,
       tickers: tickers ?? this.tickers,
-      tickerStatus: tickerStatus ?? this.tickerStatus,
+      tokensByChain: tokensByChain ?? this.tokensByChain,
+      tickerById: tickerById ?? this.tickerById,
       balanceStatus: balanceStatus ?? this.balanceStatus,
       agentStatus: agentStatus ?? this.agentStatus,
       currentChain: currentChain ?? this.currentChain,
@@ -85,6 +88,30 @@ class WalletState extends Equatable {
 
     return copyWith(
       wallets: newList,
+    );
+  }
+
+  WalletState copyWithTokenAdded({
+    required ChainType type,
+    required Token token,
+  }) {
+    final newMap = Map<ChainType, List<Token>>.from(tokensByChain);
+    newMap[type] = List<Token>.from(newMap[type]!)..add(token);
+
+    return copyWith(
+      tokensByChain: newMap,
+    );
+  }
+
+  WalletState copyWithTickerUpdated({
+    required String productId,
+    required Ticker ticker,
+  }) {
+    final newMap = Map<String, Ticker>.from(tickerById);
+    newMap[productId] = ticker;
+
+    return copyWith(
+      tickerById: newMap,
     );
   }
 
@@ -167,7 +194,8 @@ class WalletState extends Equatable {
   List<Object?> get props => <Object?>[
     wallets,
     tickers,
-    tickerStatus,
+    tokensByChain,
+    tickerById,
     balanceStatus,
     agentStatus,
     currentChain,

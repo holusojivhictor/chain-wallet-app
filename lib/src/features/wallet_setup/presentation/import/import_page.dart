@@ -78,7 +78,7 @@ class _PortraitLayout extends StatelessWidget {
         actionText: s.close,
       );
     } else if (event is ImportSuccess) {
-      context.read<WalletBloc>().add(const WalletEvent.init(import: true));
+      context.read<WalletBloc>().add(const WalletEvent.init(startUp: true));
 
       DialogUtils.showPrimaryDialog(
         context,

@@ -2,6 +2,7 @@ import 'package:chain_wallet_mobile/src/extensions/string_extensions.dart';
 import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/navigation_bar/navigation_bar.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:chain_wallet_mobile/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,16 @@ class MobileScaffold extends StatefulWidget {
 }
 
 class _MobileScaffoldState extends State<MobileScaffold> {
+  bool _didChangeDependencies = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didChangeDependencies) return;
+    _didChangeDependencies = true;
+    context.read<WalletBloc>().add(const WalletEvent.loadBalance());
+  }
+
   DateTime? backButtonPressTime;
 
   @override

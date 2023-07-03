@@ -1,5 +1,5 @@
-import 'package:chain_wallet_mobile/src/features/common/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/tab/custom_tab_bar.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/tiles/tiles.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class PersistedTopView extends SliverPersistentHeaderDelegate {
   });
 
   final Wallet wallet;
-  final EthereumChain chain;
+  final ChainType chain;
   final double? elevation;
   final bool forceElevated;
   final double? expandedHeight;
@@ -62,7 +62,7 @@ class _TopView extends StatelessWidget implements PreferredSizeWidget {
   });
 
   final Wallet wallet;
-  final EthereumChain chain;
+  final ChainType chain;
   final double maxHeight;
   final TabController tabController;
 
@@ -84,6 +84,7 @@ class _TopView extends StatelessWidget implements PreferredSizeWidget {
                 nativeBalance: wallet.native,
                 chain: chain,
               ),
+              const ActionTile(),
             ],
           ),
           CustomTabBar(

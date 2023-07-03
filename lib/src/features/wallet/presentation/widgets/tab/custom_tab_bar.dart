@@ -14,6 +14,7 @@ class CustomTabBar extends StatelessWidget {
       controller: tabController,
       indicatorSize: TabBarIndicatorSize.tab,
       labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+        fontSize: 13,
         fontWeight: FontWeight.bold,
       ),
       tabs: const [

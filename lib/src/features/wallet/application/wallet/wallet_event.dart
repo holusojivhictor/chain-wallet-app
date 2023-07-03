@@ -3,7 +3,7 @@ part of 'wallet_bloc.dart';
 @freezed
 class WalletEvent with _$WalletEvent {
   const factory WalletEvent.init({
-    @Default(false) bool import,
+    @Default(false) bool startUp,
   }) = _Init;
 
   const factory WalletEvent.loadBalance() = _LoadBalance;
@@ -14,6 +14,7 @@ class WalletEvent with _$WalletEvent {
 
   const factory WalletEvent.scroll({
     required ItemScrollController itemScrollController,
+    int? index,
   }) = _Scroll;
 
   const factory WalletEvent.refresh({
@@ -24,9 +25,14 @@ class WalletEvent with _$WalletEvent {
     required Wallet wallet,
   }) = _WalletLoaded;
 
-  const factory WalletEvent.tickersLoaded() = _TickersLoaded;
+  const factory WalletEvent.tokenLoaded({
+    required ChainType type,
+    required Token token,
+  }) = _TokenLoaded;
+
 
   const factory WalletEvent.tickerLoaded({
+    required String productId,
     required Ticker ticker,
   }) = _TickerLoaded;
 
@@ -45,7 +51,7 @@ class WalletEvent with _$WalletEvent {
   }) = _ActiveWalletChanged;
 
   const factory WalletEvent.networkChainChanged({
-    required EthereumChain newValue,
+    required ChainType newValue,
   }) = _NetworkChainChanged;
 
   const factory WalletEvent.walletUpdated({

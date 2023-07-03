@@ -1,10 +1,16 @@
 import 'package:hive/hive.dart';
 
-part 'wallet_account_item.g.dart';
+part 'wallet_item.g.dart';
 
 @HiveType(typeId: 0)
-class WalletAccountItem extends HiveObject {
-  WalletAccountItem(this.itemKey, this.name, this.address, this.type, this.avatar);
+class WalletItem extends HiveObject {
+  WalletItem(
+    this.itemKey,
+    this.name,
+    this.address,
+    this.type,
+    this.avatar,
+  );
 
   @HiveField(0)
   final int itemKey;

@@ -24,10 +24,10 @@ class CommonChoiceTile<T> extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return ListTile(
       visualDensity: const VisualDensity(vertical: 2, horizontal: 2),
-      leading: value is EthereumChain
+      leading: value is ChainType
           ? Padding(
               padding: const EdgeInsets.only(left: 10),
-              child: ChainAvatar(chain: value as EthereumChain),
+              child: ChainAvatar(chain: value as ChainType),
             )
           : null,
       title: Text(

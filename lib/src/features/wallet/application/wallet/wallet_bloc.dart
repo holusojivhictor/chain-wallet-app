@@ -1,8 +1,8 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:chain_wallet/chain_wallet.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
-import 'package:chain_wallet_mobile/src/features/common/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
@@ -32,8 +32,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     on<_CreateAgent>(_onCreateAgent);
     on<_CreateSubAgent>(_onCreateSubAgent);
     on<_TickerLoaded>(_onTickerLoaded);
-    on<_TickersLoaded>(_onTickersLoaded);
     on<_WalletLoaded>(_onWalletLoaded);
+    on<_TokenLoaded>(_onTokenLoaded);
     on<_BalanceLoading>(_onBalanceLoading);
     on<_BalanceLoaded>(_onBalanceLoaded);
     on<_AgentCreated>(_onAgentCreated);
@@ -48,22 +48,38 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
   final AuthService _authService;
   final WalletService _walletService;
 
+  StreamSubscription<Ticker>? _streamSubscription;
+
   Future<void> _onInit(_Init event, Emitter<WalletState> emit) async {
     await _walletService.connect();
     final preferences = _preferenceService.preferences;
     emit(state.copyWith(currentChain: preferences.chain));
 
-    if (event.import) {
-      await _saveWalletsFromNetwork();
-      _loadLocalWallets();
+    if (event.startUp) {
+      await _init();
+      _initDatabase();
     } else {
-      _loadLocalWallets();
+      _initDatabase();
     }
+  }
 
-    _loadTickers();
+  Future<void> _init() async {
+    await Future.wait([
+      _saveWalletsFromNetwork(),
+      _saveEthTokens(),
+    ]);
+  }
+
+  void _initDatabase() {
+    _loadLocalWallets();
+    for (final type in ChainType.values) {
+      _loadTokens(type: type);
+    }
   }
 
   Future<void> _onLoadBalance(_LoadBalance event, Emitter<WalletState> emit) {
+    _loadTickers();
+
     return _loadBalance();
   }
 
@@ -76,20 +92,23 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     add(WalletEvent.activeWalletChanged(key: prefs.activeWalletId, init: true));
   }
 
-  Future<void> _saveWalletsFromNetwork() async {
-    final addresses = await _walletService.addressesFromNetwork();
-    if (addresses.isNotEmpty) {
-      for (final address in addresses) {
-        await _dataService.saveWallet(AccountType.agent, address.hex);
+  void _loadTokens({required ChainType type}) {
+    final tokens = _dataService.getTokens();
+    for (final token in tokens) {
+      if (token.chainId == BigInt.from(type.id)) {
+        add(WalletEvent.tokenLoaded(type: type, token: token));
       }
     }
   }
 
   void _loadTickers() {
-    _walletService
-        .fetchTickerStream()
-        .listen((ticker) => add(WalletEvent.tickerLoaded(ticker: ticker)))
-        .onDone(() => add(const WalletEvent.tickersLoaded()));
+    final ids = state.tokensByChain[state.currentChain]!
+        .map((e) => e.productId)
+        .toList();
+
+    _streamSubscription = _walletService
+        .fetchTickerStream(ids)
+        .listen(_onTickerFetched)..onDone(_onDone);
   }
 
   Future<void> _loadBalance() async {
@@ -110,20 +129,16 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     }
   }
 
-  Future<void> _updateActive() async {
-    add(const WalletEvent.balanceLoading());
-    final active = state.activeWallet.address;
-    final balance = await _walletService.fetchBalance(active);
-    return add(WalletEvent.walletUpdated(balance: balance));
-  }
-
   Future<void> _onRefresh(_Refresh event, Emitter<WalletState> emit) async {
     emit(state.copyWithRefreshed());
+    await _streamSubscription?.cancel();
+
     if (event.init) {
       await _authService.initChainClient();
     }
 
     await _loadBalance();
+    _loadTickers();
   }
 
   Future<void> _onCreateAgent(_CreateAgent event, Emitter<WalletState> emit) {
@@ -140,11 +155,12 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
   }
 
   void _onTickerLoaded(_TickerLoaded event, Emitter<WalletState> emit) {
-    emit(state.copyWithTickerAdded(ticker: event.ticker));
-  }
-
-  void _onTickersLoaded(_TickersLoaded event, Emitter<WalletState> emit) {
-    emit(state.copyWith(tickerStatus: TickerStatus.loaded));
+    emit(
+      state.copyWithTickerUpdated(
+        productId: event.productId,
+        ticker: event.ticker,
+      ),
+    );
   }
 
   void _onWalletLoaded(_WalletLoaded event, Emitter<WalletState> emit) {
@@ -153,6 +169,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
 
   void _onWalletUpdated(_WalletUpdated event, Emitter<WalletState> emit) {
     emit(state.copyWithWalletUpdated(balance: event.balance));
+  }
+
+  void _onTokenLoaded(_TokenLoaded event, Emitter<WalletState> emit) {
+    emit(state.copyWithTokenAdded(type: event.type, token: event.token));
   }
 
   void _onBalanceLoading(_BalanceLoading event, Emitter<WalletState> emit) {
@@ -201,10 +221,51 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     final active = state.activeWallet;
     final index = state.wallets.indexWhere((e) => e.key == active.key);
     event.itemScrollController.scrollTo(
-      index: index,
+      index: event.index ?? index,
       alignment: 0.2,
       duration: const Duration(milliseconds: 200),
     );
+  }
+
+  Future<void> _saveWalletsFromNetwork() async {
+    final addresses = await _walletService.addressesFromNetwork();
+    if (addresses.isNotEmpty) {
+      for (final address in addresses) {
+        await _dataService.saveWallet(AccountType.agent, address.hex);
+      }
+    }
+  }
+
+  Future<void> _saveEthTokens() async {
+    for (final chain in ChainType.values) {
+      await _dataService.saveToken(
+        chain.name,
+        'ETH',
+        BigInt.from(chain.id),
+        BigInt.from(18),
+      );
+    }
+  }
+
+  Future<void> _updateActive() async {
+    add(const WalletEvent.balanceLoading());
+    final active = state.activeWallet.address;
+    final balance = await _walletService.fetchBalance(active);
+    return add(WalletEvent.walletUpdated(balance: balance));
+  }
+
+  void _onTickerFetched(Ticker ticker) {
+    add(
+      WalletEvent.tickerLoaded(
+        productId: ticker.productId ?? 'ETH-USD',
+        ticker: ticker,
+      ),
+    );
+  }
+
+  void _onDone() {
+    _streamSubscription?.cancel();
+    _streamSubscription = null;
   }
 
   @override
@@ -230,8 +291,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
   }
 
   @override
-  Future<void> close() {
+  Future<void> close() async {
     ChainWalletManager.instance.removeEventHandler('WalletEventListener');
+    await _streamSubscription?.cancel();
+    await _walletService.close();
     return super.close();
   }
 }
