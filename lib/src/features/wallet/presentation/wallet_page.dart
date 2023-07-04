@@ -1,6 +1,7 @@
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/app_bar/account_bar.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/tiles/tiles.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/lists/tokens_list.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/views/top_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -13,15 +14,21 @@ class WalletPage extends StatefulWidget {
 }
 
 class _WalletPageState extends State<WalletPage>
-    with AutomaticKeepAliveClientMixin {
-  bool _didChangeDependencies = false;
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
+  late final TabController tabController;
+
+  static const int tabLength = 2;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_didChangeDependencies) return;
-    _didChangeDependencies = true;
-    context.read<WalletBloc>().add(const WalletEvent.loadBalance());
+  void initState() {
+    super.initState();
+    tabController = TabController(length: tabLength, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -47,29 +54,36 @@ class _WalletPageState extends State<WalletPage>
         body: BlocConsumer<WalletBloc, WalletState>(
           listenWhen: (prev, curr) => prev.balanceStatus != curr.balanceStatus,
           listener: (_, state) {},
-          builder: (ctx, state) => ListView(
+          builder: (ctx, state) => CustomScrollView(
             physics: const NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              const SizedBox(height: 10),
-              AddressTile(address: state.activeWallet.address),
-              const SizedBox(height: 10),
-              BalanceTile(
-                balance: state.balance,
-                nativeBalance: state.nativeBalance,
-                chain: state.currentChain,
+            slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: PersistedTopView(
+                  elevation: 0,
+                  wallet: state.activeWallet,
+                  chain: state.currentChain,
+                  forceElevated: false,
+                  tabController: tabController,
+                  expandedHeight: size.screenSize.height * 0.28,
+                  collapsedHeight: size.screenSize.height * 0.28,
+                ),
               ),
-              ...state.tickers.map((e) {
-                return <Widget>[
-                  ListTile(
-                    title: Text(
-                      e.productId ?? 'Demo',
+              SliverFillRemaining(
+                child: TabBarView(
+                  controller: tabController,
+                  children: [
+                    TokensList(
+                      tokens: state.tokensByChain[state.currentChain]!,
+                      tickerById: state.tickerById,
                     ),
-                    subtitle: Text(
-                      '${e.price}',
+                    TokensList(
+                      tokens: state.tokensByChain[state.currentChain]!,
+                      tickerById: state.tickerById,
                     ),
-                  )
-                ];
-              }).expand((List<Widget> element) => element),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

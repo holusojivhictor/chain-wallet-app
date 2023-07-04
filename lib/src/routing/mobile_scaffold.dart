@@ -2,6 +2,7 @@ import 'package:chain_wallet_mobile/src/extensions/string_extensions.dart';
 import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/navigation_bar/navigation_bar.dart';
+import 'package:chain_wallet_mobile/src/features/common/presentation/styles.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:chain_wallet_mobile/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -28,12 +29,13 @@ class _MobileScaffoldState extends State<MobileScaffold> {
       child: Scaffold(
         body: widget.shell,
         bottomNavigationBar: AnimatedNavigationBar(
-          elevation: 0,
+          elevation: 15,
           iconSize: 22,
+          shape: Styles.navBorder,
           currentIndex: widget.shell.currentIndex,
           selectedItemColor: AppColors.variantBlack,
           unselectedItemColor: AppColors.variantGrey4,
-          backgroundColor: AppColors.secondary.withOpacity(0.6),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           onItemSelected: _goBranch,
           items: [
             NavigationBarItem(

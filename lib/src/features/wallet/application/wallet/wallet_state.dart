@@ -1,69 +1,80 @@
 part of 'wallet_bloc.dart';
 
-enum TickerStatus {
-  initial,
-  loading,
-  loaded,
-}
-
 enum BalanceStatus {
   initial,
   loading,
   loaded,
 }
 
+enum AgentStatus {
+  idle,
+  loading,
+  loaded,
+}
+
+const String ethProduct = 'ETH-USD';
 const double zero = 0;
 
 class WalletState extends Equatable {
   const WalletState({
     required this.wallets,
-    required this.tickers,
-    required this.tickerStatus,
+    required this.tokensByChain,
+    required this.tickerById,
     required this.balanceStatus,
+    required this.agentStatus,
     required this.currentChain,
     required this.activeWallet,
-    required this.balance,
-    required this.nativeBalance,
+    required this.activeIndex,
+    required this.latestPrice,
   });
 
   const WalletState.init()
       : wallets = const <Wallet>[],
-        tickers = const <Ticker>[],
-        tickerStatus = TickerStatus.initial,
+        tokensByChain = const <ChainType, List<Token>>{
+          ChainType.mainnet: <Token>[],
+          ChainType.goerli: <Token>[],
+          ChainType.sepolia: <Token>[],
+        },
+        tickerById = const <String, Ticker>{},
         balanceStatus = BalanceStatus.initial,
-        currentChain = EthereumChain.goerli,
+        agentStatus = AgentStatus.idle,
+        currentChain = ChainType.goerli,
         activeWallet = const Wallet.empty(),
-        balance = zero,
-        nativeBalance = zero;
+        activeIndex = 0,
+        latestPrice = zero;
 
   final List<Wallet> wallets;
-  final List<Ticker> tickers;
-  final TickerStatus tickerStatus;
+  final Map<ChainType, List<Token>> tokensByChain;
+  final Map<String, Ticker> tickerById;
   final BalanceStatus balanceStatus;
-  final EthereumChain currentChain;
+  final AgentStatus agentStatus;
+  final ChainType currentChain;
   final Wallet activeWallet;
-  final double balance;
-  final double nativeBalance;
+  final int activeIndex;
+  final double latestPrice;
 
   WalletState copyWith({
     List<Wallet>? wallets,
     List<Ticker>? tickers,
-    TickerStatus? tickerStatus,
+    Map<ChainType, List<Token>>? tokensByChain,
+    Map<String, Ticker>? tickerById,
     BalanceStatus? balanceStatus,
-    EthereumChain? currentChain,
+    AgentStatus? agentStatus,
+    ChainType? currentChain,
     Wallet? activeWallet,
-    double? balance,
-    double? nativeBalance,
+    int? activeIndex,
+    double? latestPrice,
   }) {
     return WalletState(
       wallets: wallets ?? this.wallets,
-      tickers: tickers ?? this.tickers,
-      tickerStatus: tickerStatus ?? this.tickerStatus,
+      tokensByChain: tokensByChain ?? this.tokensByChain,
+      tickerById: tickerById ?? this.tickerById,
       balanceStatus: balanceStatus ?? this.balanceStatus,
+      agentStatus: agentStatus ?? this.agentStatus,
       currentChain: currentChain ?? this.currentChain,
       activeWallet: activeWallet ?? this.activeWallet,
-      balance: balance ?? this.balance,
-      nativeBalance: nativeBalance ?? this.nativeBalance,
+      activeIndex: activeIndex ?? this.activeIndex,
+      latestPrice: latestPrice ?? this.latestPrice,
     );
   }
 
@@ -77,26 +88,28 @@ class WalletState extends Equatable {
     );
   }
 
-  WalletState copyWithTickerAdded({
+  WalletState copyWithTokenAdded({
+    required ChainType type,
+    required Token token,
+  }) {
+    final newMap = Map<ChainType, List<Token>>.from(tokensByChain);
+    newMap[type] = List<Token>.from(newMap[type]!)..add(token);
+
+    return copyWith(
+      tokensByChain: newMap,
+    );
+  }
+
+  WalletState copyWithTickerUpdated({
+    required String productId,
     required Ticker ticker,
   }) {
-    final newList = List<Ticker>.from(tickers);
-    var newBalance = nativeBalance;
-    final index = newList.indexWhere((el) => el.productId == ticker.productId);
+    final newMap = Map<String, Ticker>.from(tickerById);
+    newMap[productId] = ticker;
 
-    if (index.isNegative) {
-      newList.add(ticker);
-    } else {
-      newList
-        ..removeAt(index)
-        ..insert(index, ticker);
-      if (ticker.price != null) {
-        newBalance = balance * ticker.price!;
-      }
-    }
     return copyWith(
-      tickers: newList,
-      nativeBalance: newBalance,
+      tickerById: newMap,
+      latestPrice: newMap[ethProduct]?.price,
     );
   }
 
@@ -106,35 +119,66 @@ class WalletState extends Equatable {
     final active = wallets.firstWhere((el) => el.key == key);
     return copyWith(
       activeWallet: active,
+      activeIndex: wallets.indexOf(active),
+    );
+  }
+
+  WalletState copyWithWalletUpdated({
+    required double balance,
+  }) {
+    final walletList = List<Wallet>.from(wallets)
+      ..removeAt(activeIndex)
+      ..insert(
+        activeIndex,
+        activeWallet.copyWith(
+          balance: balance,
+          nativeBalance: balance * latestPrice,
+        ),
+      );
+
+    return copyWith(
+      wallets: walletList,
+      activeWallet: walletList.elementAt(activeIndex),
+      balanceStatus: BalanceStatus.loaded,
     );
   }
 
   WalletState copyWithBalanceUpdated({
+    required int index,
     required double balance,
   }) {
+    final walletList = List<Wallet>.from(wallets);
+    final wallet = walletList.elementAt(index);
+    walletList
+      ..removeAt(index)
+      ..insert(
+        index,
+        wallet.copyWith(
+          balance: balance,
+          nativeBalance: balance * latestPrice,
+        ),
+      );
+
     return copyWith(
-      balance: balance,
+      wallets: walletList,
       balanceStatus: BalanceStatus.loaded,
     );
   }
 
   WalletState copyWithRefreshed() {
-    return copyWith(
-      balance: zero,
-      nativeBalance: zero,
-      balanceStatus: BalanceStatus.loading,
-    );
+    return copyWith();
   }
 
   @override
   List<Object?> get props => <Object?>[
     wallets,
-    tickers,
-    tickerStatus,
+    tokensByChain,
+    tickerById,
     balanceStatus,
+    agentStatus,
     currentChain,
     activeWallet,
-    balance,
-    nativeBalance,
+    activeIndex,
+    latestPrice,
   ];
 }

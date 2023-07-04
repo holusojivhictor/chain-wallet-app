@@ -4,6 +4,7 @@ import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/services/services.dart';
+import 'package:chain_wallet_mobile/src/features/wallet_setup/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,7 @@ class ChainWalletApp extends StatelessWidget {
               preferenceService,
               authService,
               walletService,
+              getIt<AuthCubit>(),
             );
           },
         ),

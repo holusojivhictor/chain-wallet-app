@@ -14,6 +14,7 @@ class AnimatedNavigationBar extends StatefulWidget {
     this.unselectedIconTheme,
     this.currentIndex = 0,
     this.elevation,
+    this.shape,
     this.backgroundColor,
     this.useLegacyColorScheme = true,
   })  : assert(items.length >= 2, 'Length has to be greater than 1'),
@@ -31,6 +32,7 @@ class AnimatedNavigationBar extends StatefulWidget {
   final IconThemeData? unselectedIconTheme;
   final int currentIndex;
   final double? elevation;
+  final ShapeBorder? shape;
   final Color? backgroundColor;
   final bool useLegacyColorScheme;
 
@@ -187,6 +189,7 @@ class _AnimatedNavigationBarState extends State<AnimatedNavigationBar>
     return Semantics(
       explicitChildNodes: true,
       child: _Bar(
+        shape: widget.shape,
         elevation: widget.elevation ?? bottomTheme.elevation ?? 8.0,
         color: widget.backgroundColor ?? bottomTheme.backgroundColor,
         child: ConstrainedBox(
@@ -214,25 +217,22 @@ class _Bar extends StatelessWidget {
   const _Bar({
     required this.child,
     required this.elevation,
+    required this.shape,
     required this.color,
   });
 
   final Widget child;
   final double elevation;
+  final ShapeBorder? shape;
   final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(15),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30),
-        child: Material(
-          elevation: elevation,
-          color: color,
-          child: child,
-        ),
-      ),
+    return Material(
+      elevation: elevation,
+      shape: shape,
+      color: color,
+      child: child,
     );
   }
 }

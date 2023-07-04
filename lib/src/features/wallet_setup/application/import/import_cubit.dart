@@ -12,11 +12,11 @@ class ImportCubit extends Cubit<ImportState> with BlocPresentationMixin {
 
   final AuthService _authService;
 
-  static int get minPinLength => 4;
+  static int get pinLength => 6;
 
   static List<int> get acceptableLengths => [12, 15, 18, 21, 24];
 
-  bool _isPinValid(String value) => value.length == minPinLength;
+  bool _isPinValid(String value) => value.length == pinLength;
 
   bool _isConfirmPinValid(String value) => value == state.pin;
 

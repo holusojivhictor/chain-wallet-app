@@ -5,7 +5,7 @@ import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:chain_wallet_mobile/src/utils/modal_bottom_sheet_utils.dart';
 import 'package:flutter/material.dart';
 
-class AccountBarTile extends StatelessWidget {
+class AccountBarTile extends StatefulWidget {
   const AccountBarTile({
     required this.accountName,
     required this.avatarUrl,
@@ -18,16 +18,33 @@ class AccountBarTile extends StatelessWidget {
   final AccountType type;
 
   @override
+  State<AccountBarTile> createState() => _AccountBarTileState();
+}
+
+class _AccountBarTileState extends State<AccountBarTile>
+    with TickerProviderStateMixin {
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = BottomSheet.createAnimationController(this);
+    controller
+      ..duration = const Duration(milliseconds: 400)
+      ..reverseDuration = const Duration(milliseconds: 300);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final s = S.of(context);
     return ListTile(
       visualDensity: const VisualDensity(horizontal: -3, vertical: -1),
-      leading: WalletAvatar(avatarUrl: avatarUrl),
+      leading: WalletAvatar(avatarUrl: widget.avatarUrl),
       title: Row(
         children: [
           Text(
-            accountName,
+            widget.accountName,
             style: theme.textTheme.titleMedium,
           ),
           const SizedBox(width: 5),
@@ -37,17 +54,18 @@ class AccountBarTile extends StatelessWidget {
       subtitle: Row(
         children: [
           CircleAvatar(
-            backgroundColor: type.dot,
+            backgroundColor: widget.type.dot,
             radius: 3,
           ),
           const SizedBox(width: 5),
-          Text(s.translateAccountType(type)),
+          Text(s.translateAccountType(widget.type)),
         ],
       ),
       splashColor: theme.scaffoldBackgroundColor,
       onTap: () => ModalBottomSheetUtils.showAppModalBottomSheet(
         context,
         EndDrawerItemType.wallets,
+        controller: controller,
       ),
       trailing: InkResponse(
         onTap: () {},

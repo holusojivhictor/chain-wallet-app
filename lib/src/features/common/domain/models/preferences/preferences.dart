@@ -10,7 +10,7 @@ class Preferences with _$Preferences {
   factory Preferences({
     required AppThemeType appTheme,
     required AppLanguageType appLanguage,
-    required EthereumChain chain,
+    required ChainType chain,
     required bool useDarkMode,
     required bool isFirstInstall,
     required bool doubleBackToClose,

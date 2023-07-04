@@ -10,8 +10,8 @@ class DefaultTransitionPage<T> extends CustomTransitionPage<T> {
     super.key,
   }) : super(
           transitionsBuilder: _transitionsBuilder<T>,
-          transitionDuration: Duration.zero,
-          reverseTransitionDuration: Duration.zero,
+          transitionDuration: const Duration(milliseconds: 300),
+          reverseTransitionDuration: const Duration(milliseconds: 300),
         );
 
   static Widget _transitionsBuilder<T>(

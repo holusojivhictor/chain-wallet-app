@@ -26,7 +26,6 @@ class SvgAsset extends StatelessWidget {
       width: width,
       height: height,
       fit: fit,
-      color: color,
       alignment: alignment,
       semanticsLabel: image.split('.').first,
     );

@@ -1,56 +1,70 @@
 import 'dart:ui';
 
-enum EthereumChain {
+enum ChainType {
   mainnet(
-    'https://mainnet.infura.io/v3',
-    'wss://mainnet.infura.io/ws/v3',
+    1,
+    'Ethereum',
     'ETH',
   ),
   goerli(
-    'https://goerli.infura.io/v3',
-    'wss://goerli.infura.io/ws/v3',
+    5,
+    'GoerliETH',
     'GoerliETH',
   ),
   sepolia(
-    'https://sepolia.infura.io/v3',
-    'wss://sepolia.infura.io/ws/v3',
+    11155111,
+    'SepoliaETH',
     'SepoliaETH',
   );
 
-  const EthereumChain(this.rpcBase, this.wsBase, this.currency);
+  const ChainType(this.id, this.name, this.currency);
 
-  final String rpcBase;
-  final String wsBase;
+  final int id;
+  final String name;
   final String currency;
+
+  String get rpcBase {
+    switch (this) {
+      case ChainType.mainnet:
+        return 'https://mainnet.infura.io/v3';
+      case ChainType.goerli:
+        return 'https://goerli.infura.io/v3';
+      case ChainType.sepolia:
+        return 'https://sepolia.infura.io/v3';
+    }
+  }
+
+  String get wsBase {
+    switch (this) {
+      case ChainType.mainnet:
+        return 'wss://mainnet.infura.io/ws/v3';
+      case ChainType.goerli:
+        return 'wss://goerli.infura.io/ws/v3';
+      case ChainType.sepolia:
+        return 'wss://sepolia.infura.io/ws/v3';
+    }
+  }
 
   String get label {
     switch (this) {
-      case EthereumChain.mainnet:
+      case ChainType.mainnet:
         return 'Ethereum Main Network';
-      case EthereumChain.goerli:
+      case ChainType.goerli:
         return 'Goerli Test Network';
-      case EthereumChain.sepolia:
+      case ChainType.sepolia:
         return 'Sepolia Test Network';
     }
   }
 
-  String get avatar {
-    switch (this) {
-      case EthereumChain.mainnet:
-        return 'E';
-      case EthereumChain.goerli:
-      case EthereumChain.sepolia:
-        return name.substring(0, 1).toUpperCase();
-    }
-  }
+  String get avatar => currency.substring(0, 1).toUpperCase();
 
   Color get bgColor {
     switch (this) {
-      case EthereumChain.mainnet:
+      case ChainType.mainnet:
         return const Color(0xFF627EEB);
-      case EthereumChain.goerli:
+      case ChainType.goerli:
         return const Color(0xFF309AF2);
-      case EthereumChain.sepolia:
+      case ChainType.sepolia:
         return const Color(0xFFCEB5EF);
     }
   }

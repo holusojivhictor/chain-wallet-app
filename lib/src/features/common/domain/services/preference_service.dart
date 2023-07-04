@@ -21,9 +21,9 @@ abstract class PreferenceService {
 
   /// The network the client is currently connected to.
   ///
-  /// Default is [EthereumChain.mainnet].
-  EthereumChain get chain;
-  set chain(EthereumChain chain);
+  /// Default is [ChainType.mainnet].
+  ChainType get chain;
+  set chain(ChainType chain);
 
   /// Whether this is the app's first install.
   bool get isFirstInstall;

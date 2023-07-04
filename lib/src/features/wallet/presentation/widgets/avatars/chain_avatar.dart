@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ChainAvatar extends StatelessWidget {
   const ChainAvatar({required this.chain, super.key});
 
-  final EthereumChain chain;
+  final ChainType chain;
 
   @override
   Widget build(BuildContext context) {

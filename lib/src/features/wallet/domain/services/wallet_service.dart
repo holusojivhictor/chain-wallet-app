@@ -4,13 +4,15 @@ import 'package:web3dart/web3dart.dart';
 abstract class WalletService {
   Future<void> connect();
 
-  Future<EtherAmount> getBalance(String address);
+  Future<double> fetchBalance(String addr);
 
-  Stream<Ticker> fetchTickerStream();
+  Stream<Ticker> fetchTickerStream(List<String> ids);
 
   Future<void> createAgent();
 
   Future<void> createSubAgent();
+
+  Future<List<EthereumAddress>> addressesFromNetwork();
 
   Future<void> close();
 }

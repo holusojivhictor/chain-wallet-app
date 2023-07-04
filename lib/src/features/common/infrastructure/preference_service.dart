@@ -37,10 +37,10 @@ class PreferenceServiceImpl extends PreferenceService {
   set language(AppLanguageType lang) => _prefs.setInt(_appLanguageKey, lang.index);
 
   @override
-  EthereumChain get chain => EthereumChain.values[_prefs.getInt(_ethereumChainKey)!];
+  ChainType get chain => ChainType.values[_prefs.getInt(_ethereumChainKey)!];
 
   @override
-  set chain(EthereumChain chain) => _prefs.setInt(_ethereumChainKey, chain.index);
+  set chain(ChainType chain) => _prefs.setInt(_ethereumChainKey, chain.index);
 
   @override
   bool get isFirstInstall => _prefs.getBool(_isFirstInstallKey)!;
@@ -114,7 +114,7 @@ class PreferenceServiceImpl extends PreferenceService {
 
     if (_prefs.get(_ethereumChainKey) == null) {
       _logger.info(runtimeType, 'Ethereum network is set to mainnet as default');
-      chain = EthereumChain.goerli;
+      chain = ChainType.goerli;
     }
 
     if (_prefs.get(_activeWalletIdKey) == null) {

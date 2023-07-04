@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about": MessageLookupByLibrary.simpleMessage("About Chain Wallet"),
         "accounts": MessageLookupByLibrary.simpleMessage("Accounts"),
         "addNetwork": MessageLookupByLibrary.simpleMessage("Add a network"),
         "agent": MessageLookupByLibrary.simpleMessage("Agent Account"),
@@ -58,6 +59,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "dark": MessageLookupByLibrary.simpleMessage("Dark"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "finish": MessageLookupByLibrary.simpleMessage("Finish"),
+        "general": MessageLookupByLibrary.simpleMessage("General"),
+        "generalDescription": MessageLookupByLibrary.simpleMessage(
+            "Currency conversion, primary currency, language and theme"),
         "getStarted": MessageLookupByLibrary.simpleMessage("Get started"),
         "goHome": MessageLookupByLibrary.simpleMessage("Go Home"),
         "hide": MessageLookupByLibrary.simpleMessage("Hide"),
@@ -80,6 +84,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Make sure no one is watching your screen."),
         "master": MessageLookupByLibrary.simpleMessage("Master Account"),
         "networks": MessageLookupByLibrary.simpleMessage("Networks"),
+        "networksDescription": MessageLookupByLibrary.simpleMessage(
+            "Add and edit custom RPC networks"),
         "newPinHeader": MessageLookupByLibrary.simpleMessage("New Pin"),
         "newPinHint": MessageLookupByLibrary.simpleMessage("New pin"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
@@ -95,13 +101,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "pinNullError":
             MessageLookupByLibrary.simpleMessage("Please enter a pin"),
         "pinShortError":
-            MessageLookupByLibrary.simpleMessage("Pin must be 4 digits long"),
+            MessageLookupByLibrary.simpleMessage("Pin must be 6 digits long"),
         "portfolioControl": MessageLookupByLibrary.simpleMessage(
             "Complete control over your portfolio"),
         "portfolioControlDesc": MessageLookupByLibrary.simpleMessage(
             "Login with ChainWallet and make transactions to invest, earn, sell and more!"),
         "pressToExit":
             MessageLookupByLibrary.simpleMessage("Press once again to exit"),
+        "privacyDescription": MessageLookupByLibrary.simpleMessage(
+            "Privacy settings, private key and wallet Secret Recovery Phrase"),
         "recoveryPhaseShow": MessageLookupByLibrary.simpleMessage(
             "This is your seed phrase. Store it in a password manager or write it down on a paper and keep it in a safe place. You\'ll be asked to re-enter this phrase (in order) on the next step."),
         "secretPhraseHeader":
@@ -114,6 +122,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Your Secret Recovery Phrase makes it easy to back up and restore your account."),
         "secureWalletExtra": MessageLookupByLibrary.simpleMessage(
             "Don\'t risk losing your funds. protect your wallet by saving your Recovery Phrase in a place you trust. It\'s the only way to recover your wallet if you get locked out of the app or get a new device."),
+        "securityAndPrivacy":
+            MessageLookupByLibrary.simpleMessage("Security & Privacy"),
         "seedNullError": MessageLookupByLibrary.simpleMessage(
             "Secret recovery phrase cannot be empty"),
         "selectWordInOrder": MessageLookupByLibrary.simpleMessage(

@@ -11,14 +11,14 @@ class Config {
   static late String rpcUrl;
   static late String wsUrl;
 
-  void initConfig(EthereumChain chain) {
+  void initConfig(ChainType chain) {
     rpcUrl = _rpcUrl(chain);
     wsUrl = _wsUrl(chain);
   }
 
-  String _rpcUrl(EthereumChain chain) => '${chain.rpcBase}/${Env.infuraApiKey}';
+  String _rpcUrl(ChainType chain) => '${chain.rpcBase}/${Env.infuraApiKey}';
 
-  String _wsUrl(EthereumChain chain) => '${chain.wsBase}/${Env.infuraApiKey}';
+  String _wsUrl(ChainType chain) => '${chain.wsBase}/${Env.infuraApiKey}';
 
   static const String contractAddress = Env.contractAddress;
 

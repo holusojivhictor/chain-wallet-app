@@ -1,5 +1,8 @@
+import 'package:chain_wallet_mobile/src/config/injection.dart';
+import 'package:chain_wallet_mobile/src/extensions/extensions.dart';
 import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
+import 'package:chain_wallet_mobile/src/features/wallet_setup/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:chain_wallet_mobile/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
@@ -31,55 +34,50 @@ class _LockScreenViewState extends State<LockScreenView> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final s = S.of(context);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         body: Stack(
           children: [
             BlocBuilder<SettingsBloc, SettingsState>(
-              builder: (ctx, state) {
+              builder: (context, state) {
                 final useBiometric = state.unlockWithBiometrics;
-                return ScreenLock(
-                  correctString: widget.correctString,
-                  useBlur: false,
-                  onUnlocked: () {
-                    context.go(AppRoute.home.path);
+                return BlocConsumer<AuthCubit, AuthState>(
+                  bloc: getIt<AuthCubit>(),
+                  listenWhen: (prev, curr) => prev.appStatus != curr.appStatus,
+                  listener: (_, state) {
+                    if (state.appStatus == AppStatus.unlocked) {
+                      loading();
+                      context
+                          .read<WalletBloc>()
+                          .add(const WalletEvent.loadPrices());
+                    } else if (state.appStatus == AppStatus.busy) {
+                      context.go(AppRoute.home.path);
+                    }
                   },
-                  customizedButtonChild:
-                      useBiometric ? const Icon(Icons.fingerprint) : null,
-                  customizedButtonTap:
-                      useBiometric ? () async => localAuth(context, s) : null,
-                  onOpened:
-                      useBiometric ? () async => localAuth(context, s) : null,
+                  builder: (_, state) => ScreenLock(
+                    correctString: widget.correctString,
+                    useBlur: false,
+                    onUnlocked: () => getIt<AuthCubit>().unlock(),
+                    customizedButtonChild:
+                        useBiometric ? const Icon(Icons.fingerprint) : null,
+                    customizedButtonTap:
+                        useBiometric ? () async => localAuth() : null,
+                    onOpened: useBiometric ? () async => localAuth() : null,
+                  ),
                 );
               },
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 90,
-                  vertical: 10,
-                ),
-                child: Text(
-                  s.passcodeAddsSecurity,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodySmall!.copyWith(
-                    color: Colors.white,
-                    fontSize: 11,
-                  ),
-                ),
-              ),
-            ),
+            const _BottomText(),
           ],
         ),
       ),
     );
   }
 
-  Future<void> localAuth(BuildContext context, S s) async {
+  Future<void> localAuth() async {
+    final s = S.of(context);
+
     final auth = LocalAuthentication();
     try {
       final didAuthenticate = await auth.authenticate(
@@ -90,10 +88,36 @@ class _LockScreenViewState extends State<LockScreenView> {
         ),
       );
       if (didAuthenticate) {
-        if (context.mounted) {
-          context.go(AppRoute.home.path);
-        }
+        getIt<AuthCubit>().unlock();
       }
     } on PlatformException catch (_) {}
+  }
+}
+
+class _BottomText extends StatelessWidget {
+  const _BottomText();
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final s = S.of(context);
+
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 90,
+          vertical: 10,
+        ),
+        child: Text(
+          s.passcodeAddsSecurity,
+          textAlign: TextAlign.center,
+          style: textTheme.bodySmall!.copyWith(
+            color: Colors.white,
+            fontSize: 11,
+          ),
+        ),
+      ),
+    );
   }
 }

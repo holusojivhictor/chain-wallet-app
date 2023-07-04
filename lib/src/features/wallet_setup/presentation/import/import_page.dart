@@ -32,7 +32,7 @@ class _PortraitLayout extends StatelessWidget {
     final s = S.of(context);
     final theme = Theme.of(context);
     return BlocPresentationListener<ImportCubit>(
-      listener: refresh,
+      listener: listener,
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
@@ -67,7 +67,7 @@ class _PortraitLayout extends StatelessWidget {
     );
   }
 
-  void refresh(BuildContext context, BlocPresentationEvent event) {
+  void listener(BuildContext context, BlocPresentationEvent event) {
     final s = S.of(context);
 
     if (event is IncompletePhrase) {
@@ -78,7 +78,7 @@ class _PortraitLayout extends StatelessWidget {
         actionText: s.close,
       );
     } else if (event is ImportSuccess) {
-      context.read<WalletBloc>().add(const WalletEvent.init());
+      context.read<WalletBloc>().add(const WalletEvent.init(startUp: true));
 
       DialogUtils.showPrimaryDialog(
         context,
@@ -86,7 +86,7 @@ class _PortraitLayout extends StatelessWidget {
         s.setupSuccess,
         actionText: s.goHome,
         actionOnPressed: () {
-          context.go(AppRoute.home.path);
+          context.go(AppRoute.locked.path);
         },
       );
     }

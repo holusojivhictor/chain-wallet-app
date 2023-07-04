@@ -2,6 +2,8 @@ import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart
 import 'package:flutter/material.dart';
 
 class Styles {
+  const Styles._();
+
   static const edgeInsetAll16 = EdgeInsets.all(16);
   static const edgeInsetAll10 = EdgeInsets.all(10);
   static const edgeInsetAll7 = EdgeInsets.all(7);
@@ -32,6 +34,10 @@ class Styles {
   static const focusedFormFieldBorder = OutlineInputBorder(
     borderSide: BorderSide(color: AppColors.primary, width: 2),
     borderRadius: BorderRadius.all(Radius.circular(5)),
+  );
+
+  static const navBorder = Border(
+    top: BorderSide(color: AppColors.grey3),
   );
 
   static const chipCircularRadius = Radius.circular(8);
