@@ -14,9 +14,18 @@ class TokenTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return ListTile(
-      leading: const CircleAvatar(
-        backgroundColor: AppColors.secondary,
+      leading: CircleAvatar(
+        radius: 18,
+        backgroundColor: AppColors.grey4,
+        child: Text(
+          token.avatar,
+          style: textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.w500,
+          ),
+          textAlign: TextAlign.center,
+        ),
       ),
       title: Text(
         token.name,

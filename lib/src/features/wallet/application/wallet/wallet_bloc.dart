@@ -7,6 +7,7 @@ import 'package:chain_wallet_mobile/src/features/common/domain/services/services
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/services/services.dart';
+import 'package:chain_wallet_mobile/src/features/wallet_setup/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/services.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,13 +26,16 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     this._preferenceService,
     this._authService,
     this._walletService,
+    this._authCubit,
   ) : super(const WalletState.init()) {
     ChainWalletManager.instance.addEventHandler('WalletEventListener', this);
     on<_Init>(_onInit);
+    on<_LoadPrices>(_onLoadPrices);
     on<_LoadBalance>(_onLoadBalance);
     on<_CreateAgent>(_onCreateAgent);
     on<_CreateSubAgent>(_onCreateSubAgent);
     on<_TickerLoaded>(_onTickerLoaded);
+    on<_WalletsLoaded>(_onWalletsLoaded);
     on<_WalletLoaded>(_onWalletLoaded);
     on<_TokenLoaded>(_onTokenLoaded);
     on<_BalanceLoading>(_onBalanceLoading);
@@ -47,8 +51,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
   final PreferenceService _preferenceService;
   final AuthService _authService;
   final WalletService _walletService;
+  final AuthCubit _authCubit;
 
   StreamSubscription<Ticker>? _streamSubscription;
+  bool firstLoaded = true;
 
   Future<void> _onInit(_Init event, Emitter<WalletState> emit) async {
     await _walletService.connect();
@@ -56,14 +62,14 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     emit(state.copyWith(currentChain: preferences.chain));
 
     if (event.startUp) {
-      await _init();
+      await _restore();
       _initDatabase();
     } else {
       _initDatabase();
     }
   }
 
-  Future<void> _init() async {
+  Future<void> _restore() async {
     await Future.wait([
       _saveWalletsFromNetwork(),
       _saveEthTokens(),
@@ -77,17 +83,9 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     }
   }
 
-  Future<void> _onLoadBalance(_LoadBalance event, Emitter<WalletState> emit) {
-    _loadTickers();
-
-    return _loadBalance();
-  }
-
   void _loadLocalWallets() {
     final wallets = _dataService.getWallets();
-    for (final wallet in wallets) {
-      add(WalletEvent.walletLoaded(wallet: wallet));
-    }
+    add(WalletEvent.walletsLoaded(wallets: wallets));
     final prefs = _preferenceService.preferences;
     add(WalletEvent.activeWalletChanged(key: prefs.activeWalletId, init: true));
   }
@@ -99,6 +97,14 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
         add(WalletEvent.tokenLoaded(type: type, token: token));
       }
     }
+  }
+
+  void _onLoadPrices(_LoadPrices event, Emitter<WalletState> emit) {
+    _loadTickers();
+  }
+
+  Future<void> _onLoadBalance(_LoadBalance event, Emitter<WalletState> emit) {
+    return _loadBalance();
   }
 
   void _loadTickers() {
@@ -113,6 +119,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
 
   Future<void> _loadBalance() async {
     await _updateActive();
+    _authCubit.start();
     final addresses = state.wallets.map((e) => e.address).toList();
     for (final address in addresses) {
       final index = addresses.indexOf(address);
@@ -161,6 +168,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
         ticker: event.ticker,
       ),
     );
+  }
+
+  void _onWalletsLoaded(_WalletsLoaded event, Emitter<WalletState> emit) {
+    emit(state.copyWith(wallets: event.wallets));
   }
 
   void _onWalletLoaded(_WalletLoaded event, Emitter<WalletState> emit) {
@@ -240,7 +251,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     for (final chain in ChainType.values) {
       await _dataService.saveToken(
         chain.name,
-        'ETH',
+        ChainType.mainnet.currency,
         BigInt.from(chain.id),
         BigInt.from(18),
       );
@@ -255,9 +266,11 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
   }
 
   void _onTickerFetched(Ticker ticker) {
+    if (firstLoaded) add(const WalletEvent.loadBalance());
+    firstLoaded = false;
     add(
       WalletEvent.tickerLoaded(
-        productId: ticker.productId ?? 'ETH-USD',
+        productId: ticker.productId ?? ethProduct,
         ticker: ticker,
       ),
     );

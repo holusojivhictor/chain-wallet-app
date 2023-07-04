@@ -17,4 +17,12 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(status: AuthStatus.setup));
     }
   }
+
+  void unlock() {
+    emit(state.copyWith(appStatus: AppStatus.unlocked));
+  }
+
+  void start() {
+    emit(state.copyWith(appStatus: AppStatus.busy));
+  }
 }

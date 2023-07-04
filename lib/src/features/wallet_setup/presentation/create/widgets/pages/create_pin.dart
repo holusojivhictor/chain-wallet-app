@@ -19,6 +19,7 @@ class _CreatePinViewState extends State<CreatePinView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController pinController = TextEditingController();
   final TextEditingController confirmPinController = TextEditingController();
+  static const pinLength = 6;
   bool obscurePin = true;
   bool submitted = false;
 
@@ -47,7 +48,7 @@ class _CreatePinViewState extends State<CreatePinView> {
                   hintText: s.newPinHint,
                   autoValidate: submitted,
                   obscure: obscurePin,
-                  maxLength: 4,
+                  maxLength: pinLength,
                   hasTrailing: false,
                   trailing: GestureDetector(
                     onTap: () => setState(() => obscurePin = !obscurePin),
@@ -60,7 +61,7 @@ class _CreatePinViewState extends State<CreatePinView> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return s.pinNullError;
-                    } else if (value.length < 4) {
+                    } else if (value.length < pinLength) {
                       return s.pinShortError;
                     }
                     return null;
@@ -73,7 +74,7 @@ class _CreatePinViewState extends State<CreatePinView> {
                   hintText: s.confirmPinHint,
                   autoValidate: submitted,
                   obscure: obscurePin,
-                  maxLength: 4,
+                  maxLength: pinLength,
                   hasTrailing: false,
                   errorText: confirmPinErrorText,
                   validator: (value) {

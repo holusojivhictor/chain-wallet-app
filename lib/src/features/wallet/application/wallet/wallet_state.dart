@@ -12,12 +12,12 @@ enum AgentStatus {
   loaded,
 }
 
+const String ethProduct = 'ETH-USD';
 const double zero = 0;
 
 class WalletState extends Equatable {
   const WalletState({
     required this.wallets,
-    required this.tickers,
     required this.tokensByChain,
     required this.tickerById,
     required this.balanceStatus,
@@ -30,7 +30,6 @@ class WalletState extends Equatable {
 
   const WalletState.init()
       : wallets = const <Wallet>[],
-        tickers = const <Ticker>[],
         tokensByChain = const <ChainType, List<Token>>{
           ChainType.mainnet: <Token>[],
           ChainType.goerli: <Token>[],
@@ -45,7 +44,6 @@ class WalletState extends Equatable {
         latestPrice = zero;
 
   final List<Wallet> wallets;
-  final List<Ticker> tickers;
   final Map<ChainType, List<Token>> tokensByChain;
   final Map<String, Ticker> tickerById;
   final BalanceStatus balanceStatus;
@@ -69,7 +67,6 @@ class WalletState extends Equatable {
   }) {
     return WalletState(
       wallets: wallets ?? this.wallets,
-      tickers: tickers ?? this.tickers,
       tokensByChain: tokensByChain ?? this.tokensByChain,
       tickerById: tickerById ?? this.tickerById,
       balanceStatus: balanceStatus ?? this.balanceStatus,
@@ -112,25 +109,7 @@ class WalletState extends Equatable {
 
     return copyWith(
       tickerById: newMap,
-    );
-  }
-
-  WalletState copyWithTickerAdded({
-    required Ticker ticker,
-  }) {
-    final newList = List<Ticker>.from(tickers);
-    final index = newList.indexWhere((el) => el.productId == ticker.productId);
-
-    if (index.isNegative) {
-      newList.add(ticker);
-    } else {
-      newList
-        ..removeAt(index)
-        ..insert(index, ticker);
-    }
-    return copyWith(
-      tickers: newList,
-      latestPrice: ticker.price,
+      latestPrice: newMap[ethProduct]?.price,
     );
   }
 
@@ -193,7 +172,6 @@ class WalletState extends Equatable {
   @override
   List<Object?> get props => <Object?>[
     wallets,
-    tickers,
     tokensByChain,
     tickerById,
     balanceStatus,

@@ -53,7 +53,7 @@ class _ConfirmationSuccessViewState extends State<ConfirmationSuccessView> {
                 ),
                 text: s.finish,
                 onPressed: () {
-                  context.go(AppRoute.home.path);
+                  context.go(AppRoute.locked.path);
                 },
               ),
             ],

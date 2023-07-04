@@ -12,6 +12,7 @@ class CustomTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBar(
       controller: tabController,
+      indicatorWeight: 1.5,
       indicatorSize: TabBarIndicatorSize.tab,
       labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
         fontSize: 13,

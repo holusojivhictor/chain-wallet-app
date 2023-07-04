@@ -86,7 +86,7 @@ class _PortraitLayout extends StatelessWidget {
         s.setupSuccess,
         actionText: s.goHome,
         actionOnPressed: () {
-          context.go(AppRoute.home.path);
+          context.go(AppRoute.locked.path);
         },
       );
     }

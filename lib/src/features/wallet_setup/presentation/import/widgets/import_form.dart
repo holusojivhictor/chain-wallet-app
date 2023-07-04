@@ -73,7 +73,7 @@ class _ImportFormState extends State<ImportForm> {
             headerText: s.newPinHeader,
             hintText: s.newPinHint,
             obscure: obscurePin,
-            maxLength: ImportCubit.minPinLength,
+            maxLength: ImportCubit.pinLength,
             hasTrailing: false,
             trailing: GestureDetector(
               onTap: () => setState(() => obscurePin = !obscurePin),
@@ -100,7 +100,7 @@ class _ImportFormState extends State<ImportForm> {
             headerText: s.confirmPinHeader,
             hintText: s.confirmPinHint,
             obscure: obscurePin,
-            maxLength: ImportCubit.minPinLength,
+            maxLength: ImportCubit.pinLength,
             hasTrailing: false,
             suffixIcon: state.isConfirmPinValid ? const _CheckIcon() : null,
             errorText: !state.isConfirmPinValid && state.isConfirmPinDirty ? s.pinMatchError : null,

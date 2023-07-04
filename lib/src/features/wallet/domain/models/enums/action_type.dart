@@ -1,3 +1,4 @@
+import 'package:chain_wallet_mobile/src/features/common/domain/app_svgs.dart';
 import 'package:flutter/material.dart';
 
 enum ActionType {
@@ -5,14 +6,14 @@ enum ActionType {
   receive,
   swap;
 
-  IconData get icon {
+  Widget get icon {
     switch(this) {
       case ActionType.send:
-        return Icons.eco_outlined;
+        return AppSvgs.send;
       case ActionType.receive:
-        return Icons.wallet;
+        return AppSvgs.card;
       case ActionType.swap:
-        return Icons.icecream_outlined;
+        return AppSvgs.ethereum;
     }
   }
 

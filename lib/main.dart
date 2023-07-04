@@ -3,11 +3,13 @@ import 'package:chain_wallet_mobile/src/config/injection.dart';
 import 'package:chain_wallet_mobile/src/extensions/extensions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   registerErrorHandlers();
   await Injection.init();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(const ChainWalletApp());
 }
@@ -32,5 +34,3 @@ void registerErrorHandlers() {
     );
   };
 }
-
-

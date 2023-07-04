@@ -27,6 +27,8 @@ class Token extends Equatable {
 
   String get productId => '$symbol-USD';
 
+  String get avatar => name.substring(0, 1);
+
   @override
   List<Object?> get props => <Object?>[
     key,

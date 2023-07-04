@@ -6,6 +6,8 @@ class WalletEvent with _$WalletEvent {
     @Default(false) bool startUp,
   }) = _Init;
 
+  const factory WalletEvent.loadPrices() = _LoadPrices;
+
   const factory WalletEvent.loadBalance() = _LoadBalance;
 
   const factory WalletEvent.createAgent() = _CreateAgent;
@@ -20,6 +22,10 @@ class WalletEvent with _$WalletEvent {
   const factory WalletEvent.refresh({
     @Default(false) bool init,
   }) = _Refresh;
+
+  const factory WalletEvent.walletsLoaded({
+    required List<Wallet> wallets,
+  }) = _WalletsLoaded;
 
   const factory WalletEvent.walletLoaded({
     required Wallet wallet,

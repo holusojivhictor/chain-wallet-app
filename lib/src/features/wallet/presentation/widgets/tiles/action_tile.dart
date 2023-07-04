@@ -1,6 +1,7 @@
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ActionTile extends StatelessWidget {
   const ActionTile({super.key});
@@ -20,7 +21,9 @@ class ActionTile extends StatelessWidget {
     );
   }
 
-  void onActionTapped(ActionType type) {}
+  void onActionTapped(ActionType type) {
+    HapticFeedback.selectionClick();
+  }
 }
 
 class ActionButton extends StatelessWidget {
@@ -35,6 +38,7 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.only(
         top: 20,
@@ -53,14 +57,20 @@ class ActionButton extends StatelessWidget {
                 padding: const EdgeInsets.all(2),
                 child: CircleAvatar(
                   radius: 25,
-                  backgroundColor: AppColors.secondary.withOpacity(0.7),
-                  child: Icon(type.icon, color: AppColors.grey8),
+                  backgroundColor: AppColors.grey4,
+                  child: type.icon,
                 ),
               ),
             ),
           ),
           const SizedBox(height: 5),
-          Text(type.label),
+          Text(
+            type.label,
+            style: textTheme.bodyMedium!.copyWith(
+              fontSize: 13,
+              letterSpacing: 0.05,
+            ),
+          ),
         ],
       ),
     );

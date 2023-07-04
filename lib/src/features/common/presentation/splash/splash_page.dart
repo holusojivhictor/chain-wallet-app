@@ -16,7 +16,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 3000), () {
-      if (mounted) getIt<AuthCubit>().init();
+      getIt<AuthCubit>().init();
     });
   }
 

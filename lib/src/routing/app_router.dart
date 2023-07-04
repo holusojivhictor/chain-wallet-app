@@ -4,6 +4,7 @@ import 'package:chain_wallet_mobile/src/features/common/presentation/lock_screen
 import 'package:chain_wallet_mobile/src/features/common/presentation/onboarding/onboarding_page.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/splash/splash_page.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/wallet_connect/wallet_connect_page.dart';
+import 'package:chain_wallet_mobile/src/features/settings/presentation/settings_page.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/wallet_page.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/services.dart';
@@ -157,7 +158,7 @@ class AppRouter {
                 name: AppRoute.settings.name,
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
-                  child: const Placeholder(),
+                  child: const SettingsPage(),
                 ),
               ),
             ],

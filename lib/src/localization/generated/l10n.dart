@@ -410,10 +410,10 @@ class S {
     );
   }
 
-  /// `Pin must be 4 digits long`
+  /// `Pin must be 6 digits long`
   String get pinShortError {
     return Intl.message(
-      'Pin must be 4 digits long',
+      'Pin must be 6 digits long',
       name: 'pinShortError',
       desc: '',
       args: [],
@@ -725,6 +725,66 @@ class S {
     return Intl.message(
       'Create a new account',
       name: 'createNewAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General`
+  String get general {
+    return Intl.message(
+      'General',
+      name: 'general',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Currency conversion, primary currency, language and theme`
+  String get generalDescription {
+    return Intl.message(
+      'Currency conversion, primary currency, language and theme',
+      name: 'generalDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Security & Privacy`
+  String get securityAndPrivacy {
+    return Intl.message(
+      'Security & Privacy',
+      name: 'securityAndPrivacy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy settings, private key and wallet Secret Recovery Phrase`
+  String get privacyDescription {
+    return Intl.message(
+      'Privacy settings, private key and wallet Secret Recovery Phrase',
+      name: 'privacyDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add and edit custom RPC networks`
+  String get networksDescription {
+    return Intl.message(
+      'Add and edit custom RPC networks',
+      name: 'networksDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About Chain Wallet`
+  String get about {
+    return Intl.message(
+      'About Chain Wallet',
+      name: 'about',
       desc: '',
       args: [],
     );
