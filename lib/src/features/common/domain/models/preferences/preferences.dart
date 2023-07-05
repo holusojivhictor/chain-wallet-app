@@ -11,6 +11,8 @@ class Preferences with _$Preferences {
     required AppThemeType appTheme,
     required AppLanguageType appLanguage,
     required ChainType chain,
+    required CurrencyType currency,
+    required PrimaryCurrency primary,
     required bool useDarkMode,
     required bool isFirstInstall,
     required bool doubleBackToClose,

@@ -182,14 +182,24 @@ class AppTheme {
 class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   const AppThemeExtension({
     required this.baseTextColor,
+    required this.navSelectedColor,
+    required this.navUnselectedColor,
   });
 
   final Color? baseTextColor;
+  final Color? navSelectedColor;
+  final Color? navUnselectedColor;
 
   @override
-  AppThemeExtension copyWith({Color? baseTextColor}) {
+  AppThemeExtension copyWith({
+    Color? baseTextColor,
+    Color? navSelectedColor,
+    Color? navUnselectedColor,
+  }) {
     return AppThemeExtension(
       baseTextColor: baseTextColor ?? this.baseTextColor,
+      navSelectedColor: navSelectedColor ?? this.navSelectedColor,
+      navUnselectedColor: navUnselectedColor ?? this.navUnselectedColor,
     );
   }
 
@@ -201,6 +211,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
 
     return AppThemeExtension(
       baseTextColor: Color.lerp(baseTextColor, other.baseTextColor, t),
+      navSelectedColor: Color.lerp(navSelectedColor, other.navSelectedColor, t),
+      navUnselectedColor: Color.lerp(navUnselectedColor, other.navUnselectedColor, t),
     );
   }
 }

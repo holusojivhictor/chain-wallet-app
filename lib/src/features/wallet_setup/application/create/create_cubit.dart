@@ -48,8 +48,9 @@ class CreateCubit extends Cubit<CreateState> with BlocPresentationMixin {
     emit(state.copyWith(loading: true));
     await _authService.savePasscode(pin);
 
-    await _authService.createMaster().then((_) {
+    await _authService.createMaster().then((_) async {
       init();
+      await _authService.fetchPasscode();
       emit(state.copyWith(loading: false));
     });
 

@@ -35,8 +35,7 @@ class _SplashPageState extends State<SplashPage> {
               children: <Widget>[
                 Text(
                   s.appName,
-                  style: theme.textTheme.headlineMedium!.copyWith(
-                    color: Colors.black,
+                  style: theme.textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: 32,
                   ),

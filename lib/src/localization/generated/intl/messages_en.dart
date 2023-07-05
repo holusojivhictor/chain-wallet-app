@@ -56,6 +56,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "createPinButton": MessageLookupByLibrary.simpleMessage("Create pin"),
         "createPinDesc": MessageLookupByLibrary.simpleMessage(
             "This will create a new wallet and a Secret Recovery Phrase."),
+        "currencyConversion":
+            MessageLookupByLibrary.simpleMessage("Currency Conversion"),
+        "currencyConversionDesc": MessageLookupByLibrary.simpleMessage(
+            "Display fiat values using a specific currency throughout the application."),
+        "currentLanguage":
+            MessageLookupByLibrary.simpleMessage("Current Language"),
+        "currentLanguageDesc": MessageLookupByLibrary.simpleMessage(
+            "Translate the application to a different supported language."),
         "dark": MessageLookupByLibrary.simpleMessage("Dark"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "finish": MessageLookupByLibrary.simpleMessage("Finish"),
@@ -108,6 +116,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Login with ChainWallet and make transactions to invest, earn, sell and more!"),
         "pressToExit":
             MessageLookupByLibrary.simpleMessage("Press once again to exit"),
+        "primaryCurrency":
+            MessageLookupByLibrary.simpleMessage("Primary Currency"),
+        "primaryCurrencyDesc": MessageLookupByLibrary.simpleMessage(
+            "Select Native to prioritize displaying values in the native currency of the chain (e.g. ETH). Select Fiat to prioritize displaying values in your selected fiat currency."),
         "privacyDescription": MessageLookupByLibrary.simpleMessage(
             "Privacy settings, private key and wallet Secret Recovery Phrase"),
         "recoveryPhaseShow": MessageLookupByLibrary.simpleMessage(
@@ -135,6 +147,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "start": MessageLookupByLibrary.simpleMessage("Start"),
         "tapToRevealPhrase": MessageLookupByLibrary.simpleMessage(
             "Tap to reveal your seed phrase"),
+        "themeMode": MessageLookupByLibrary.simpleMessage("System Theme"),
+        "themeModeDesc": MessageLookupByLibrary.simpleMessage(
+            "Follow the preferred theme mode of your device."),
+        "themeType": MessageLookupByLibrary.simpleMessage("Current Theme"),
+        "themeTypeDesc":
+            MessageLookupByLibrary.simpleMessage("Application appearance."),
         "view": MessageLookupByLibrary.simpleMessage("View"),
         "walletConnect": MessageLookupByLibrary.simpleMessage("Wallet connect"),
         "walletConnectDesc": MessageLookupByLibrary.simpleMessage(

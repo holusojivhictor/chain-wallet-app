@@ -12,6 +12,14 @@ class SettingsEvent with _$SettingsEvent {
     required AppLanguageType newValue,
   }) = _LanguageChanged;
 
+  const factory SettingsEvent.currencyChanged({
+    required CurrencyType newValue,
+  }) = _CurrencyChanged;
+
+  const factory SettingsEvent.primaryCurrencyChanged({
+    required PrimaryCurrency newValue,
+  }) = _PrimaryCurrencyChanged;
+
   const factory SettingsEvent.doubleBackToCloseChanged({
     required bool newValue,
   }) = _DoubleBackToCloseChanged;

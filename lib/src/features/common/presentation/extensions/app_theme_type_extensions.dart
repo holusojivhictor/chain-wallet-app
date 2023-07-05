@@ -1,4 +1,5 @@
 import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
+import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,8 @@ extension AppThemeTypeExtensions on AppThemeType {
       extensions: const <ThemeExtension<dynamic>>[
         AppThemeExtension(
           baseTextColor: Colors.black,
+          navSelectedColor: AppColors.variantBlack,
+          navUnselectedColor: AppColors.variantGrey4,
         ),
       ],
     );
@@ -26,7 +29,7 @@ extension AppThemeTypeExtensions on AppThemeType {
       useMaterial3: true,
       textSelectionTheme: const TextSelectionThemeData(cursorColor: Colors.white),
       brightness: Brightness.dark,
-      scaffoldBackgroundColor: const Color(0xFF000000),
+      scaffoldBackgroundColor: const Color(0xFF23272A),
       typography: AppTheme.appMaterialTypography,
       primaryTextTheme: AppTheme.appMaterialDarkPrimaryTextTheme,
       textTheme: AppTheme.appMaterialDarkTextTheme,
@@ -34,6 +37,8 @@ extension AppThemeTypeExtensions on AppThemeType {
       extensions: const <ThemeExtension<dynamic>>[
         AppThemeExtension(
           baseTextColor: Colors.white,
+          navSelectedColor: AppColors.white,
+          navUnselectedColor: AppColors.grey6,
         ),
       ],
     );

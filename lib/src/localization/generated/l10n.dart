@@ -790,6 +790,106 @@ class S {
     );
   }
 
+  /// `Currency Conversion`
+  String get currencyConversion {
+    return Intl.message(
+      'Currency Conversion',
+      name: 'currencyConversion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Display fiat values using a specific currency throughout the application.`
+  String get currencyConversionDesc {
+    return Intl.message(
+      'Display fiat values using a specific currency throughout the application.',
+      name: 'currencyConversionDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Primary Currency`
+  String get primaryCurrency {
+    return Intl.message(
+      'Primary Currency',
+      name: 'primaryCurrency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Native to prioritize displaying values in the native currency of the chain (e.g. ETH). Select Fiat to prioritize displaying values in your selected fiat currency.`
+  String get primaryCurrencyDesc {
+    return Intl.message(
+      'Select Native to prioritize displaying values in the native currency of the chain (e.g. ETH). Select Fiat to prioritize displaying values in your selected fiat currency.',
+      name: 'primaryCurrencyDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current Language`
+  String get currentLanguage {
+    return Intl.message(
+      'Current Language',
+      name: 'currentLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Translate the application to a different supported language.`
+  String get currentLanguageDesc {
+    return Intl.message(
+      'Translate the application to a different supported language.',
+      name: 'currentLanguageDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System Theme`
+  String get themeMode {
+    return Intl.message(
+      'System Theme',
+      name: 'themeMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Follow the preferred theme mode of your device.`
+  String get themeModeDesc {
+    return Intl.message(
+      'Follow the preferred theme mode of your device.',
+      name: 'themeModeDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current Theme`
+  String get themeType {
+    return Intl.message(
+      'Current Theme',
+      name: 'themeType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Application appearance.`
+  String get themeTypeDesc {
+    return Intl.message(
+      'Application appearance.',
+      name: 'themeTypeDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Home`
   String get home {
     return Intl.message(
