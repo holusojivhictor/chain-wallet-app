@@ -1,4 +1,5 @@
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
+import 'package:chain_wallet_mobile/src/features/common/presentation/styles.dart';
 import 'package:flutter/material.dart';
 
 class SettingButton extends StatelessWidget {
@@ -12,7 +13,7 @@ class SettingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: Styles.edgeInsetAll10,
       decoration: BoxDecoration(
         border: Border.all(width: 2, color: AppColors.grey5),
         borderRadius: BorderRadius.circular(5),

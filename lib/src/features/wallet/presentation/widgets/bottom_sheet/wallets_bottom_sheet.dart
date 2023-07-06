@@ -14,8 +14,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+const _selectionOnlyKey = 'selectionOnly';
+
 class WalletsBottomSheet extends StatefulWidget {
-  const WalletsBottomSheet({super.key});
+  const WalletsBottomSheet({
+    required this.selection,
+    super.key,
+  });
+
+  final bool selection;
+
+  static Map<String, dynamic> buildArgs({required bool selection}) {
+    return <String, dynamic>{_selectionOnlyKey: selection};
+  }
+
+  static Widget getWidgetFromArgs(
+    BuildContext context,
+    Map<String, dynamic> args,
+  ) {
+    assert(args.isNotEmpty, 'Invalid args');
+    final selection = args[_selectionOnlyKey] as bool;
+    return WalletsBottomSheet(selection: selection);
+  }
 
   @override
   State<WalletsBottomSheet> createState() => _WalletsBottomSheetState();
@@ -55,13 +75,15 @@ class _WalletsBottomSheetState extends State<WalletsBottomSheet> {
           children: [
             const ModalSheetSeparator(),
             const SizedBox(height: 5),
-            _NetworkBar(chain: state.currentChain),
+            if (!widget.selection)
+              _NetworkBar(chain: state.currentChain),
             BottomSheetTitle(title: s.accounts),
             WalletsListBar(
               itemScrollController: itemScrollController,
               onWalletTapped: onWalletTapped,
             ),
-            const _ButtonBar(),
+            if (!widget.selection)
+              const _ButtonBar(),
           ],
         ),
       ),

@@ -65,9 +65,6 @@ class Wallet extends Equatable {
     };
   }
 
-  String get shortAddress =>
-      '''${address.substring(0, address.length ~/ 4)}...${address.substring(address.length - 4)}''';
-
   double get walletBalance => balance ?? 0;
 
   double get native => nativeBalance ?? 0;

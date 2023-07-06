@@ -14,6 +14,9 @@ extension AppThemeTypeExtensions on AppThemeType {
       primaryTextTheme: AppTheme.appMaterialLightPrimaryTextTheme,
       textTheme: AppTheme.appMaterialLightTextTheme,
       colorScheme: AppTheme.appMaterialLightColorScheme,
+      dividerTheme: const DividerThemeData(
+        color: AppColors.grey4,
+      ),
       extensions: const <ThemeExtension<dynamic>>[
         AppThemeExtension(
           baseTextColor: Colors.black,
@@ -34,6 +37,9 @@ extension AppThemeTypeExtensions on AppThemeType {
       primaryTextTheme: AppTheme.appMaterialDarkPrimaryTextTheme,
       textTheme: AppTheme.appMaterialDarkTextTheme,
       colorScheme: AppTheme.appMaterialDarkColorScheme,
+      dividerTheme: const DividerThemeData(
+        color: AppColors.grey4,
+      ),
       extensions: const <ThemeExtension<dynamic>>[
         AppThemeExtension(
           baseTextColor: Colors.white,

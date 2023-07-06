@@ -25,11 +25,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "about": MessageLookupByLibrary.simpleMessage("About Chain Wallet"),
         "accounts": MessageLookupByLibrary.simpleMessage("Accounts"),
         "addNetwork": MessageLookupByLibrary.simpleMessage("Add a network"),
+        "addressHint": MessageLookupByLibrary.simpleMessage(
+            "Search, or public address (0x)"),
         "agent": MessageLookupByLibrary.simpleMessage("Agent Account"),
         "appName": MessageLookupByLibrary.simpleMessage("Chain Wallet"),
         "authenticateReason": MessageLookupByLibrary.simpleMessage(
             "Please authenticate in order to use ChainWallet"),
         "avatarLabel": MessageLookupByLibrary.simpleMessage("Wallet Avatar"),
+        "back": MessageLookupByLibrary.simpleMessage("Back"),
+        "balance": MessageLookupByLibrary.simpleMessage("Balance"),
         "biometricsUnlock":
             MessageLookupByLibrary.simpleMessage("Unlock with Biometrics?"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
@@ -46,6 +50,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Seed phrase confirmation successful"),
         "congratulations":
             MessageLookupByLibrary.simpleMessage("Congratulations!"),
+        "contacts": MessageLookupByLibrary.simpleMessage("Contacts"),
+        "contactsDescription": MessageLookupByLibrary.simpleMessage(
+            "Add, edit, remove and manage your contacts"),
         "copiedToClipboard": MessageLookupByLibrary.simpleMessage(
             "Public address copied to clipboard"),
         "createNewAccount":
@@ -67,6 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "dark": MessageLookupByLibrary.simpleMessage("Dark"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "finish": MessageLookupByLibrary.simpleMessage("Finish"),
+        "from": MessageLookupByLibrary.simpleMessage("From"),
         "general": MessageLookupByLibrary.simpleMessage("General"),
         "generalDescription": MessageLookupByLibrary.simpleMessage(
             "Currency conversion, primary currency, language and theme"),
@@ -87,6 +95,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Store and send your digital assets like tokens and ethereum privately."),
         "inputWordError": MessageLookupByLibrary.simpleMessage(
             "Select all three words in order"),
+        "invalidAddress": MessageLookupByLibrary.simpleMessage(
+            "Recipient address is invalid."),
         "light": MessageLookupByLibrary.simpleMessage("Light"),
         "makeSureNoOneIsAround": MessageLookupByLibrary.simpleMessage(
             "Make sure no one is watching your screen."),
@@ -140,6 +150,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Secret recovery phrase cannot be empty"),
         "selectWordInOrder": MessageLookupByLibrary.simpleMessage(
             "Select each word in the order it was presented to you"),
+        "sendTo": MessageLookupByLibrary.simpleMessage("Send to"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "setupSuccess": MessageLookupByLibrary.simpleMessage(
             "Wallet successfully setup! Click to navigate to the home page."),
@@ -153,6 +164,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "themeType": MessageLookupByLibrary.simpleMessage("Current Theme"),
         "themeTypeDesc":
             MessageLookupByLibrary.simpleMessage("Application appearance."),
+        "to": MessageLookupByLibrary.simpleMessage("To"),
         "view": MessageLookupByLibrary.simpleMessage("View"),
         "walletConnect": MessageLookupByLibrary.simpleMessage("Wallet connect"),
         "walletConnectDesc": MessageLookupByLibrary.simpleMessage(

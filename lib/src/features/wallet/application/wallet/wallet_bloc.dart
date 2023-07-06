@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:chain_wallet/chain_wallet.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/application/send/send_cubit.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/services/services.dart';
@@ -19,6 +20,8 @@ part 'wallet_bloc.freezed.dart';
 part 'wallet_event.dart';
 part 'wallet_state.dart';
 
+const String _identifier = 'WalletBlocListener';
+
 class WalletBloc extends Bloc<WalletEvent, WalletState>
     implements WalletEventHandler {
   WalletBloc(
@@ -27,8 +30,9 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     this._authService,
     this._walletService,
     this._authCubit,
+    this._sendCubit,
   ) : super(const WalletState.init()) {
-    ChainWalletManager.instance.addEventHandler('WalletEventListener', this);
+    ChainWalletManager.instance.addEventHandler(_identifier, this);
     on<_Init>(_onInit);
     on<_LoadPrices>(_onLoadPrices);
     on<_LoadBalance>(_onLoadBalance);
@@ -52,6 +56,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
   final AuthService _authService;
   final WalletService _walletService;
   final AuthCubit _authCubit;
+  final SendCubit _sendCubit;
 
   StreamSubscription<Ticker>? _streamSubscription;
   bool firstLoaded = true;
@@ -114,7 +119,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
 
     _streamSubscription = _walletService
         .fetchTickerStream(ids)
-        .listen(_onTickerFetched)..onDone(_onDone);
+        .listen(_onTickerFetched)
+      ..onDone(_onDone);
   }
 
   Future<void> _loadBalance() async {
@@ -226,6 +232,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     _preferenceService.chain = event.newValue;
     emit(state.copyWith(currentChain: event.newValue));
     add(const WalletEvent.refresh(init: true));
+    _sendCubit.init();
   }
 
   void _onScroll(_Scroll event, Emitter<WalletState> emit) {
@@ -305,7 +312,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
 
   @override
   Future<void> close() async {
-    ChainWalletManager.instance.removeEventHandler('WalletEventListener');
+    ChainWalletManager.instance.removeEventHandler(_identifier);
     await _streamSubscription?.cancel();
     await _walletService.close();
     return super.close();

@@ -1,6 +1,6 @@
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/tab/custom_tab_bar.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/tiles/custom_tab_bar.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/tiles/tiles.dart';
 import 'package:flutter/material.dart';
 
@@ -78,7 +78,7 @@ class _TopView extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Column(
             children: [
-              AddressTile(address: wallet.shortAddress),
+              AddressTile(address: wallet.address),
               BalanceTile(
                 balance: wallet.walletBalance,
                 nativeBalance: wallet.native,

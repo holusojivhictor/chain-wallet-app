@@ -1,6 +1,7 @@
 import 'package:chain_wallet_mobile/src/extensions/i18n_extensions.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/avatars/avatars.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/bottom_sheet/wallets_bottom_sheet.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:chain_wallet_mobile/src/utils/modal_bottom_sheet_utils.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,12 @@ class _AccountBarTileState extends State<AccountBarTile>
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final s = S.of(context);
@@ -66,6 +73,7 @@ class _AccountBarTileState extends State<AccountBarTile>
         context,
         EndDrawerItemType.wallets,
         controller: controller,
+        args: WalletsBottomSheet.buildArgs(selection: false),
       ),
       trailing: InkResponse(
         onTap: () {},

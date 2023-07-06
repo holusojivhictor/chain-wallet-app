@@ -1,11 +1,13 @@
 import 'package:chain_wallet_mobile/src/config/injection.dart';
 import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
+import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/lock_screen/lock_screen.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/onboarding/onboarding_page.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/splash/splash_page.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/wallet_connect/wallet_connect_page.dart';
 import 'package:chain_wallet_mobile/src/features/settings/presentation/settings_page.dart';
 import 'package:chain_wallet_mobile/src/features/settings/presentation/widgets/pages/pages.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/send/send_page.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/wallet_page.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/services.dart';
@@ -17,26 +19,6 @@ import 'package:chain_wallet_mobile/src/utils/utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-enum AppRoute {
-  splash('/splash'),
-  onboarding('/onboarding'),
-  connect('/connect'),
-  import('/import'),
-  create('/create'),
-  locked('/locked'),
-  home('/'),
-  transactions('/transactions'),
-  settings('/settings'),
-  general('/settings/general'),
-  security('/settings/security'),
-  networks('/settings/networks'),
-  about('/settings/about');
-
-  const AppRoute(this.path);
-
-  final String path;
-}
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -143,6 +125,17 @@ class AppRouter {
                   key: state.pageKey,
                   child: const WalletPage(),
                 ),
+                routes: [
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'send',
+                    name: AppRoute.send.name,
+                    pageBuilder: (context, state) => DefaultTransitionPage(
+                      key: state.pageKey,
+                      child: const SendPage(),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -186,6 +179,15 @@ class AppRouter {
                     pageBuilder: (context, state) => DefaultTransitionPage(
                       key: state.pageKey,
                       child: const SecurityView(),
+                    ),
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'contacts',
+                    name: AppRoute.contacts.name,
+                    pageBuilder: (context, state) => DefaultTransitionPage(
+                      key: state.pageKey,
+                      child: const ContactsView(),
                     ),
                   ),
                   GoRoute(

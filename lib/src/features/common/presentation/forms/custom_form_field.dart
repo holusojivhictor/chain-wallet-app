@@ -18,6 +18,7 @@ class CustomFormField extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.errorText,
+    this.hintStyle,
     this.maxLength,
     this.maxLines,
   });
@@ -31,6 +32,7 @@ class CustomFormField extends StatelessWidget {
   final Validator? validator;
   final OnChanged? onChanged;
   final String? errorText;
+  final TextStyle? hintStyle;
   final bool autoValidate;
   final int? maxLength;
   final int? maxLines;
@@ -53,17 +55,17 @@ class CustomFormField extends StatelessWidget {
       keyboardType: textInputType,
       maxLength: maxLength,
       decoration: InputDecoration(
-        counter: maxLength != null ? const Offstage() : null,
         isDense: false,
+        hintText: hintText,
+        counter: maxLength != null ? const Offstage() : null,
         contentPadding: Styles.formFieldPadding,
-        errorText: errorText,
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
         border: Styles.formFieldBorder,
         enabledBorder: Styles.formFieldBorder,
         focusedBorder: Styles.focusedFormFieldBorder,
-        hintText: hintText,
-        hintStyle: theme.textTheme.bodyLarge!
+        errorText: errorText,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+        hintStyle: hintStyle ?? theme.textTheme.bodyLarge!
             .copyWith(color: AppColors.grey5, fontSize: 15),
       ),
     );

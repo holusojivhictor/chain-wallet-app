@@ -1,5 +1,6 @@
 import 'package:chain_wallet_mobile/src/config/injection.dart';
-import 'package:chain_wallet_mobile/src/features/common/domain/app_svgs.dart';
+import 'package:chain_wallet_mobile/src/features/common/domain/assets.dart';
+import 'package:chain_wallet_mobile/src/features/common/presentation/images/svg_image.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,10 @@ class _SplashPageState extends State<SplashPage> {
             Positioned(
               bottom: 0,
               right: 0,
-              child: AppSvgs.floral,
+              child: SvgAsset(
+                image: Assets.getSvgPath('floral.svg'),
+                color: theme.canvasColor,
+              ),
             ),
           ],
         ),

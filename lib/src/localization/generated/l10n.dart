@@ -150,11 +150,41 @@ class S {
     );
   }
 
+  /// `To`
+  String get to {
+    return Intl.message(
+      'To',
+      name: 'to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `From`
+  String get from {
+    return Intl.message(
+      'From',
+      name: 'from',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Okay`
   String get okay {
     return Intl.message(
       'Okay',
       name: 'okay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back`
+  String get back {
+    return Intl.message(
+      'Back',
+      name: 'back',
       desc: '',
       args: [],
     );
@@ -730,6 +760,36 @@ class S {
     );
   }
 
+  /// `Send to`
+  String get sendTo {
+    return Intl.message(
+      'Send to',
+      name: 'sendTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search, or public address (0x)`
+  String get addressHint {
+    return Intl.message(
+      'Search, or public address (0x)',
+      name: 'addressHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recipient address is invalid.`
+  String get invalidAddress {
+    return Intl.message(
+      'Recipient address is invalid.',
+      name: 'invalidAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `General`
   String get general {
     return Intl.message(
@@ -765,6 +825,26 @@ class S {
     return Intl.message(
       'Privacy settings, private key and wallet Secret Recovery Phrase',
       name: 'privacyDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contacts`
+  String get contacts {
+    return Intl.message(
+      'Contacts',
+      name: 'contacts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add, edit, remove and manage your contacts`
+  String get contactsDescription {
+    return Intl.message(
+      'Add, edit, remove and manage your contacts',
+      name: 'contactsDescription',
       desc: '',
       args: [],
     );
@@ -885,6 +965,16 @@ class S {
     return Intl.message(
       'Application appearance.',
       name: 'themeTypeDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Balance`
+  String get balance {
+    return Intl.message(
+      'Balance',
+      name: 'balance',
       desc: '',
       args: [],
     );

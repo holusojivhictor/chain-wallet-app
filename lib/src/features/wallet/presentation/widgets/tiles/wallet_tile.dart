@@ -34,7 +34,7 @@ class WalletTile extends StatelessWidget {
       ),
       selected: selected,
       subtitle: Text(
-        wallet.shortAddress,
+        wallet.address.short,
         style: theme.textTheme.bodySmall,
       ),
       trailing: Column(

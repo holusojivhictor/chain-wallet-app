@@ -2,6 +2,13 @@ import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart
 import 'package:chain_wallet_mobile/src/features/common/presentation/styles.dart';
 import 'package:flutter/material.dart';
 
+const EdgeInsets _kPadding = EdgeInsets.only(
+  left: 16,
+  right: 16,
+  top: 16,
+  bottom: 8,
+);
+
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     required this.onPressed,
@@ -10,8 +17,7 @@ class PrimaryButton extends StatelessWidget {
     this.isPrimary = true,
     this.backgroundColor,
     this.contentPadding,
-    this.padding =
-        const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
+    this.padding = _kPadding,
     this.borderRadius = 30,
     this.hasLoading = false,
     this.enabled = true,

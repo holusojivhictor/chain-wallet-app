@@ -1,6 +1,6 @@
+import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/settings/presentation/widgets/tiles/settings_list_tile.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
-import 'package:chain_wallet_mobile/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,6 +22,11 @@ class SettingsView extends StatelessWidget {
           title: s.securityAndPrivacy,
           subtitle: s.privacyDescription,
           onTap: () => context.go(AppRoute.security.path),
+        ),
+        SettingsListTile(
+          title: s.contacts,
+          subtitle: s.contactsDescription,
+          onTap: () => context.go(AppRoute.contacts.path),
         ),
         SettingsListTile(
           title: s.networks,

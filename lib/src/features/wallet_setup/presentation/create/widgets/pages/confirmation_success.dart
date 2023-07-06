@@ -1,8 +1,8 @@
 import 'package:chain_wallet_mobile/src/features/common/domain/app_svgs.dart';
+import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/buttons/primary_button.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/text/padded_text.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
-import 'package:chain_wallet_mobile/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

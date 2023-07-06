@@ -32,6 +32,7 @@ class SecondaryDialog extends StatelessWidget {
       elevation: 10,
       alignment: Alignment.center,
       shape: Styles.alertDialogShape,
+      backgroundColor: theme.scaffoldBackgroundColor,
       surfaceTintColor: AppColors.tertiary,
       title: Text(
         titleText,

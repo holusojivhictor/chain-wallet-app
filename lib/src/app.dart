@@ -18,6 +18,12 @@ class ChainWalletApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (ctx) {
+            final preferenceService = getIt<PreferenceService>();
+            return SendCubit(preferenceService);
+          },
+        ),
+        BlocProvider(
+          create: (ctx) {
             final dataService = getIt<DataService>();
             final preferenceService = getIt<PreferenceService>();
             final authService = getIt<AuthService>();
@@ -28,6 +34,7 @@ class ChainWalletApp extends StatelessWidget {
               authService,
               walletService,
               getIt<AuthCubit>(),
+              ctx.read<SendCubit>(),
             );
           },
         ),

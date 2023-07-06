@@ -7,7 +7,8 @@ class SvgAsset extends StatelessWidget {
     super.key,
     this.width,
     this.height,
-    this.color,
+    this.fontSize = 14,
+    this.color = const Color(0xFF000000),
     this.fit = BoxFit.scaleDown,
     this.alignment = Alignment.center,
   });
@@ -15,8 +16,9 @@ class SvgAsset extends StatelessWidget {
   final String image;
   final double? width;
   final double? height;
+  final double fontSize;
   final BoxFit fit;
-  final Color? color;
+  final Color color;
   final AlignmentGeometry alignment;
 
   @override
@@ -28,6 +30,7 @@ class SvgAsset extends StatelessWidget {
       fit: fit,
       alignment: alignment,
       semanticsLabel: image.split('.').first,
+      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
   }
 }
