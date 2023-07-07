@@ -760,11 +760,41 @@ class S {
     );
   }
 
+  /// `Send`
+  String get send {
+    return Intl.message(
+      'Send',
+      name: 'send',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Send to`
   String get sendTo {
     return Intl.message(
       'Send to',
       name: 'sendTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get amount {
+    return Intl.message(
+      'Amount',
+      name: 'amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'confirm',
       desc: '',
       args: [],
     );
@@ -785,6 +815,26 @@ class S {
     return Intl.message(
       'Recipient address is invalid.',
       name: 'invalidAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid amount.`
+  String get invalidAmount {
+    return Intl.message(
+      'Invalid amount.',
+      name: 'invalidAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Insufficient funds.`
+  String get insufficientFunds {
+    return Intl.message(
+      'Insufficient funds.',
+      name: 'insufficientFunds',
       desc: '',
       args: [],
     );
@@ -1005,6 +1055,16 @@ class S {
     return Intl.message(
       'Settings',
       name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `USE MAX`
+  String get useMax {
+    return Intl.message(
+      'USE MAX',
+      name: 'useMax',
       desc: '',
       args: [],
     );

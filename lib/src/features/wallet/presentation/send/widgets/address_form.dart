@@ -1,7 +1,7 @@
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/send/widgets/form/account_button.dart';
-import 'package:chain_wallet_mobile/src/features/wallet/presentation/send/widgets/form/address_form_field.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/send/widgets/account_button.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/send/widgets/address_form_field.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

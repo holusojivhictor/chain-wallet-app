@@ -7,6 +7,8 @@ import 'package:chain_wallet_mobile/src/features/common/presentation/splash/spla
 import 'package:chain_wallet_mobile/src/features/common/presentation/wallet_connect/wallet_connect_page.dart';
 import 'package:chain_wallet_mobile/src/features/settings/presentation/settings_page.dart';
 import 'package:chain_wallet_mobile/src/features/settings/presentation/widgets/pages/pages.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/amount/amount_page.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/confirm/confirm_page.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/send/send_page.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/wallet_page.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/application/bloc.dart';
@@ -134,6 +136,28 @@ class AppRouter {
                       key: state.pageKey,
                       child: const SendPage(),
                     ),
+                    routes: [
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        path: 'amount',
+                        name: AppRoute.amount.name,
+                        pageBuilder: (context, state) => DefaultTransitionPage(
+                          key: state.pageKey,
+                          child: const AmountPage(),
+                        ),
+                        routes: [
+                          GoRoute(
+                            parentNavigatorKey: _rootNavigatorKey,
+                            path: 'confirm',
+                            name: AppRoute.confirm.name,
+                            pageBuilder: (context, state) => DefaultTransitionPage(
+                              key: state.pageKey,
+                              child: const ConfirmPage(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),

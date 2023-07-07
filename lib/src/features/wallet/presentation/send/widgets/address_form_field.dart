@@ -10,12 +10,10 @@ class AddressFormField extends StatelessWidget {
     super.key,
     this.maxLines = 1,
     this.readOnly = false,
-    this.errorText,
     this.suffix,
   });
 
   final String hintText;
-  final String? errorText;
   final TextEditingController textEditingController;
   final Widget? suffix;
   final int maxLines;
@@ -45,7 +43,6 @@ class AddressFormField extends StatelessWidget {
         border: border,
         enabledBorder: border,
         focusedBorder: border,
-        errorText: errorText,
         hintStyle: theme.textTheme.bodySmall!.copyWith(fontSize: 14),
       ),
     );

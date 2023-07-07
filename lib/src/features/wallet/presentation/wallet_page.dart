@@ -65,8 +65,8 @@ class _WalletPageState extends State<WalletPage>
                   chain: state.currentChain,
                   forceElevated: false,
                   tabController: tabController,
-                  expandedHeight: size.screenSize.height * 0.28,
-                  collapsedHeight: size.screenSize.height * 0.28,
+                  expandedHeight: 250,
+                  collapsedHeight: 250,
                 ),
               ),
               SliverFillRemaining(

@@ -28,6 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addressHint": MessageLookupByLibrary.simpleMessage(
             "Search, or public address (0x)"),
         "agent": MessageLookupByLibrary.simpleMessage("Agent Account"),
+        "amount": MessageLookupByLibrary.simpleMessage("Amount"),
         "appName": MessageLookupByLibrary.simpleMessage("Chain Wallet"),
         "authenticateReason": MessageLookupByLibrary.simpleMessage(
             "Please authenticate in order to use ChainWallet"),
@@ -40,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cannotRecoverWallet": MessageLookupByLibrary.simpleMessage(
             "ChainWallet cannot recover your wallet should you lose it. You can find your seed phrase in Security & Privacy."),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmPhrase":
             MessageLookupByLibrary.simpleMessage("Confirm Seed Phrase"),
         "confirmPhraseDesc": MessageLookupByLibrary.simpleMessage(
@@ -95,8 +97,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Store and send your digital assets like tokens and ethereum privately."),
         "inputWordError": MessageLookupByLibrary.simpleMessage(
             "Select all three words in order"),
+        "insufficientFunds":
+            MessageLookupByLibrary.simpleMessage("Insufficient funds."),
         "invalidAddress": MessageLookupByLibrary.simpleMessage(
             "Recipient address is invalid."),
+        "invalidAmount":
+            MessageLookupByLibrary.simpleMessage("Invalid amount."),
         "light": MessageLookupByLibrary.simpleMessage("Light"),
         "makeSureNoOneIsAround": MessageLookupByLibrary.simpleMessage(
             "Make sure no one is watching your screen."),
@@ -150,6 +156,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Secret recovery phrase cannot be empty"),
         "selectWordInOrder": MessageLookupByLibrary.simpleMessage(
             "Select each word in the order it was presented to you"),
+        "send": MessageLookupByLibrary.simpleMessage("Send"),
         "sendTo": MessageLookupByLibrary.simpleMessage("Send to"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "setupSuccess": MessageLookupByLibrary.simpleMessage(
@@ -165,6 +172,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "themeTypeDesc":
             MessageLookupByLibrary.simpleMessage("Application appearance."),
         "to": MessageLookupByLibrary.simpleMessage("To"),
+        "useMax": MessageLookupByLibrary.simpleMessage("USE MAX"),
         "view": MessageLookupByLibrary.simpleMessage("View"),
         "walletConnect": MessageLookupByLibrary.simpleMessage("Wallet connect"),
         "walletConnectDesc": MessageLookupByLibrary.simpleMessage(

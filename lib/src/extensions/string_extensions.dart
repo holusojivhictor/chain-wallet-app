@@ -5,6 +5,10 @@ extension StringExtensions on String {
 
   String get short =>
       '''${substring(0, length ~/ 4)}...${substring(length - 4)}''';
+
+  String truncate({int digits = 2}) {
+    return double.parse(this).toStringAsFixed(digits);
+  }
 }
 
 extension OptionalStringExtensions on String? {

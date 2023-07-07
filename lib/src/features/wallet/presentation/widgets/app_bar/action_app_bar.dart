@@ -14,7 +14,7 @@ class ActionAppBar extends AppBar {
     required ChainType type,
     required ThemeData theme,
     super.key,
-    this.hasLeading = false,
+    this.hasLeading = true,
   }) : super(
           centerTitle: true,
           leadingWidth: _kLeadingWidth,

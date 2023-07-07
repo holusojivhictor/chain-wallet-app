@@ -14,8 +14,12 @@ class SendCubit extends Cubit<SendState> {
 
   static int get addressLength => 42;
 
+  static final RegExp amountValidator = RegExp(r'^\d*\.?\d+$');
+
   bool _isAddressValid(String value) =>
       value.startsWith('0x') && value.length == addressLength;
+
+  bool _isAmountValid(String value) => amountValidator.hasMatch(value);
 
   void init() {
     final preferences = _preferenceService.preferences;
@@ -28,6 +32,44 @@ class SendCubit extends Cubit<SendState> {
         address: newValue,
         isAddressValid: _isAddressValid(newValue),
         isAddressDirty: newValue.isNotEmpty,
+        currencyChanged: false,
+      ),
+    );
+  }
+
+  void amountChanged(String newValue) {
+    emit(
+      state.copyWith(
+        amount: newValue,
+        isAmountValid: _isAmountValid(newValue),
+        isAmountDirty: newValue.isNotEmpty,
+        currencyChanged: false,
+      ),
+    );
+  }
+
+  void altAmountChanged(String newValue) {
+    emit(
+      state.copyWith(
+        altAmount: newValue,
+        currencyChanged: false,
+      ),
+    );
+  }
+
+  void currencyChanged() {
+    FieldCurrency newValue;
+    switch (state.fieldCurrency) {
+      case FieldCurrency.native:
+        newValue = FieldCurrency.fiat;
+      case FieldCurrency.fiat:
+        newValue = FieldCurrency.native;
+    }
+
+    emit(
+      state.copyWith(
+        fieldCurrency: newValue,
+        currencyChanged: true,
       ),
     );
   }

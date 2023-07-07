@@ -7,6 +7,8 @@ enum AppRoute {
   locked('/locked'),
   home('/'),
   send('/send'),
+  amount('/send/amount'),
+  confirm('/send/amount/confirm'),
   transactions('/transactions'),
   settings('/settings'),
   general('/settings/general'),
