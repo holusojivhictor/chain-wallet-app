@@ -1,5 +1,4 @@
 import 'package:chain_wallet_mobile/src/extensions/extensions.dart';
-import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/styles.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/widgets/bottom_sheet/wallets_bottom_sheet.dart';
@@ -10,27 +9,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AccountButton extends StatelessWidget {
-  const AccountButton({required this.controller, super.key});
+  const AccountButton({
+    super.key,
+    this.controller,
+    this.enabled = true,
+  });
 
   final AnimationController? controller;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => ModalBottomSheetUtils.showAppModalBottomSheet(
-        context,
-        EndDrawerItemType.wallets,
-        controller: controller,
-        args: WalletsBottomSheet.buildArgs(selection: true),
-      ),
+      onTap: enabled
+          ? () => ModalBottomSheetUtils.showAppModalBottomSheet(
+                context,
+                EndDrawerItemType.wallets,
+                controller: controller,
+                args: WalletsBottomSheet.buildArgs(selection: true),
+              )
+          : null,
       child: BlocBuilder<WalletBloc, WalletState>(
-        buildWhen: (prev, current) => prev.activeWallet != current.activeWallet,
+        buildWhen: enabled
+            ? (prev, current) => prev.activeWallet != current.activeWallet
+            : (_, __) => false,
         builder: (_, state) => Container(
           padding: Styles.edgeInsetAll10,
-          decoration: BoxDecoration(
-            border: Border.all(width: 1.5, color: AppColors.grey5),
-            borderRadius: Styles.defaultBorderRadius,
-          ),
+          decoration: Styles.barDecoration,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -40,7 +45,7 @@ class AccountButton extends StatelessWidget {
                 balance: state.activeWallet.walletBalance,
                 currency: state.currentChain.currency,
               ),
-              const Icon(Icons.arrow_drop_down, size: 28),
+              if (enabled) const Icon(Icons.arrow_drop_down, size: 28),
             ],
           ),
         ),

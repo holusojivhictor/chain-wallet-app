@@ -34,6 +34,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
   ) : super(const WalletState.init()) {
     ChainWalletManager.instance.addEventHandler(_identifier, this);
     on<_Init>(_onInit);
+    on<_Restore>(_onRestore);
     on<_LoadPrices>(_onLoadPrices);
     on<_LoadBalance>(_onLoadBalance);
     on<_CreateAgent>(_onCreateAgent);
@@ -66,19 +67,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     final preferences = _preferenceService.preferences;
     emit(state.copyWith(currentChain: preferences.chain));
 
-    if (event.startUp) {
-      await _restore();
-      _initDatabase();
-    } else {
-      _initDatabase();
-    }
-  }
-
-  Future<void> _restore() async {
-    await Future.wait([
-      _saveWalletsFromNetwork(),
-      _saveEthTokens(),
-    ]);
+    _initDatabase();
   }
 
   void _initDatabase() {
@@ -104,6 +93,13 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     }
   }
 
+  Future<void> _onRestore(_Restore event, Emitter<WalletState> emit) async {
+    await Future.wait([
+      _saveWalletsFromNetwork(),
+      _saveEthTokens(),
+    ]);
+  }
+
   void _onLoadPrices(_LoadPrices event, Emitter<WalletState> emit) {
     _loadTickers();
   }
@@ -119,8 +115,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
 
     _streamSubscription = _walletService
         .fetchTickerStream(ids)
-        .listen(_onTickerFetched)
-      ..onDone(_onDone);
+        .listen(_onTickerFetched)..onDone(_onDone);
   }
 
   Future<void> _loadBalance() async {
@@ -145,6 +140,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
   Future<void> _onRefresh(_Refresh event, Emitter<WalletState> emit) async {
     emit(state.copyWithRefreshed());
     await _streamSubscription?.cancel();
+    await _walletService.close();
 
     if (event.init) {
       await _authService.initChainClient();
@@ -286,6 +282,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
   void _onDone() {
     _streamSubscription?.cancel();
     _streamSubscription = null;
+    _walletService.close();
   }
 
   @override

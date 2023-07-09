@@ -1,23 +1,25 @@
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
+import 'package:chain_wallet_mobile/src/utils/utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'send_state.dart';
 
 class SendCubit extends Cubit<SendState> {
-  SendCubit(this._preferenceService) : super(const SendState.init()) {
+  SendCubit(
+    this._preferenceService,
+    this._dataService,
+  ) : super(const SendState.init()) {
     init();
   }
 
   final PreferenceService _preferenceService;
-
-  static int get addressLength => 42;
+  final DataService _dataService;
 
   static final RegExp amountValidator = RegExp(r'^\d*\.?\d+$');
 
-  bool _isAddressValid(String value) =>
-      value.startsWith('0x') && value.length == addressLength;
+  bool _isAddressValid(String hex) => CryptoUtils.isValidAddress(hex);
 
   bool _isAmountValid(String value) => amountValidator.hasMatch(value);
 
@@ -72,6 +74,19 @@ class SendCubit extends Cubit<SendState> {
         currencyChanged: true,
       ),
     );
+  }
+
+  void updateAvatar() {
+    final list = _dataService.getRecents();
+    final recent = list.firstWhere((el) => el.address == state.address);
+    emit(state.copyWith(avatar: recent.avatar));
+  }
+
+  Future<void> saveAddress() async {
+    final saved = _dataService.isItemInRecentList(state.address);
+    if (!saved) {
+      await _dataService.saveRecent(state.address);
+    }
   }
 
   void reset() {

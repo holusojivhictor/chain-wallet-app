@@ -54,6 +54,8 @@ class _AmountPageState extends State<AmountPage> {
                 });
                 return;
               }
+
+              context.read<SendCubit>().updateAvatar();
               context.go(AppRoute.confirm.path);
             },
             body: Column(

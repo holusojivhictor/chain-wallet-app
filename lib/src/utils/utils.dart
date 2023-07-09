@@ -1,3 +1,4 @@
+export 'crypto_utils.dart';
 export 'dialog_utils.dart';
 export 'enum_utils.dart';
 export 'modal_bottom_sheet_utils.dart';

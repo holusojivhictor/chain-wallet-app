@@ -15,12 +15,10 @@ import 'package:local_auth/local_auth.dart';
 class LockScreenView extends StatefulWidget {
   const LockScreenView({
     required this.correctString,
-    this.import = false,
     super.key,
   });
 
   final String correctString;
-  final bool import;
 
   @override
   State<LockScreenView> createState() => _LockScreenViewState();
@@ -34,7 +32,7 @@ class _LockScreenViewState extends State<LockScreenView> {
     super.didChangeDependencies();
     if (_didChangeDependencies) return;
     _didChangeDependencies = true;
-    context.read<WalletBloc>().add(WalletEvent.init(startUp: widget.import));
+    context.read<WalletBloc>().add(const WalletEvent.init());
   }
 
   @override

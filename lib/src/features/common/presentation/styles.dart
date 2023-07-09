@@ -26,6 +26,11 @@ class Styles {
 
   static const formFieldPadding = EdgeInsets.symmetric(horizontal: 12, vertical: 18);
 
+  static BoxDecoration barDecoration = BoxDecoration(
+    border: Border.all(width: 1.5, color: AppColors.grey5),
+    borderRadius: Styles.defaultBorderRadius,
+  );
+
   static const formFieldBorder = OutlineInputBorder(
     borderSide: BorderSide(color: AppColors.grey5, width: 1.5),
     borderRadius: BorderRadius.all(Radius.circular(5)),

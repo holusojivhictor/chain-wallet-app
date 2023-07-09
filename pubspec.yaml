@@ -17,6 +17,7 @@ dependencies:
       ref: main
   clipboard: ^0.1.3
   collection: ^1.17.1
+  crypto: ^3.0.3
   cupertino_icons: ^1.0.5
   device_info_plus: ^9.0.2
   devicelocale: ^0.6.0

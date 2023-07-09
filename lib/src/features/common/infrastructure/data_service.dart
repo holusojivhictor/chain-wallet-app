@@ -10,6 +10,7 @@ import 'package:synchronized/synchronized.dart';
 class DataServiceImpl implements DataService {
   late Box<WalletItem> _walletsBox;
   late Box<TokenItem> _tokensBox;
+  late Box<RecentItem> _recentsBox;
 
   final _initLock = Lock();
   final _deleteAllLock = Lock();
@@ -21,6 +22,7 @@ class DataServiceImpl implements DataService {
       _registerAdapters();
       _walletsBox = await Hive.openBox<WalletItem>('walletItems');
       _tokensBox = await Hive.openBox<TokenItem>('tokenItems');
+      _recentsBox = await Hive.openBox<RecentItem>('recentItems');
     });
   }
 
@@ -29,6 +31,7 @@ class DataServiceImpl implements DataService {
     await _deleteAllLock.synchronized(() async {
       await _walletsBox.clear();
       await _tokensBox.clear();
+      await _recentsBox.clear();
     });
   }
 
@@ -76,6 +79,20 @@ class DataServiceImpl implements DataService {
   }
 
   @override
+  List<Recent> getRecents() {
+    final values = _recentsBox.values.toList()
+      ..sort((x, y) => x.itemKey.compareTo(y.itemKey));
+
+    return values.map((e) {
+      return Recent(
+        key: e.itemKey,
+        address: e.address,
+        avatar: e.avatar,
+      );
+    }).toList();
+  }
+
+  @override
   Future<int> saveWallet(AccountType type, String address) {
     final avatar = _generateAvatar(address);
     return _addItemToWalletList(
@@ -95,6 +112,12 @@ class DataServiceImpl implements DataService {
     BigInt decimals,
   ) {
     return _addItemToTokenList(tokenLength, name, symbol, chainId, decimals);
+  }
+
+  @override
+  Future<int> saveRecent(String address) {
+    final avatar = _generateAvatar(address);
+    return _addItemToRecentList(_recentsBox.length, address, avatar);
   }
 
   @override
@@ -131,15 +154,27 @@ class DataServiceImpl implements DataService {
   }
 
   @override
-  bool isItemInWalletList(int key, AccountType type) {
-    return _walletsBox.values
-        .any((el) => el.itemKey == key && el.type == type.index);
+  Future<void> deleteRecentList() async {
+    final recentItemKeys = _recentsBox.values.map((e) => e.key).toList();
+    if (recentItemKeys.isNotEmpty) {
+      await _recentsBox.deleteAll(recentItemKeys);
+    }
   }
 
   @override
-  bool isItemInTokenList(int key, String symbol) {
-    return _tokensBox.values
-        .any((el) => el.itemKey == key && el.symbol == symbol);
+  bool isItemInWalletList(String address, AccountType type) {
+    return _walletsBox.values
+        .any((el) => el.address == address && el.type == type.index);
+  }
+
+  @override
+  bool isItemInTokenList(BigInt chainId) {
+    return _tokensBox.values.any((el) => el.chainId == chainId);
+  }
+
+  @override
+  bool isItemInRecentList(String address) {
+    return _recentsBox.values.any((el) => el.address == address);
   }
 
   Future<int> _addItemToWalletList(
@@ -149,7 +184,7 @@ class DataServiceImpl implements DataService {
     AccountType type,
     String avatar,
   ) {
-    if (isItemInWalletList(key, type)) {
+    if (isItemInWalletList(address, type)) {
       return Future.value(key);
     }
     return _walletsBox.add(WalletItem(key, name, address, type.index, avatar));
@@ -162,10 +197,17 @@ class DataServiceImpl implements DataService {
     BigInt chainId,
     BigInt decimals,
   ) {
-    if (isItemInTokenList(key, symbol)) {
+    if (isItemInTokenList(chainId)) {
       return Future.value(key);
     }
     return _tokensBox.add(TokenItem(key, name, symbol, chainId, decimals));
+  }
+
+  Future<int> _addItemToRecentList(int key, String address, String avatar) {
+    if (isItemInRecentList(address)) {
+      return Future.value(key);
+    }
+    return _recentsBox.add(RecentItem(key, address, avatar));
   }
 
   WalletItem? _getItemFromWalletList(int key) {
@@ -175,7 +217,8 @@ class DataServiceImpl implements DataService {
   void _registerAdapters() {
     Hive
       ..registerAdapter(WalletItemAdapter())
-      ..registerAdapter(TokenItemAdapter());
+      ..registerAdapter(TokenItemAdapter())
+      ..registerAdapter(RecentItemAdapter());
   }
 
   /// Dicebear impl

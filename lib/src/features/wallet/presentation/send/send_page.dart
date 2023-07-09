@@ -21,7 +21,10 @@ class SendPage extends StatelessWidget {
         gestureOn: true,
         buttonText: s.next,
         enabled: state.isAddressValid,
-        onPressed: () => context.go(AppRoute.amount.path),
+        onPressed: () {
+          context.go(AppRoute.amount.path);
+          context.read<SendCubit>().saveAddress();
+        },
         body: Column(
           children: [
             const AddressForm(),

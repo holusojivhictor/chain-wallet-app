@@ -1,15 +1,21 @@
 import 'package:chain_wallet/chain_wallet.dart';
+import 'package:chain_wallet_mobile/src/config/config.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/infrastructure/exchange_client.dart';
 import 'package:web3dart/web3dart.dart';
 
 class WalletServiceImpl implements WalletService {
-  WalletServiceImpl();
+  WalletServiceImpl({
+    ExchangeClient? client,
+  }) : _client = client ??
+            ExchangeClient(Config.coinbaseApiKey, Config.coinbaseSecret);
+
+  final ExchangeClient _client;
 
   Web3Client get web3Client => ChainWalletManager.instance.walletClient.client;
 
-  ExchangeClient get exchangeClient => ExchangeClient.anonymous();
+  Stream<WebSocketResponse>? _stream;
 
   @override
   Future<double> fetchBalance(String addr) async {
@@ -24,11 +30,11 @@ class WalletServiceImpl implements WalletService {
 
   @override
   Stream<Ticker> fetchTickerStream(List<String> ids) {
-    final stream = exchangeClient.subscribe(
+    _stream = _client.subscribe(
       productIds: ids,
     );
 
-    return stream.map(Ticker.fromResponse);
+    return _stream!.map(Ticker.fromResponse);
   }
 
   @override
@@ -57,6 +63,7 @@ class WalletServiceImpl implements WalletService {
 
   @override
   Future<void> close() async {
-    await exchangeClient.close();
+    _stream = null;
+    await _client.close();
   }
 }

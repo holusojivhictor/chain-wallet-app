@@ -20,6 +20,10 @@ class Config {
 
   String _wsUrl(ChainType chain) => '${chain.wsBase}/${Env.infuraApiKey}';
 
+  static const String coinbaseApiKey = Env.coinbaseApiKey;
+
+  static const String coinbaseSecret = Env.coinbaseSecret;
+
   static const String contractAddress = Env.contractAddress;
 
   static const String nftStorageApiKey = Env.nftStorageApiKey;

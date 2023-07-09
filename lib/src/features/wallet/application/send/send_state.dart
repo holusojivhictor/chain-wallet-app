@@ -11,6 +11,7 @@ class SendState extends Equatable {
     required this.address,
     required this.amount,
     required this.altAmount,
+    required this.avatar,
     required this.fieldCurrency,
     required this.isAddressValid,
     required this.isAddressDirty,
@@ -24,6 +25,7 @@ class SendState extends Equatable {
         address = '',
         amount = '',
         altAmount = '',
+        avatar = '',
         fieldCurrency = FieldCurrency.native,
         isAmountValid = false,
         isAmountDirty = false,
@@ -35,6 +37,7 @@ class SendState extends Equatable {
   final String address;
   final String amount;
   final String altAmount;
+  final String avatar;
   final FieldCurrency fieldCurrency;
   final bool isAddressValid;
   final bool isAddressDirty;
@@ -47,6 +50,7 @@ class SendState extends Equatable {
     String? address,
     String? amount,
     String? altAmount,
+    String? avatar,
     FieldCurrency? fieldCurrency,
     bool? isAddressValid,
     bool? isAddressDirty,
@@ -59,6 +63,7 @@ class SendState extends Equatable {
       address: address ?? this.address,
       amount: amount ?? this.amount,
       altAmount: altAmount ?? this.altAmount,
+      avatar: avatar ?? this.avatar,
       fieldCurrency: fieldCurrency ?? this.fieldCurrency,
       isAddressValid: isAddressValid ?? this.isAddressValid,
       isAddressDirty: isAddressDirty ?? this.isAddressDirty,
@@ -73,6 +78,7 @@ class SendState extends Equatable {
       address: '',
       amount: '',
       altAmount: '',
+      avatar: '',
       fieldCurrency: FieldCurrency.native,
       isAddressValid: false,
       isAddressDirty: false,
@@ -88,6 +94,7 @@ class SendState extends Equatable {
     address,
     amount,
     altAmount,
+    avatar,
     fieldCurrency,
     isAddressValid,
     isAddressDirty,

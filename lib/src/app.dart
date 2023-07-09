@@ -19,7 +19,8 @@ class ChainWalletApp extends StatelessWidget {
         BlocProvider(
           create: (ctx) {
             final preferenceService = getIt<PreferenceService>();
-            return SendCubit(preferenceService);
+            final dataService = getIt<DataService>();
+            return SendCubit(preferenceService, dataService);
           },
         ),
         BlocProvider(
