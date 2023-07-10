@@ -16,11 +16,12 @@ class NetworkDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = S.of(context);
     final mediaQuery = MediaQuery.of(context);
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
     return AlertDialog(
       elevation: 10,
       alignment: Alignment.center,
       shape: Styles.alertDialogShape,
+      backgroundColor: theme.scaffoldBackgroundColor,
       surfaceTintColor: AppColors.tertiary,
       titlePadding: EdgeInsets.zero,
       insetPadding: EdgeInsets.zero,
@@ -30,7 +31,7 @@ class NetworkDialog extends StatelessWidget {
         contentPadding: EdgeInsets.zero,
         title: Text(
           s.networks,
-          style: textTheme.titleMedium!.copyWith(
+          style: theme.textTheme.titleMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
           textAlign: TextAlign.center,

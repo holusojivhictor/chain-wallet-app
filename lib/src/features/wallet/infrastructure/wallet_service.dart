@@ -1,21 +1,21 @@
 import 'package:chain_wallet/chain_wallet.dart';
+import 'package:chain_wallet_mobile/src/config/config.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/infrastructure/exchange_client.dart';
 import 'package:web3dart/web3dart.dart';
 
 class WalletServiceImpl implements WalletService {
-  WalletServiceImpl();
+  WalletServiceImpl({
+    ExchangeClient? client,
+  }) : _client = client ??
+            ExchangeClient(Config.coinbaseApiKey, Config.coinbaseSecret);
+
+  final ExchangeClient _client;
 
   Web3Client get web3Client => ChainWalletManager.instance.walletClient.client;
 
-  ExchangeClient get exchangeClient => ExchangeClient.anonymous();
-
-  @override
-  Future<double> fetchBalance(String addr) async {
-    final amount = await web3Client.getBalance(EthereumAddress.fromHex(addr));
-    return amount.getValueInUnit(EtherUnit.ether);
-  }
+  Stream<WebSocketResponse>? _stream;
 
   @override
   Future<void> connect() {
@@ -23,12 +23,29 @@ class WalletServiceImpl implements WalletService {
   }
 
   @override
+  Future<double> fetchBalance(String address) async {
+    return _fetchBalance(address);
+  }
+
+  @override
+  Future<double> fetchBalanceBySymbol(
+    String symbol,
+    String address, {
+    String? contractAddress,
+  }) async {
+    if (symbol == 'ETH') {
+      return _fetchBalance(address);
+    }
+    return Future.value(0.1);
+  }
+
+  @override
   Stream<Ticker> fetchTickerStream(List<String> ids) {
-    final stream = exchangeClient.subscribe(
+    _stream = _client.subscribe(
       productIds: ids,
     );
 
-    return stream.map(Ticker.fromResponse);
+    return _stream!.map(Ticker.fromResponse);
   }
 
   @override
@@ -55,8 +72,15 @@ class WalletServiceImpl implements WalletService {
     return addresses;
   }
 
+  Future<double> _fetchBalance(String address) async {
+    final amount = await web3Client.getBalance(
+      EthereumAddress.fromHex(address),
+    );
+    return amount.getValueInUnit(EtherUnit.ether);
+  }
+
   @override
   Future<void> close() async {
-    await exchangeClient.close();
+    _stream = null;
   }
 }

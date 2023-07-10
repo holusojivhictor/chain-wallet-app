@@ -1,11 +1,19 @@
+import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
+import 'package:chain_wallet_mobile/src/features/common/presentation/styles.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
-class ActionTile extends StatelessWidget {
+class ActionTile extends StatefulWidget {
   const ActionTile({super.key});
 
+  @override
+  State<ActionTile> createState() => _ActionTileState();
+}
+
+class _ActionTileState extends State<ActionTile> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -23,6 +31,9 @@ class ActionTile extends StatelessWidget {
 
   void onActionTapped(ActionType type) {
     HapticFeedback.selectionClick();
+    if (type == ActionType.send) {
+      context.go(AppRoute.send.path);
+    }
   }
 }
 
@@ -40,10 +51,7 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 20,
-        bottom: 10,
-      ),
+      padding: Styles.edgeInsetVertical10,
       child: Column(
         children: [
           Material(

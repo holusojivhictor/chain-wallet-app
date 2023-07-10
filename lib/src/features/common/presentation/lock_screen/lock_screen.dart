@@ -1,10 +1,11 @@
 import 'package:chain_wallet_mobile/src/config/injection.dart';
 import 'package:chain_wallet_mobile/src/extensions/extensions.dart';
 import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
+import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
+import 'package:chain_wallet_mobile/src/features/transactions/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
-import 'package:chain_wallet_mobile/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,9 +14,14 @@ import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 
 class LockScreenView extends StatefulWidget {
-  const LockScreenView({required this.correctString, super.key});
+  const LockScreenView({
+    required this.correctString,
+    this.connect = true,
+    super.key,
+  });
 
   final String correctString;
+  final bool connect;
 
   @override
   State<LockScreenView> createState() => _LockScreenViewState();
@@ -29,7 +35,8 @@ class _LockScreenViewState extends State<LockScreenView> {
     super.didChangeDependencies();
     if (_didChangeDependencies) return;
     _didChangeDependencies = true;
-    context.read<WalletBloc>().add(const WalletEvent.init());
+    context.read<WalletBloc>().add(WalletEvent.init(connect: widget.connect));
+    context.read<TransactionsBloc>().add(const TransactionsEvent.init());
   }
 
   @override

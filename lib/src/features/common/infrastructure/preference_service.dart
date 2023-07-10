@@ -13,6 +13,8 @@ class PreferenceServiceImpl extends PreferenceService {
   final _appThemeKey = 'AppTheme';
   final _appLanguageKey = 'AppLanguage';
   final _ethereumChainKey = 'EthereumChain';
+  final _currencyTypeKey = 'CurrencyType';
+  final _primaryCurrencyKey = 'PrimaryCurrency';
   final _isFirstInstallKey = 'FirstInstall';
   final _doubleBackToCloseKey = 'DoubleBackToClose';
   final _unlockWithBiometricsKey = 'UnlockWithBiometrics';
@@ -41,6 +43,18 @@ class PreferenceServiceImpl extends PreferenceService {
 
   @override
   set chain(ChainType chain) => _prefs.setInt(_ethereumChainKey, chain.index);
+
+  @override
+  CurrencyType get currency => CurrencyType.values[_prefs.getInt(_currencyTypeKey)!];
+
+  @override
+  set currency(CurrencyType currency) => _prefs.setInt(_currencyTypeKey, currency.index);
+
+  @override
+  PrimaryCurrency get primary => PrimaryCurrency.values[_prefs.getInt(_primaryCurrencyKey)!];
+
+  @override
+  set primary(PrimaryCurrency primary) => _prefs.setInt(_primaryCurrencyKey, primary.index);
 
   @override
   bool get isFirstInstall => _prefs.getBool(_isFirstInstallKey)!;
@@ -77,6 +91,8 @@ class PreferenceServiceImpl extends PreferenceService {
     appTheme: appTheme,
     appLanguage: language,
     chain: chain,
+    currency: currency,
+    primary: primary,
     useDarkMode: false,
     isFirstInstall: isFirstInstall,
     doubleBackToClose: doubleBackToClose,
@@ -113,8 +129,18 @@ class PreferenceServiceImpl extends PreferenceService {
     }
 
     if (_prefs.get(_ethereumChainKey) == null) {
-      _logger.info(runtimeType, 'Ethereum network is set to mainnet as default');
+      _logger.info(runtimeType, 'Ethereum network is set to `mainnet` as default');
       chain = ChainType.goerli;
+    }
+
+    if (_prefs.get(_currencyTypeKey) == null) {
+      _logger.info(runtimeType, 'Currency type is set to `usd` as default');
+      currency = CurrencyType.usd;
+    }
+
+    if (_prefs.get(_primaryCurrencyKey) == null) {
+      _logger.info(runtimeType, 'Primary currency is set to `native` as default');
+      primary = PrimaryCurrency.native;
     }
 
     if (_prefs.get(_activeWalletIdKey) == null) {

@@ -1,8 +1,8 @@
 import 'package:chain_wallet_mobile/src/extensions/string_extensions.dart';
 import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
-import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/navigation_bar/navigation_bar.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/styles.dart';
+import 'package:chain_wallet_mobile/src/features/common/presentation/theme.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:chain_wallet_mobile/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +24,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
+    final theme = Theme.of(context).extension<AppThemeExtension>()!;
     return WillPopScope(
       onWillPop: handleWillPop,
       child: Scaffold(
@@ -33,8 +34,8 @@ class _MobileScaffoldState extends State<MobileScaffold> {
           iconSize: 22,
           shape: Styles.navBorder,
           currentIndex: widget.shell.currentIndex,
-          selectedItemColor: AppColors.variantBlack,
-          unselectedItemColor: AppColors.variantGrey4,
+          selectedItemColor: theme.navSelectedColor,
+          unselectedItemColor: theme.navUnselectedColor,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           onItemSelected: _goBranch,
           items: [

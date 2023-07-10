@@ -64,9 +64,10 @@ class ImportCubit extends Cubit<ImportState> with BlocPresentationMixin {
 
     await _authService
         .importMasterFromMnemonic(state.seedPhrase)
-        .then((value) {
+        .then((value) async {
       emit(state.copyWith(loading: false));
       emitPresentation(const ImportSuccess());
+      await _authService.fetchPasscode();
     });
   }
 }

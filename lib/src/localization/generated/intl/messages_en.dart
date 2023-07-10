@@ -25,17 +25,23 @@ class MessageLookup extends MessageLookupByLibrary {
         "about": MessageLookupByLibrary.simpleMessage("About Chain Wallet"),
         "accounts": MessageLookupByLibrary.simpleMessage("Accounts"),
         "addNetwork": MessageLookupByLibrary.simpleMessage("Add a network"),
+        "addressHint": MessageLookupByLibrary.simpleMessage(
+            "Search, or public address (0x)"),
         "agent": MessageLookupByLibrary.simpleMessage("Agent Account"),
+        "amount": MessageLookupByLibrary.simpleMessage("Amount"),
         "appName": MessageLookupByLibrary.simpleMessage("Chain Wallet"),
         "authenticateReason": MessageLookupByLibrary.simpleMessage(
             "Please authenticate in order to use ChainWallet"),
         "avatarLabel": MessageLookupByLibrary.simpleMessage("Wallet Avatar"),
+        "back": MessageLookupByLibrary.simpleMessage("Back"),
+        "balance": MessageLookupByLibrary.simpleMessage("Balance"),
         "biometricsUnlock":
             MessageLookupByLibrary.simpleMessage("Unlock with Biometrics?"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cannotRecoverWallet": MessageLookupByLibrary.simpleMessage(
             "ChainWallet cannot recover your wallet should you lose it. You can find your seed phrase in Security & Privacy."),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmPhrase":
             MessageLookupByLibrary.simpleMessage("Confirm Seed Phrase"),
         "confirmPhraseDesc": MessageLookupByLibrary.simpleMessage(
@@ -46,6 +52,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Seed phrase confirmation successful"),
         "congratulations":
             MessageLookupByLibrary.simpleMessage("Congratulations!"),
+        "contacts": MessageLookupByLibrary.simpleMessage("Contacts"),
+        "contactsDescription": MessageLookupByLibrary.simpleMessage(
+            "Add, edit, remove and manage your contacts"),
         "copiedToClipboard": MessageLookupByLibrary.simpleMessage(
             "Public address copied to clipboard"),
         "createNewAccount":
@@ -56,9 +65,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "createPinButton": MessageLookupByLibrary.simpleMessage("Create pin"),
         "createPinDesc": MessageLookupByLibrary.simpleMessage(
             "This will create a new wallet and a Secret Recovery Phrase."),
+        "currencyConversion":
+            MessageLookupByLibrary.simpleMessage("Currency Conversion"),
+        "currencyConversionDesc": MessageLookupByLibrary.simpleMessage(
+            "Display fiat values using a specific currency throughout the application."),
+        "currentLanguage":
+            MessageLookupByLibrary.simpleMessage("Current Language"),
+        "currentLanguageDesc": MessageLookupByLibrary.simpleMessage(
+            "Translate the application to a different supported language."),
         "dark": MessageLookupByLibrary.simpleMessage("Dark"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "finish": MessageLookupByLibrary.simpleMessage("Finish"),
+        "from": MessageLookupByLibrary.simpleMessage("From"),
         "general": MessageLookupByLibrary.simpleMessage("General"),
         "generalDescription": MessageLookupByLibrary.simpleMessage(
             "Currency conversion, primary currency, language and theme"),
@@ -71,6 +89,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "importFromSeed":
             MessageLookupByLibrary.simpleMessage("Import from seed"),
         "importSuccess": MessageLookupByLibrary.simpleMessage("Import Success"),
+        "importTokens": MessageLookupByLibrary.simpleMessage("Import tokens"),
+        "importTokensLeading":
+            MessageLookupByLibrary.simpleMessage("Don\'t see your imports?"),
         "importWallet": MessageLookupByLibrary.simpleMessage(
             "Import using Secret Recovery Phase"),
         "incognitoAssets": MessageLookupByLibrary.simpleMessage(
@@ -79,6 +100,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Store and send your digital assets like tokens and ethereum privately."),
         "inputWordError": MessageLookupByLibrary.simpleMessage(
             "Select all three words in order"),
+        "insufficientFunds":
+            MessageLookupByLibrary.simpleMessage("Insufficient funds."),
+        "invalidAddress": MessageLookupByLibrary.simpleMessage(
+            "Recipient address is invalid."),
+        "invalidAmount":
+            MessageLookupByLibrary.simpleMessage("Invalid amount."),
         "light": MessageLookupByLibrary.simpleMessage("Light"),
         "makeSureNoOneIsAround": MessageLookupByLibrary.simpleMessage(
             "Make sure no one is watching your screen."),
@@ -108,6 +135,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Login with ChainWallet and make transactions to invest, earn, sell and more!"),
         "pressToExit":
             MessageLookupByLibrary.simpleMessage("Press once again to exit"),
+        "primaryCurrency":
+            MessageLookupByLibrary.simpleMessage("Primary Currency"),
+        "primaryCurrencyDesc": MessageLookupByLibrary.simpleMessage(
+            "Select Native to prioritize displaying values in the native currency of the chain (e.g. ETH). Select Fiat to prioritize displaying values in your selected fiat currency."),
         "privacyDescription": MessageLookupByLibrary.simpleMessage(
             "Privacy settings, private key and wallet Secret Recovery Phrase"),
         "recoveryPhaseShow": MessageLookupByLibrary.simpleMessage(
@@ -128,6 +159,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Secret recovery phrase cannot be empty"),
         "selectWordInOrder": MessageLookupByLibrary.simpleMessage(
             "Select each word in the order it was presented to you"),
+        "send": MessageLookupByLibrary.simpleMessage("Send"),
+        "sendTo": MessageLookupByLibrary.simpleMessage("Send to"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "setupSuccess": MessageLookupByLibrary.simpleMessage(
             "Wallet successfully setup! Click to navigate to the home page."),
@@ -135,6 +168,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "start": MessageLookupByLibrary.simpleMessage("Start"),
         "tapToRevealPhrase": MessageLookupByLibrary.simpleMessage(
             "Tap to reveal your seed phrase"),
+        "themeMode": MessageLookupByLibrary.simpleMessage("System Theme"),
+        "themeModeDesc": MessageLookupByLibrary.simpleMessage(
+            "Follow the preferred theme mode of your device."),
+        "themeType": MessageLookupByLibrary.simpleMessage("Current Theme"),
+        "themeTypeDesc":
+            MessageLookupByLibrary.simpleMessage("Application appearance."),
+        "to": MessageLookupByLibrary.simpleMessage("To"),
+        "useMax": MessageLookupByLibrary.simpleMessage("USE MAX"),
         "view": MessageLookupByLibrary.simpleMessage("View"),
         "walletConnect": MessageLookupByLibrary.simpleMessage("Wallet connect"),
         "walletConnectDesc": MessageLookupByLibrary.simpleMessage(

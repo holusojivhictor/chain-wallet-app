@@ -12,6 +12,8 @@ abstract class DataService {
 
   List<Token> getTokens();
 
+  List<Recent> getRecents();
+
   Future<int> saveWallet(AccountType type, String address);
 
   Future<int> saveToken(
@@ -20,6 +22,8 @@ abstract class DataService {
     BigInt chainId,
     BigInt decimals,
   );
+
+  Future<int> saveRecent(String address);
 
   Future<void> updateItemInWalletList(
     int key,
@@ -33,7 +37,11 @@ abstract class DataService {
 
   Future<void> deleteTokenList();
 
-  bool isItemInWalletList(int key, AccountType type);
+  Future<void> deleteRecentList();
 
-  bool isItemInTokenList(int key, String symbol);
+  bool isItemInWalletList(String address, AccountType type);
+
+  bool isItemInTokenList(BigInt chainId);
+
+  bool isItemInRecentList(String address);
 }

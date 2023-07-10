@@ -18,6 +18,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<_Init>(_onInit);
     on<_ThemeChanged>(_onThemeChanged);
     on<_LanguageChanged>(_onLanguageChanged);
+    on<_CurrencyChanged>(_onCurrencyChanged);
+    on<_PrimaryCurrencyChanged>(_onPrimaryCurrencyChanged);
     on<_DoubleBackToCloseChanged>(_onDoubleBackToCloseChanged);
     on<_UnlockWithBiometricsChanged>(_onUnlockWithBiometricsChanged);
     on<_AutoThemeModeTypeChanged>(_onAutoThemeModeTypeChanged);
@@ -32,12 +34,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     emit(
       const SettingsState.init().copyWith(
+        themeMode: preferences.themeMode,
         currentTheme: preferences.appTheme,
         currentLanguage: preferences.appLanguage,
+        currency: preferences.currency,
+        primary: preferences.primary,
         appVersion: _deviceInfoService.version,
         doubleBackToClose: preferences.doubleBackToClose,
         unlockWithBiometrics: preferences.unlockWithBiometrics,
-        themeMode: preferences.themeMode,
       ),
     );
   }
@@ -58,6 +62,25 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     _preferenceService.language = event.newValue;
     _appBloc.add(AppEvent.languageChanged(newValue: event.newValue));
     emit(state.copyWith(currentLanguage: event.newValue));
+  }
+
+  void _onCurrencyChanged(_CurrencyChanged event, Emitter<SettingsState> emit) {
+    if (event.newValue == _preferenceService.currency) {
+      return emit(state);
+    }
+    _preferenceService.currency = event.newValue;
+    emit(state.copyWith(currency: event.newValue));
+  }
+
+  void _onPrimaryCurrencyChanged(
+    _PrimaryCurrencyChanged event,
+    Emitter<SettingsState> emit,
+  ) {
+    if (event.newValue == _preferenceService.primary) {
+      return emit(state);
+    }
+    _preferenceService.primary = event.newValue;
+    emit(state.copyWith(primary: event.newValue));
   }
 
   void _onDoubleBackToCloseChanged(

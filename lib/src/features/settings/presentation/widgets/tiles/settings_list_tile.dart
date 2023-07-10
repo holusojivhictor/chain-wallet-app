@@ -27,13 +27,13 @@ class SettingsListTile extends StatelessWidget {
         title: Text(
           title,
           style: textTheme.titleMedium!.copyWith(
-            fontSize: 20,
+            fontSize: 19,
           ),
         ),
         subtitle: Text(
           subtitle,
           style: textTheme.bodySmall!.copyWith(
-            fontSize: 14,
+            fontSize: 13,
           ),
         ),
         trailing: const Column(

@@ -1,6 +1,6 @@
-import 'package:chain_wallet_mobile/src/features/common/domain/assets.dart';
+import 'package:chain_wallet_mobile/src/extensions/extensions.dart';
+import 'package:chain_wallet_mobile/src/features/common/domain/app_svgs.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
-import 'package:chain_wallet_mobile/src/features/common/presentation/images/svg_image.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:chain_wallet_mobile/src/utils/utils.dart';
 import 'package:clipboard/clipboard.dart';
@@ -40,7 +40,7 @@ class AddressTile extends StatelessWidget {
                 horizontal: 10,
               ),
               child: Text(
-                address,
+                address.short,
                 style: theme.textTheme.bodyMedium!.copyWith(
                   fontSize: 12,
                 ),
@@ -66,10 +66,7 @@ class AddressTile extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            child: SvgAsset(
-              image: Assets.getSvgPath('icon_check.svg'),
-              color: Colors.white,
-            ),
+            child: AppSvgs.iconCheck,
           ),
           Text(
             s.copiedToClipboard,

@@ -165,6 +165,29 @@ class WalletState extends Equatable {
     );
   }
 
+  WalletState copyWithTokenUpdated({
+    required int key,
+    required double balance,
+  }) {
+    final newMap = Map<ChainType, List<Token>>.from(tokensByChain);
+    final tokenList = List<Token>.from(newMap[currentChain]!);
+    final token = tokenList.firstWhere((el) => el.key == key);
+    final index = tokenList.indexOf(token);
+    tokenList
+      ..removeAt(index)
+      ..insert(
+        index,
+        token.copyWith(
+          balance: balance,
+        ),
+      );
+    newMap[currentChain] = tokenList;
+
+    return copyWith(
+      tokensByChain: newMap,
+    );
+  }
+
   WalletState copyWithRefreshed() {
     return copyWith();
   }

@@ -150,11 +150,41 @@ class S {
     );
   }
 
+  /// `To`
+  String get to {
+    return Intl.message(
+      'To',
+      name: 'to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `From`
+  String get from {
+    return Intl.message(
+      'From',
+      name: 'from',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Okay`
   String get okay {
     return Intl.message(
       'Okay',
       name: 'okay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back`
+  String get back {
+    return Intl.message(
+      'Back',
+      name: 'back',
       desc: '',
       args: [],
     );
@@ -730,6 +760,106 @@ class S {
     );
   }
 
+  /// `Send`
+  String get send {
+    return Intl.message(
+      'Send',
+      name: 'send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send to`
+  String get sendTo {
+    return Intl.message(
+      'Send to',
+      name: 'sendTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get amount {
+    return Intl.message(
+      'Amount',
+      name: 'amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import tokens`
+  String get importTokens {
+    return Intl.message(
+      'Import tokens',
+      name: 'importTokens',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't see your imports?`
+  String get importTokensLeading {
+    return Intl.message(
+      'Don\'t see your imports?',
+      name: 'importTokensLeading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search, or public address (0x)`
+  String get addressHint {
+    return Intl.message(
+      'Search, or public address (0x)',
+      name: 'addressHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recipient address is invalid.`
+  String get invalidAddress {
+    return Intl.message(
+      'Recipient address is invalid.',
+      name: 'invalidAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid amount.`
+  String get invalidAmount {
+    return Intl.message(
+      'Invalid amount.',
+      name: 'invalidAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Insufficient funds.`
+  String get insufficientFunds {
+    return Intl.message(
+      'Insufficient funds.',
+      name: 'insufficientFunds',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `General`
   String get general {
     return Intl.message(
@@ -770,6 +900,26 @@ class S {
     );
   }
 
+  /// `Contacts`
+  String get contacts {
+    return Intl.message(
+      'Contacts',
+      name: 'contacts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add, edit, remove and manage your contacts`
+  String get contactsDescription {
+    return Intl.message(
+      'Add, edit, remove and manage your contacts',
+      name: 'contactsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Add and edit custom RPC networks`
   String get networksDescription {
     return Intl.message(
@@ -785,6 +935,116 @@ class S {
     return Intl.message(
       'About Chain Wallet',
       name: 'about',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Currency Conversion`
+  String get currencyConversion {
+    return Intl.message(
+      'Currency Conversion',
+      name: 'currencyConversion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Display fiat values using a specific currency throughout the application.`
+  String get currencyConversionDesc {
+    return Intl.message(
+      'Display fiat values using a specific currency throughout the application.',
+      name: 'currencyConversionDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Primary Currency`
+  String get primaryCurrency {
+    return Intl.message(
+      'Primary Currency',
+      name: 'primaryCurrency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Native to prioritize displaying values in the native currency of the chain (e.g. ETH). Select Fiat to prioritize displaying values in your selected fiat currency.`
+  String get primaryCurrencyDesc {
+    return Intl.message(
+      'Select Native to prioritize displaying values in the native currency of the chain (e.g. ETH). Select Fiat to prioritize displaying values in your selected fiat currency.',
+      name: 'primaryCurrencyDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current Language`
+  String get currentLanguage {
+    return Intl.message(
+      'Current Language',
+      name: 'currentLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Translate the application to a different supported language.`
+  String get currentLanguageDesc {
+    return Intl.message(
+      'Translate the application to a different supported language.',
+      name: 'currentLanguageDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System Theme`
+  String get themeMode {
+    return Intl.message(
+      'System Theme',
+      name: 'themeMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Follow the preferred theme mode of your device.`
+  String get themeModeDesc {
+    return Intl.message(
+      'Follow the preferred theme mode of your device.',
+      name: 'themeModeDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current Theme`
+  String get themeType {
+    return Intl.message(
+      'Current Theme',
+      name: 'themeType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Application appearance.`
+  String get themeTypeDesc {
+    return Intl.message(
+      'Application appearance.',
+      name: 'themeTypeDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Balance`
+  String get balance {
+    return Intl.message(
+      'Balance',
+      name: 'balance',
       desc: '',
       args: [],
     );
@@ -815,6 +1075,16 @@ class S {
     return Intl.message(
       'Settings',
       name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `USE MAX`
+  String get useMax {
+    return Intl.message(
+      'USE MAX',
+      name: 'useMax',
       desc: '',
       args: [],
     );

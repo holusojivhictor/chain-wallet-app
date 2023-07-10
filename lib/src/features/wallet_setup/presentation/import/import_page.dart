@@ -1,12 +1,12 @@
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:chain_wallet_mobile/src/config/injection.dart';
+import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/app_bar/logo_app_bar.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/application/import/import_cubit.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/presentation/import/widgets/import_form.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
-import 'package:chain_wallet_mobile/src/routing/app_router.dart';
 import 'package:chain_wallet_mobile/src/utils/dialog_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,15 +78,14 @@ class _PortraitLayout extends StatelessWidget {
         actionText: s.close,
       );
     } else if (event is ImportSuccess) {
-      context.read<WalletBloc>().add(const WalletEvent.init(startUp: true));
-
+      context.read<WalletBloc>().add(const WalletEvent.restore());
       DialogUtils.showPrimaryDialog(
         context,
         s.importSuccess,
         s.setupSuccess,
         actionText: s.goHome,
         actionOnPressed: () {
-          context.go(AppRoute.locked.path);
+          context.go(AppRoute.locked.path, extra: false);
         },
       );
     }

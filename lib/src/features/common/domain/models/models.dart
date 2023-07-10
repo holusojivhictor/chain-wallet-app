@@ -1,3 +1,4 @@
+export 'entities/recent/recent_item.dart';
 export 'entities/token/token_item.dart';
 export 'entities/wallet/wallet_item.dart';
 export 'language/language.dart';

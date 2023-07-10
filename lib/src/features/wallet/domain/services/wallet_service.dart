@@ -4,9 +4,15 @@ import 'package:web3dart/web3dart.dart';
 abstract class WalletService {
   Future<void> connect();
 
-  Future<double> fetchBalance(String addr);
+  Future<double> fetchBalance(String address);
 
   Stream<Ticker> fetchTickerStream(List<String> ids);
+
+  Future<double> fetchBalanceBySymbol(
+    String symbol,
+    String address, {
+    String? contractAddress,
+  });
 
   Future<void> createAgent();
 

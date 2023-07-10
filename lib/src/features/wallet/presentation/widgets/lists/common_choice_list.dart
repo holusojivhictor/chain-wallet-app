@@ -25,30 +25,26 @@ class CommonChoiceList<TEnum> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: getChoices(context, translatedValues),
+      children: choices(
+        EnumUtils.getTranslatedAndSortedEnum<TEnum>(
+          values,
+          choiceText,
+          exclude: exclude,
+          sort: sort,
+        ),
+      ),
     );
   }
 
-  List<TranslatedEnum<TEnum>> get translatedValues {
-    return EnumUtils.getTranslatedAndSortedEnum<TEnum>(
-      values,
-      choiceText,
-      exclude: exclude,
-      sort: sort,
-    );
-  }
-
-  List<Widget> getChoices(
-    BuildContext context,
+  List<Widget> choices(
     List<TranslatedEnum<TEnum>> translatedValues,
   ) {
     return translatedValues
-        .map((e) => _buildChoiceTile(context, e.enumValue, e.translation))
+        .map((e) => _buildChoiceTile(e.enumValue, e.translation))
         .toList();
   }
 
   Widget _buildChoiceTile(
-    BuildContext context,
     TEnum value,
     String valueText,
   ) {

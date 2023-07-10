@@ -1,10 +1,15 @@
 import 'package:chain_wallet_mobile/src/config/injection.dart';
 import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
+import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/lock_screen/lock_screen.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/onboarding/onboarding_page.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/splash/splash_page.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/wallet_connect/wallet_connect_page.dart';
 import 'package:chain_wallet_mobile/src/features/settings/presentation/settings_page.dart';
+import 'package:chain_wallet_mobile/src/features/settings/presentation/widgets/pages/pages.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/amount/amount_page.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/confirm/confirm_page.dart';
+import 'package:chain_wallet_mobile/src/features/wallet/presentation/send/send_page.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/presentation/wallet_page.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/domain/services/services.dart';
@@ -16,22 +21,6 @@ import 'package:chain_wallet_mobile/src/utils/utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-enum AppRoute {
-  splash('/splash'),
-  onboarding('/onboarding'),
-  connect('/connect'),
-  import('/import'),
-  create('/create'),
-  locked('/locked'),
-  home('/'),
-  transactions('/transactions'),
-  settings('/settings');
-
-  const AppRoute(this.path);
-
-  final String path;
-}
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -112,12 +101,16 @@ class AppRouter {
       GoRoute(
         path: AppRoute.locked.path,
         name: AppRoute.locked.name,
-        pageBuilder: (context, state) => NoTransitionPage(
-          key: state.pageKey,
-          child: LockScreenView(
-            correctString: getIt<AuthService>().passcode,
-          ),
-        ),
+        pageBuilder: (context, state) {
+          final connect = state.extra as bool?;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: LockScreenView(
+              correctString: getIt<AuthService>().passcode,
+              connect: connect ?? true,
+            ),
+          );
+        },
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -134,6 +127,39 @@ class AppRouter {
                   key: state.pageKey,
                   child: const WalletPage(),
                 ),
+                routes: [
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'send',
+                    name: AppRoute.send.name,
+                    pageBuilder: (context, state) => DefaultTransitionPage(
+                      key: state.pageKey,
+                      child: const SendPage(),
+                    ),
+                    routes: [
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        path: 'amount',
+                        name: AppRoute.amount.name,
+                        pageBuilder: (context, state) => DefaultTransitionPage(
+                          key: state.pageKey,
+                          child: const AmountPage(),
+                        ),
+                        routes: [
+                          GoRoute(
+                            parentNavigatorKey: _rootNavigatorKey,
+                            path: 'confirm',
+                            name: AppRoute.confirm.name,
+                            pageBuilder: (context, state) => DefaultTransitionPage(
+                              key: state.pageKey,
+                              child: const ConfirmPage(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),
@@ -160,6 +186,53 @@ class AppRouter {
                   key: state.pageKey,
                   child: const SettingsPage(),
                 ),
+                routes: [
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'general',
+                    name: AppRoute.general.name,
+                    pageBuilder: (context, state) => DefaultTransitionPage(
+                      key: state.pageKey,
+                      child: const GeneralView(),
+                    ),
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'security',
+                    name: AppRoute.security.name,
+                    pageBuilder: (context, state) => DefaultTransitionPage(
+                      key: state.pageKey,
+                      child: const SecurityView(),
+                    ),
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'contacts',
+                    name: AppRoute.contacts.name,
+                    pageBuilder: (context, state) => DefaultTransitionPage(
+                      key: state.pageKey,
+                      child: const ContactsView(),
+                    ),
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'networks',
+                    name: AppRoute.networks.name,
+                    pageBuilder: (context, state) => DefaultTransitionPage(
+                      key: state.pageKey,
+                      child: const NetworksView(),
+                    ),
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'about',
+                    name: AppRoute.about.name,
+                    pageBuilder: (context, state) => DefaultTransitionPage(
+                      key: state.pageKey,
+                      child: const AboutView(),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

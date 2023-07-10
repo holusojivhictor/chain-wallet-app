@@ -25,6 +25,18 @@ abstract class PreferenceService {
   ChainType get chain;
   set chain(ChainType chain);
 
+  /// The chosen fiat currency in use.
+  ///
+  /// Default is [CurrencyType.usd].
+  CurrencyType get currency;
+  set currency(CurrencyType currency);
+
+  /// Whether primary values are displayed natively or in fiat.
+  ///
+  /// Default is [PrimaryCurrency.native].
+  PrimaryCurrency get primary;
+  set primary(PrimaryCurrency primary);
+
   /// Whether this is the app's first install.
   bool get isFirstInstall;
   set isFirstInstall(bool itIs);

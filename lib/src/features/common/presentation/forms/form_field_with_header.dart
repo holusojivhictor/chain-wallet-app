@@ -16,6 +16,7 @@ class FormFieldWithHeader extends StatefulWidget {
     this.hasTrailing = true,
     this.suffixIcon,
     this.errorText,
+    this.hintStyle,
     this.trailing,
     this.validator,
     this.maxLength,
@@ -28,12 +29,13 @@ class FormFieldWithHeader extends StatefulWidget {
   final Validator validator;
   final String headerText;
   final String hintText;
-  final Widget? trailing;
-  final bool hasTrailing;
-  final Widget? suffixIcon;
   final String? errorText;
+  final TextStyle? hintStyle;
+  final Widget? trailing;
+  final Widget? suffixIcon;
   final int? maxLength;
   final int? maxLines;
+  final bool hasTrailing;
   final bool autoValidate;
   final bool? obscure;
 
@@ -74,17 +76,18 @@ class _FormFieldWithHeaderState extends State<FormFieldWithHeader> {
             ),
           ),
           CustomFormField(
-            hintText: widget.hintText,
+            textEditingController: widget.controller,
             obscureText: widget.obscure ?? obscureText,
+            textInputType: widget.textInputType,
+            hintText: widget.hintText,
+            hintStyle: widget.hintStyle,
             maxLines: widget.maxLines,
             maxLength: widget.maxLength,
-            textEditingController: widget.controller,
-            textInputType: widget.textInputType,
             suffixIcon: widget.suffixIcon,
+            errorText: widget.errorText,
             onChanged: (_) => setState(() {}),
             autoValidate: widget.autoValidate,
             validator: widget.validator,
-            errorText: widget.errorText,
           ),
         ],
       ),

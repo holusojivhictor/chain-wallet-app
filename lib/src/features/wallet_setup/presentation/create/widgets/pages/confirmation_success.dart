@@ -1,9 +1,9 @@
 import 'package:chain_wallet_mobile/src/features/common/domain/app_svgs.dart';
+import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/buttons/primary_button.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/text/padded_text.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
-import 'package:chain_wallet_mobile/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +12,8 @@ class ConfirmationSuccessView extends StatefulWidget {
   const ConfirmationSuccessView({super.key});
 
   @override
-  State<ConfirmationSuccessView> createState() => _ConfirmationSuccessViewState();
+  State<ConfirmationSuccessView> createState() =>
+      _ConfirmationSuccessViewState();
 }
 
 class _ConfirmationSuccessViewState extends State<ConfirmationSuccessView> {
@@ -23,7 +24,7 @@ class _ConfirmationSuccessViewState extends State<ConfirmationSuccessView> {
     super.didChangeDependencies();
     if (_didChangeDependencies) return;
     _didChangeDependencies = true;
-    context.read<WalletBloc>().add(const WalletEvent.init());
+    context.read<WalletBloc>().add(const WalletEvent.restore());
   }
 
   @override
@@ -53,7 +54,7 @@ class _ConfirmationSuccessViewState extends State<ConfirmationSuccessView> {
                 ),
                 text: s.finish,
                 onPressed: () {
-                  context.go(AppRoute.locked.path);
+                  context.go(AppRoute.locked.path, extra: false);
                 },
               ),
             ],

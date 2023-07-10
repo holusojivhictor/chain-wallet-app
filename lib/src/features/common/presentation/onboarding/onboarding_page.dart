@@ -1,5 +1,6 @@
 import 'package:chain_wallet_mobile/src/features/common/domain/assets.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/constants.dart';
+import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/models/models.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/app_bar/logo_app_bar.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/buttons/primary_button.dart';
@@ -7,7 +8,6 @@ import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart
 import 'package:chain_wallet_mobile/src/features/common/presentation/onboarding/widgets/onboarding_content.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/styles.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
-import 'package:chain_wallet_mobile/src/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
