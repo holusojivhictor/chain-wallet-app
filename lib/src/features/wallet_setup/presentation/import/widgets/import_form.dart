@@ -2,8 +2,8 @@ import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/buttons/primary_button.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/forms/form_field_with_header.dart';
-import 'package:chain_wallet_mobile/src/features/common/presentation/list_tiles/settings_switch_list_tile.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/application/import/import_cubit.dart';
+import 'package:chain_wallet_mobile/src/features/wallet_setup/presentation/widgets/preference_switch_tile.dart';
 import 'package:chain_wallet_mobile/src/localization/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -107,7 +107,7 @@ class _ImportFormState extends State<ImportForm> {
           ),
         ),
         BlocBuilder<SettingsBloc, SettingsState>(
-          builder: (ctx, state) => SettingsSwitchListTile(
+          builder: (ctx, state) => PreferenceSwitchTile(
             title: s.biometricsUnlock,
             value: state.unlockWithBiometrics,
             onChanged: (v) {

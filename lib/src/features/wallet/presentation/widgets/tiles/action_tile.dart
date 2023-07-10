@@ -1,5 +1,6 @@
 import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
+import 'package:chain_wallet_mobile/src/features/common/presentation/styles.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -50,10 +51,7 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 20,
-        bottom: 10,
-      ),
+      padding: Styles.edgeInsetVertical10,
       child: Column(
         children: [
           Material(

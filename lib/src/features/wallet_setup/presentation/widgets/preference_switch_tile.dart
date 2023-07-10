@@ -1,8 +1,8 @@
 import 'package:chain_wallet_mobile/src/features/common/presentation/colors.dart';
 import 'package:flutter/material.dart';
 
-class SettingsSwitchListTile extends StatelessWidget {
-  const SettingsSwitchListTile({
+class PreferenceSwitchTile extends StatelessWidget {
+  const PreferenceSwitchTile({
     required this.title,
     required this.value,
     super.key,

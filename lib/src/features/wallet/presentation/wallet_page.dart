@@ -76,10 +76,12 @@ class _WalletPageState extends State<WalletPage>
                     TokensList(
                       tokens: state.tokensByChain[state.currentChain]!,
                       tickerById: state.tickerById,
+                      chain: state.currentChain,
                     ),
                     TokensList(
                       tokens: state.tokensByChain[state.currentChain]!,
                       tickerById: state.tickerById,
+                      chain: state.currentChain,
                     ),
                   ],
                 ),

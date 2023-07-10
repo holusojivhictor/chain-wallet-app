@@ -2,6 +2,7 @@ import 'package:chain_wallet_mobile/src/config/injection.dart';
 import 'package:chain_wallet_mobile/src/features/app_widget.dart';
 import 'package:chain_wallet_mobile/src/features/common/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
+import 'package:chain_wallet_mobile/src/features/transactions/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/application/bloc.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet_setup/application/bloc.dart';
@@ -37,6 +38,12 @@ class ChainWalletApp extends StatelessWidget {
               getIt<AuthCubit>(),
               ctx.read<SendCubit>(),
             );
+          },
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (ctx) {
+            return TransactionsBloc();
           },
         ),
         BlocProvider(

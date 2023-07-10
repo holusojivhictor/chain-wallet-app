@@ -75,6 +75,8 @@
   "sendTo": "Send to",
   "amount": "Amount",
   "confirm": "Confirm",
+  "importTokens": "Import tokens",
+  "importTokensLeading": "Don't see your imports?",
   "addressHint": "Search, or public address (0x)",
   "invalidAddress": "Recipient address is invalid.",
   "invalidAmount": "Invalid amount.",

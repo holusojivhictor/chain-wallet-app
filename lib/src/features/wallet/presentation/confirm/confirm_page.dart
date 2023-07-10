@@ -20,20 +20,29 @@ class ConfirmPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    return BlocBuilder<SendCubit, SendState>(
-      builder: (ctx, state) => PageWrapper(
-        title: s.confirm,
-        type: state.type,
-        enabled: true,
-        buttonText: s.send,
-        onPressed: () {},
-        body: const Column(
-          children: [
-            _TopBar(),
-            _BottomBar(),
-          ],
-        ),
-      ),
+    return BlocBuilder<WalletBloc, WalletState>(
+      buildWhen: (_, __) => false,
+      builder: (_, walletState) {
+        final active = walletState.activeWallet.address;
+
+        return BlocBuilder<SendCubit, SendState>(
+          builder: (ctx, state) => PageWrapper(
+            title: s.confirm,
+            type: state.type,
+            enabled: true,
+            buttonText: s.send,
+            onPressed: () {
+              context.read<SendCubit>().send(active);
+            },
+            body: const Column(
+              children: [
+                _TopBar(),
+                _BottomBar(),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -60,7 +69,7 @@ class _BottomBar extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                '$amount ${state.type.currency}',
+                '${amount.truncate(digits: 5)} ${state.type.currency}',
                 style: textTheme.titleLarge!.copyWith(
                   fontSize: 35,
                 ),

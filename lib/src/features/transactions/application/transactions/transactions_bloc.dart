@@ -4,6 +4,7 @@ import 'package:chain_wallet/chain_wallet.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
 part 'transactions_bloc.freezed.dart';
@@ -33,7 +34,9 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState>
     Uint8List hash,
     TransactionReceipt? receipt,
   )? get onTransactionEmitted {
-    return (txHash, _) {};
+    return (txHash, _) {
+      print('Hash babbyyy ${bytesToHex(txHash)}');
+    };
   }
 
   @override

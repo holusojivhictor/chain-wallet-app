@@ -102,10 +102,12 @@ class AppRouter {
         path: AppRoute.locked.path,
         name: AppRoute.locked.name,
         pageBuilder: (context, state) {
+          final connect = state.extra as bool?;
           return NoTransitionPage(
             key: state.pageKey,
             child: LockScreenView(
               correctString: getIt<AuthService>().passcode,
+              connect: connect ?? true,
             ),
           );
         },

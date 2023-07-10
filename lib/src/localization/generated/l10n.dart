@@ -800,6 +800,26 @@ class S {
     );
   }
 
+  /// `Import tokens`
+  String get importTokens {
+    return Intl.message(
+      'Import tokens',
+      name: 'importTokens',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't see your imports?`
+  String get importTokensLeading {
+    return Intl.message(
+      'Don\'t see your imports?',
+      name: 'importTokensLeading',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Search, or public address (0x)`
   String get addressHint {
     return Intl.message(

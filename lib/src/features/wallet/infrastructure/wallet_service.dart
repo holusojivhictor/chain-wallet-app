@@ -18,14 +18,25 @@ class WalletServiceImpl implements WalletService {
   Stream<WebSocketResponse>? _stream;
 
   @override
-  Future<double> fetchBalance(String addr) async {
-    final amount = await web3Client.getBalance(EthereumAddress.fromHex(addr));
-    return amount.getValueInUnit(EtherUnit.ether);
+  Future<void> connect() {
+    return ChainWalletManager.instance.connect();
   }
 
   @override
-  Future<void> connect() {
-    return ChainWalletManager.instance.connect();
+  Future<double> fetchBalance(String address) async {
+    return _fetchBalance(address);
+  }
+
+  @override
+  Future<double> fetchBalanceBySymbol(
+    String symbol,
+    String address, {
+    String? contractAddress,
+  }) async {
+    if (symbol == 'ETH') {
+      return _fetchBalance(address);
+    }
+    return Future.value(0.1);
   }
 
   @override
@@ -61,9 +72,15 @@ class WalletServiceImpl implements WalletService {
     return addresses;
   }
 
+  Future<double> _fetchBalance(String address) async {
+    final amount = await web3Client.getBalance(
+      EthereumAddress.fromHex(address),
+    );
+    return amount.getValueInUnit(EtherUnit.ether);
+  }
+
   @override
   Future<void> close() async {
     _stream = null;
-    await _client.close();
   }
 }

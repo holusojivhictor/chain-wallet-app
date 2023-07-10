@@ -89,6 +89,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "importFromSeed":
             MessageLookupByLibrary.simpleMessage("Import from seed"),
         "importSuccess": MessageLookupByLibrary.simpleMessage("Import Success"),
+        "importTokens": MessageLookupByLibrary.simpleMessage("Import tokens"),
+        "importTokensLeading":
+            MessageLookupByLibrary.simpleMessage("Don\'t see your imports?"),
         "importWallet": MessageLookupByLibrary.simpleMessage(
             "Import using Secret Recovery Phase"),
         "incognitoAssets": MessageLookupByLibrary.simpleMessage(

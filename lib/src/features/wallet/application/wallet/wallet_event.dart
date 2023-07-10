@@ -2,13 +2,17 @@ part of 'wallet_bloc.dart';
 
 @freezed
 class WalletEvent with _$WalletEvent {
-  const factory WalletEvent.init() = _Init;
+  const factory WalletEvent.init({
+    @Default(true) bool connect,
+  }) = _Init;
 
   const factory WalletEvent.restore() = _Restore;
 
   const factory WalletEvent.loadPrices() = _LoadPrices;
 
   const factory WalletEvent.loadBalance() = _LoadBalance;
+
+  const factory WalletEvent.loadTokenBalance() = _LoadTokenBalance;
 
   const factory WalletEvent.createAgent() = _CreateAgent;
 
@@ -36,6 +40,10 @@ class WalletEvent with _$WalletEvent {
     required Token token,
   }) = _TokenLoaded;
 
+  const factory WalletEvent.tokenUpdated({
+    required int key,
+    required double balance,
+  }) = _TokenUpdated;
 
   const factory WalletEvent.tickerLoaded({
     required String productId,
@@ -49,16 +57,16 @@ class WalletEvent with _$WalletEvent {
     required double balance,
   }) = _BalanceLoaded;
 
+  const factory WalletEvent.networkChainChanged({
+    required ChainType newValue,
+  }) = _NetworkChainChanged;
+
   const factory WalletEvent.agentCreated() = _AgentCreated;
 
   const factory WalletEvent.activeWalletChanged({
     required int key,
     @Default(false) bool init,
   }) = _ActiveWalletChanged;
-
-  const factory WalletEvent.networkChainChanged({
-    required ChainType newValue,
-  }) = _NetworkChainChanged;
 
   const factory WalletEvent.walletUpdated({
     required double balance,

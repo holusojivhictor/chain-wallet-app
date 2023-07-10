@@ -7,6 +7,7 @@ class Token extends Equatable {
     required this.symbol,
     required this.chainId,
     required this.decimals,
+    this.balance,
   });
 
   final int key;
@@ -14,6 +15,20 @@ class Token extends Equatable {
   final String symbol;
   final BigInt chainId;
   final BigInt decimals;
+  final double? balance;
+
+  Token copyWith({
+    double? balance,
+  }) {
+    return Token(
+      key: key,
+      name: name,
+      symbol: symbol,
+      chainId: chainId,
+      decimals: decimals,
+      balance: balance ?? this.balance,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -22,6 +37,7 @@ class Token extends Equatable {
       'symbol': symbol,
       'chainId': chainId,
       'decimals': decimals,
+      'balance': balance,
     };
   }
 
@@ -36,5 +52,6 @@ class Token extends Equatable {
     symbol,
     chainId,
     decimals,
+    balance,
   ];
 }

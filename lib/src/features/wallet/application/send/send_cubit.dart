@@ -1,8 +1,11 @@
+import 'package:chain_wallet/chain_wallet.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/utils/utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:web3dart/crypto.dart';
+import 'package:web3dart/web3dart.dart';
 
 part 'send_state.dart';
 
@@ -73,6 +76,18 @@ class SendCubit extends Cubit<SendState> {
         fieldCurrency: newValue,
         currencyChanged: true,
       ),
+    );
+  }
+
+  Future<void> send(String activeAddress) async {
+    final amount = state.fieldCurrency == FieldCurrency.native
+        ? state.amount
+        : state.altAmount;
+    final amountInWei = parseFixed(amount, decimals: BigInt.from(18));
+    await ChainWalletManager.instance.sendEthersPrivately(
+      currentSubWallet: EthereumAddress.fromHex(activeAddress),
+      recipient: EthereumAddress.fromHex(state.address),
+      amount: amountInWei,
     );
   }
 
