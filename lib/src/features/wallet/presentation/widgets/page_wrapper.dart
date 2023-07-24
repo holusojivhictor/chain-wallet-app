@@ -16,6 +16,7 @@ class PageWrapper extends StatelessWidget {
     this.gestureOn = false,
     this.leading = true,
     this.enabled = false,
+    this.loading = false,
     this.onPressed,
   });
 
@@ -27,6 +28,7 @@ class PageWrapper extends StatelessWidget {
   final bool gestureOn;
   final bool leading;
   final bool enabled;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class PageWrapper extends StatelessWidget {
             child: PrimaryButton(
               text: buttonText,
               enabled: enabled,
+              hasLoading: loading,
               onPressed: onPressed,
             ),
           ),

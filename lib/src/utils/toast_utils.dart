@@ -62,12 +62,13 @@ class ToastUtils {
 
   static void showCustomToast(
     FToast toast,
-    Widget child,
-  ) =>
+    Widget child, {
+    ToastGravity gravity = ToastGravity.CENTER,
+  }) =>
       _showToast(
         toast,
         custom: child,
-        gravity: ToastGravity.CENTER,
+        gravity: gravity,
       );
 
   static void _showToast(

@@ -6,15 +6,9 @@ import 'package:chain_wallet_mobile/src/features/wallet/infrastructure/exchange_
 import 'package:web3dart/web3dart.dart';
 
 class WalletServiceImpl implements WalletService {
-  WalletServiceImpl({
-    ExchangeClient? client,
-  }) : _client = client ??
-            ExchangeClient(Config.coinbaseApiKey, Config.coinbaseSecret);
-
-  final ExchangeClient _client;
-
   Web3Client get web3Client => ChainWalletManager.instance.walletClient.client;
 
+  ExchangeClient? _client;
   Stream<WebSocketResponse>? _stream;
 
   @override
@@ -41,7 +35,11 @@ class WalletServiceImpl implements WalletService {
 
   @override
   Stream<Ticker> fetchTickerStream(List<String> ids) {
-    _stream = _client.subscribe(
+    _client = ExchangeClient(
+      Config.coinbaseApiKey,
+      Config.coinbaseSecret,
+    );
+    _stream = _client?.subscribe(
       productIds: ids,
     );
 
@@ -82,5 +80,6 @@ class WalletServiceImpl implements WalletService {
   @override
   Future<void> close() async {
     _stream = null;
+    _client = null;
   }
 }

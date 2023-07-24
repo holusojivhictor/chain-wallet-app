@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:chain_wallet/chain_wallet.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
@@ -23,6 +24,7 @@ part 'wallet_state.dart';
 const String _identifier = 'WalletBlocListener';
 
 class WalletBloc extends Bloc<WalletEvent, WalletState>
+    with BlocPresentationMixin
     implements WalletEventHandler {
   WalletBloc(
     this._dataService,
@@ -328,7 +330,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState>
     Uint8List hash,
     web3.TransactionReceipt? receipt,
   )? get onTransactionEmitted {
-    return null;
+    return (txHash, _) async {
+      emitPresentation(const TransactionEmitted());
+      await _updateActive();
+    };
   }
 
   @override
