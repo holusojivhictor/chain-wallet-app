@@ -1,10 +1,10 @@
 import 'package:chain_wallet/chain_wallet.dart';
+import 'package:chain_wallet_mobile/src/extensions/extensions.dart';
 import 'package:chain_wallet_mobile/src/features/common/domain/services/services.dart';
 import 'package:chain_wallet_mobile/src/features/wallet/domain/models/enums/enums.dart';
 import 'package:chain_wallet_mobile/src/utils/utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
 part 'send_state.dart';
@@ -80,15 +80,22 @@ class SendCubit extends Cubit<SendState> {
   }
 
   Future<void> send(String activeAddress) async {
+    emit(state.copyWith(status: SendStatus.loading));
     final amount = state.fieldCurrency == FieldCurrency.native
         ? state.amount
-        : state.altAmount;
+        : state.altAmount.truncate(digits: 5);
     final amountInWei = parseFixed(amount, decimals: BigInt.from(18));
-    await ChainWalletManager.instance.sendEthersPrivately(
-      currentSubWallet: EthereumAddress.fromHex(activeAddress),
-      recipient: EthereumAddress.fromHex(state.address),
-      amount: amountInWei,
-    );
+    try {
+      await ChainWalletManager.instance.sendEthersPrivately(
+        currentSubWallet: EthereumAddress.fromHex(activeAddress),
+        recipient: EthereumAddress.fromHex(state.address),
+        amount: amountInWei,
+      ).then((value) {
+        emit(state.copyWith(status: SendStatus.success));
+      });
+    } catch (_) {
+      emit(state.copyWith(status: SendStatus.failed));
+    }
   }
 
   void updateAvatar() {

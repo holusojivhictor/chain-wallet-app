@@ -50,9 +50,9 @@ class Ticker extends Equatable {
 
   @override
   List<Object?> get props => <Object?>[
-        time,
-        productId,
-        price,
-        change,
-      ];
+    time,
+    productId,
+    price,
+    change,
+  ];
 }

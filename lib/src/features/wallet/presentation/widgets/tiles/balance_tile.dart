@@ -23,7 +23,7 @@ class BalanceTile extends StatelessWidget {
         child: Text.rich(
           TextSpan(
             style: textTheme.headlineSmall!.copyWith(
-              fontSize: 30,
+              fontSize: 32,
               fontWeight: FontWeight.w500,
             ),
             children: <TextSpan>[

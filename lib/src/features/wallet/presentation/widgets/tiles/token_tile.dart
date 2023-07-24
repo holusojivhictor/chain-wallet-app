@@ -19,10 +19,9 @@ class TokenTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final isNegative = ticker?.change?.isNegative ?? false;
     final changeStyle = textTheme.bodyMedium!.copyWith(
-      color: ticker?.change?.isNegative ?? false
-          ? AppColors.error
-          : AppColors.success,
+      color: isNegative ? AppColors.error : AppColors.success,
     );
 
     return ListTile(
@@ -44,8 +43,21 @@ class TokenTile extends StatelessWidget {
         children: [
           Text(r'$' '${ticker?.price ?? 0}'),
           const SizedBox(width: 5),
-          Text(
-            ticker != null ? '${ticker?.change?.fixed(2)}%' : '0%',
+          Text.rich(
+            TextSpan(
+              children: <TextSpan>[
+                if (!isNegative)
+                  const TextSpan(
+                    text: '+'
+                  ),
+                TextSpan(
+                  text: ticker?.change?.fixed(2) ?? '0',
+                ),
+                const TextSpan(
+                  text: '%',
+                ),
+              ],
+            ),
             style: changeStyle,
           ),
         ],

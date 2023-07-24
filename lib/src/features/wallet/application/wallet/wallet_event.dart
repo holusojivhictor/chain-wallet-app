@@ -72,3 +72,7 @@ class WalletEvent with _$WalletEvent {
     required double balance,
   }) = _WalletUpdated;
 }
+
+class TransactionEmitted implements BlocPresentationEvent {
+  const TransactionEmitted();
+}

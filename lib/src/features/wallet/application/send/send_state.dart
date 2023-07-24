@@ -5,6 +5,13 @@ enum FieldCurrency {
   fiat;
 }
 
+enum SendStatus {
+  idle,
+  loading,
+  success,
+  failed;
+}
+
 class SendState extends Equatable {
   const SendState({
     required this.type,
@@ -12,6 +19,7 @@ class SendState extends Equatable {
     required this.amount,
     required this.altAmount,
     required this.avatar,
+    required this.status,
     required this.fieldCurrency,
     required this.isAddressValid,
     required this.isAddressDirty,
@@ -26,6 +34,7 @@ class SendState extends Equatable {
         amount = '',
         altAmount = '',
         avatar = '',
+        status = SendStatus.idle,
         fieldCurrency = FieldCurrency.native,
         isAmountValid = false,
         isAmountDirty = false,
@@ -38,6 +47,7 @@ class SendState extends Equatable {
   final String amount;
   final String altAmount;
   final String avatar;
+  final SendStatus status;
   final FieldCurrency fieldCurrency;
   final bool isAddressValid;
   final bool isAddressDirty;
@@ -51,6 +61,7 @@ class SendState extends Equatable {
     String? amount,
     String? altAmount,
     String? avatar,
+    SendStatus? status,
     FieldCurrency? fieldCurrency,
     bool? isAddressValid,
     bool? isAddressDirty,
@@ -64,6 +75,7 @@ class SendState extends Equatable {
       amount: amount ?? this.amount,
       altAmount: altAmount ?? this.altAmount,
       avatar: avatar ?? this.avatar,
+      status: status ?? this.status,
       fieldCurrency: fieldCurrency ?? this.fieldCurrency,
       isAddressValid: isAddressValid ?? this.isAddressValid,
       isAddressDirty: isAddressDirty ?? this.isAddressDirty,
@@ -79,6 +91,7 @@ class SendState extends Equatable {
       amount: '',
       altAmount: '',
       avatar: '',
+      status: SendStatus.idle,
       fieldCurrency: FieldCurrency.native,
       isAddressValid: false,
       isAddressDirty: false,
@@ -95,6 +108,7 @@ class SendState extends Equatable {
     amount,
     altAmount,
     avatar,
+    status,
     fieldCurrency,
     isAddressValid,
     isAddressDirty,

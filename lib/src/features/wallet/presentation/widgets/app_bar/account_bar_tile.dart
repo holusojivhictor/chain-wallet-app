@@ -7,7 +7,7 @@ import 'package:chain_wallet_mobile/src/utils/modal_bottom_sheet_utils.dart';
 import 'package:flutter/material.dart';
 
 class AccountBarTile extends StatefulWidget {
-  const AccountBarTile({
+  const   AccountBarTile({
     required this.accountName,
     required this.avatarUrl,
     required this.type,

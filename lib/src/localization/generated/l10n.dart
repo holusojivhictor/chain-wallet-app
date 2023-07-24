@@ -1040,6 +1040,46 @@ class S {
     );
   }
 
+  /// `Transaction submitted`
+  String get txSubmitted {
+    return Intl.message(
+      'Transaction submitted',
+      name: 'txSubmitted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Waiting for confirmation`
+  String get txWaiting {
+    return Intl.message(
+      'Waiting for confirmation',
+      name: 'txWaiting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transaction completed!`
+  String get txCompleted {
+    return Intl.message(
+      'Transaction completed!',
+      name: 'txCompleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tap to view this transaction`
+  String get tapToViewTx {
+    return Intl.message(
+      'Tap to view this transaction',
+      name: 'tapToViewTx',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Balance`
   String get balance {
     return Intl.message(

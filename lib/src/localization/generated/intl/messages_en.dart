@@ -168,6 +168,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "start": MessageLookupByLibrary.simpleMessage("Start"),
         "tapToRevealPhrase": MessageLookupByLibrary.simpleMessage(
             "Tap to reveal your seed phrase"),
+        "tapToViewTx": MessageLookupByLibrary.simpleMessage(
+            "Tap to view this transaction"),
         "themeMode": MessageLookupByLibrary.simpleMessage("System Theme"),
         "themeModeDesc": MessageLookupByLibrary.simpleMessage(
             "Follow the preferred theme mode of your device."),
@@ -175,6 +177,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "themeTypeDesc":
             MessageLookupByLibrary.simpleMessage("Application appearance."),
         "to": MessageLookupByLibrary.simpleMessage("To"),
+        "txCompleted":
+            MessageLookupByLibrary.simpleMessage("Transaction completed!"),
+        "txSubmitted":
+            MessageLookupByLibrary.simpleMessage("Transaction submitted"),
+        "txWaiting":
+            MessageLookupByLibrary.simpleMessage("Waiting for confirmation"),
         "useMax": MessageLookupByLibrary.simpleMessage("USE MAX"),
         "view": MessageLookupByLibrary.simpleMessage("View"),
         "walletConnect": MessageLookupByLibrary.simpleMessage("Wallet connect"),
